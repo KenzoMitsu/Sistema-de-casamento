@@ -49,4 +49,77 @@
         });
 
 </script>
+<script>
+$(document).ready(function() {
+
+    $(".botao-login").on("click", function(e) {
+        e.preventDefault();
+
+        let email = $("#email").val().trim();
+        let senha = $("#senha").val().trim();
+
+
+        if (!email || !senha) {
+            Swal.fire({
+                title: "Erro!",
+                text: "Por favor, preencha todos os campos!",
+                icon: "error"
+            });
+            return;
+        }
+        let dados = JSON.stringify({ email, senha });
+
+        $.ajax({
+            method: "POST",
+            url: "http://10.92.3.202:5000/login",
+            contentType: "application/json",
+            data: dados,
+            success: function(retorno) {
+                console.log("Resposta do servidor:", retorno); 
+
+                let usuario = retorno.usuarios || retorno.user || retorno; 
+
+                if (!usuario || !usuario.token) {
+                    Swal.fire({
+                        title: "Erro!",
+                        text: "Não foi possível recuperar os dados do usuário.",
+                        icon: "error"
+                    });
+                    return;
+                }
+
+                localStorage.setItem("token", usuario.token || "");
+                localStorage.setItem("nome", usuario.nome || "");
+                localStorage.setItem("email", usuario.email || "");
+                localStorage.setItem("telefone", usuario.telefone || "");
+                localStorage.setItem("id_cadastro", usuario.id_cadastro || "");
+                localStorage.setItem("tipo", usuario.tipo || "");
+
+                Swal.fire({
+                    title: "Login bem-sucedido!",
+                    icon: "success"
+                }).then(() => {
+                    if (usuario.tipo === "adm") {
+                        window.location.href = "homeeae.html";
+                    } else {
+                        window.location.href = "homePoslogin.html";
+                    }
+                });
+            },
+            error: function(retorno) {
+                console.log("Erro na requisição:", retorno);
+                Swal.fire({
+                    title: "Erro!",
+                    text: retorno.responseJSON?.error || "Erro ao tentar fazer login.",
+                    icon: "error"
+                });
+            }
+        });
+
+    });
+
+});
+</script>
+
+
 </html>

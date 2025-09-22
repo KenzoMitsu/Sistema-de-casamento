@@ -5,35 +5,64 @@
     box-sizing: border-box;
 }
 
-body {
-    font-family: 'Poppins', sans-serif;
-    background-color: #f4f4f4;
+/* FONTES */
+.luxurious-script-regular {
+  font-family: "Luxurious Script", cursive;
+  font-weight: 400;
+  font-style: normal;
 }
 
-/* --- SEÇÃO HERO (APENAS PARA CONTEXTO) --- */
+.old-standard-tt-regular {
+  font-family: "Old Standard TT", serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.old-standard-tt-bold {
+  font-family: "Old Standard TT", serif;
+  font-weight: 700;
+  font-style: normal;
+}
+
+.old-standard-tt-regular-italic {
+  font-family: "Old Standard TT", serif;
+  font-weight: 400;
+  font-style: italic;
+}
+/* FIM DAS FONTES */
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #F3F2EE;
+}
+
 .hero-section {
     position: relative;
     height: 100vh;
     width: 100%;
-    background-image: url('https://i.imgur.com/k2xV31R.jpg'); /* Imagem de fundo similar */
+    /* ALTERADO: Caminho da imagem de fundo */
+    background-image: url('../img/fundo-alianca.jpg'); 
     background-size: cover;
     background-position: center;
     display: flex;
     flex-direction: column;
     justify-content: space-between; /* Para empurrar a barra de pesquisa para baixo */
-    align-items: flex-start;
-    padding: 200px 8% 50px; /* Padding para o conteúdo não ficar colado nas bordas */
+    align-items: center; /* Centraliza o conteúdo (inclusive a barra de pesquisa) */
+    padding: 300px 6% 50px; /* Padding para o conteúdo não ficar colado nas bordas */
 }
 
-/* Estilos do conteúdo do Hero (recriado da imagem) */
+/* Estilos do conteúdo do Hero */
 .hero-content {
     color: white;
+    text-align: left;
+    width: 100%; /* Garante que o conteúdo ocupe a largura para alinhamento */
 }
 .hero-subtitle {
-    font-size: 1.2rem;
+    font-size: 1.6rem;
     font-weight: 500;
     letter-spacing: 1px;
     margin-bottom: 20px;
+    font-family: "Old Standard TT", serif;
 }
 .hero-title {
     font-family: 'Great Vibes', cursive;
@@ -44,18 +73,19 @@ body {
 }
 .hero-button {
     display: inline-block;
-    background-color: #FFB7C9;
+    background-color: rgba(255, 183, 201, 0.75); /* Cor rosa com opacidade */
     color: white;
     padding: 12px 30px;
     margin-top: 20px;
     text-decoration: none;
     font-weight: 500;
-    font-size: 0.9rem;
+    font-size: 1.3rem;
     border-radius: 4px;
     transition: background-color 0.3s ease;
+    font-family: "Old Standard TT", serif;
 }
 .hero-button:hover {
-    background-color: #FFB7C9;
+    background-color: #fca9be;
 }
 
 /* --- CABEÇALHO (HEADER) --- */
@@ -64,58 +94,463 @@ body {
     top: 0;
     left: 0;
     width: 100%;
-    background-color: #FFB7C9; /* Cor rosa com 85% de opacidade */
-    z-index: 1000; /* Garante que o cabeçalho fique sobre outros elementos */
+    background-color: rgba(255, 183, 201, 0.75); /* Cor rosa com opacidade */
+    z-index: 1000;
 }
 
 .header-container {
-    max-width: 1200px;
+    max-width: 1500px;
     margin: 0 auto;
-    padding: 0 30px; /* Espaçamento nas laterais */
+    padding: 10px 30px; 
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px 10px;
 }
 
-/* --- LOGO --- */
 .logo-img {
-    height: 50px; /* Ajuste a altura conforme a sua imagem. Pode ser 'auto' se quiser que a largura se ajuste. */
-    width: auto; /* Mantém a proporção da imagem */
+    height: 50px;
+    width: auto;
 }
 
-/* --- NAVEGAÇÃO --- */
 .navbar ul {
     list-style: none;
     display: flex;
     align-items: center;
-    gap: 35px; /* Espaço entre os itens do menu */
+    gap: 35px;
 }
 
 .navbar a {
     text-decoration: none;
     color: #fff;
-    font-size: 1rem; /* 16px */
+    font-size: 1rem;
     font-weight: 500;
     text-transform: uppercase;
     transition: color 0.3s ease;
 }
 
 .navbar a:not(.btn-login):hover {
-    color: #fce4ec; /* Um rosa bem claro para o hover */
+    color: #fce4ec;
 }
 
-/* --- BOTÃO DE LOGIN --- */
 .btn-login {
     background-color: #FF87A5;
-    color: #ffffff; /* Cor do texto rosa */
+    color: #ffffff;
     font-weight: 700;
     padding: 10px 25px;
-    border-radius: 25px; /* Bordas bem arredondadas */
+    border-radius: 25px;
     transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .btn-login:hover {
-    background-color: #ed6688; /* Fundo rosa bem claro */
-    color:#ffd2d2; /* Cor do texto rosa mais escura */
+    background-color: #ed6688;
+    color:#fff;
+}
+
+/* --- NOVOS ESTILOS PARA A BARRA DE PESQUISA --- */
+.search-bar-container {
+    width: 100%;
+    display: flex;
+    justify-content: center; /* Centraliza a barra de pesquisa horizontalmente */
+}
+
+.search-bar {
+    display: flex;
+    align-items: center;
+    background-color: #ffffff;
+    padding: 12px 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 700px; /* Largura máxima da barra */
+}
+
+.search-input {
+    border: none;
+    outline: none;
+    width: 100%; /* Ocupa todo o espaço disponível */
+    font-size: 1rem;
+    color: #555;
+    background-color: transparent;
+    margin: 0 15px; /* Espaçamento entre o input e os ícones */
+}
+
+.search-input::placeholder {
+    color: #aaa;
+}
+
+.search-icon,
+.filter-icon {
+    width: 24px;
+    height: 24px;
+    stroke: #777; /* Cor dos ícones */
+    flex-shrink: 0; /* Impede que os ícones encolham */
+}
+
+.filter-icon {
+    cursor: pointer;
+    transition: stroke 0.3s ease;
+}
+
+.filter-icon:hover {
+    stroke: #FF87A5; /* Muda a cor ao passar o mouse */
+}
+
+/* --- ESTILOS PARA A SEÇÃO DE RECURSOS (FEATURES) E DESTAQUES --- */
+
+.features-section {
+    padding: 80px 8% 50px;
+    background-color: #EEECE1; /* Cor de fundo creme */
+    text-align: center;
+}
+
+.destaques-section {
+    padding: 80px 8% 50px;
+    background-color: #F3F2EE; /* Cor de fundo creme */
+    text-align: center;
+}
+
+.features-header {
+    margin-bottom: 10px;
+}
+
+.logo-bege {
+    max-width: 450px;
+    width: 100%;
+    height: auto;
+}
+
+.features-grid {
+    display: flex;
+    justify-content: center;
+    gap: 160px;
+    margin-bottom: 50px;
+    flex-wrap: wrap; /* Permite que os itens quebrem a linha em telas menores */
+}
+
+.feature-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 250px;
+}
+
+.feature-icon-container {
+    width: 100px; /* Largura do ícone */
+    height: 100px; /* Altura do ícone */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.feature-icon {
+    width: 130px;
+    height: 130px;
+    object-fit: contain;
+}
+
+.feature-title {
+    font-size: 1.7rem;
+    font-weight: 700;
+    color: #BB9245;
+    margin: 15px 0 5px;
+    letter-spacing: 1px;
+    font-family: "Old Standard TT", serif;
+}
+
+.feature-description {
+    font-size: 1.3rem;
+    color: #BB9245;
+    line-height: 1.5;
+    font-family: "Old Standard TT", serif;
+}
+
+.highlights-title {
+    font-family: 'Luxurious Script', cursive;
+    font-size: 5.3rem;
+    font-weight: 400;
+    color: #DB748E;
+    margin: 0px 0 30px;
+}
+
+.highlights-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+
+.carousel-button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s ease;
+}
+
+.carousel-button svg {
+    width: 40px;
+    height: 40px;
+    stroke: #a45a6c;
+}
+
+.carousel-button:hover {
+    transform: scale(1.1);
+}
+
+.card-row {
+    display: flex;
+    gap: 50px;
+    overflow-x: auto; /* Permite rolagem horizontal se os cartões não couberem */
+    -webkit-overflow-scrolling: touch; /* Suaviza a rolagem em dispositivos iOS */
+    scroll-snap-type: x mandatory;
+    margin-bottom: 60px;
+}
+
+.card {
+    flex-shrink: 0; /* Impede que o cartão encolha */
+    width: 300px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    text-align: left;
+    scroll-snap-align: start;
+}
+
+.card-image-container {
+    width: 100%;
+    height: 260px;
+    overflow: hidden;
+}
+
+.card-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Garante que a imagem preencha o espaço sem distorção */
+    transition: transform 0.3s ease;
+}
+
+.card:hover .card-image {
+    transform: scale(1.05);
+}
+
+.card-content {
+    padding: 15px 20px;
+}
+
+.card-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #a45a6c;
+    margin-bottom: 5px;
+}
+
+.card-description {
+    font-size: 0.8rem;
+    color: #777;
+    line-height: 1.4;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .features-grid {
+        flex-direction: column;
+        align-items: center;
+    }
+}
+
+.journey-section {
+    background-color: #f7e1e6;
+    padding: 60px 8%;
+    text-align: right;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.journey-header {
+    width: 100%;
+}
+
+.journey-title {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.2rem;
+    font-weight: 400;
+    color: #DB748E;
+    line-height: 1.2;
+}
+
+.journey-title span {
+    font-family: 'Great Vibes', cursive;
+    font-size: 5rem;
+    font-weight: 400;
+    line-height: 1;
+    display: block;
+    color: #DB748E;
+}
+
+.journey-grid {
+    display: flex;
+    justify-content: center;
+    gap: 100px;
+    margin-top: 40px;
+    width: 100%;
+    flex-wrap: wrap;
+    margin-bottom: 30px;
+}
+
+.journey-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.journey-item:hover {
+    transform: translateY(-10px);
+}
+
+.journey-icon {
+    width: 120px;
+    height: 120px;
+    background-color: #C15E5E;
+    border-radius: 50%;
+    padding: 20px;
+    margin-bottom: 10px;
+}
+
+.journey-text {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1rem;
+    font-weight: 500;
+    color: #C15E5E;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* --- RODAPÉ --- */
+.footer {
+    position: relative;
+    background-color: #333; /* Cor de fallback caso a imagem não carregue */
+    color: #ffffff;
+    width: 100%;
+}
+
+/* Pseudo-elemento para o fundo com imagem e sobreposição escura */
+.footer::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('../img/fundo-alianca.jpg');
+    background-size: cover;
+    background-position: center;
+    filter: brightness(0.5); /* Escurece a imagem para o texto ficar legível */
+    z-index: 1;
+}
+
+/* Barra de contato rosa no topo */
+.footer-contact-bar {
+    position: relative;
+    z-index: 2; /* Fica acima do fundo */
+    background-color: rgba(255, 183, 201, 0.75); /* Cor rosa com opacidade */
+    padding: 15px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Container principal para alinhar o conteúdo */
+.footer-container {
+    max-width: 1500px;
+    margin: 0 auto;
+    padding: 0 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.social-icons {
+    display: flex;
+    gap: 20px;
+}
+
+.social-icons a {
+    color: #ffffff;
+    text-decoration: none;
+    transition: opacity 0.3s ease;
+}
+
+.social-icons a:hover {
+    opacity: 0.8;
+}
+
+.social-icons svg {
+    width: 24px;
+    height: 24px;
+    fill: #ffffff;
+}
+
+.contato {
+    font-size: 1.3rem;
+}
+
+/* Conteúdo principal do rodapé (logo e colunas) */
+.footer-main {
+    position: relative;
+    z-index: 2; /* Fica acima do fundo */
+    padding: 60px 0;
+}
+
+.footer-main .footer-container {
+    align-items: flex-start; /* Alinha as colunas pelo topo */
+    gap: 40px;
+}
+
+.footer-logo img {
+    max-width: 180px;
+    height: auto;
+}
+
+.footer-column {
+    flex: 1;
+}
+
+.footer-column h4 {
+    font-weight: 700;
+    font-size: 1.1rem;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.footer-column ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footer-column ul li {
+    margin-bottom: 12px;
+}
+
+.footer-column ul a {
+    color: #ffffff;
+    text-decoration: none;
+    font-weight: 400;
+    transition: text-decoration 0.3s ease;
+}
+
+.footer-column ul a:hover {
+    text-decoration: underline;
+}
+
+.titulos-info {
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    color: #F3BDD1;
 }

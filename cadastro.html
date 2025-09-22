@@ -62,7 +62,7 @@
 </body>
 <script>
     $(document).ready(function () {
-        // já deixa selecionado "Noivo(a)"
+
         $("#tipo").val(1).trigger("change");
         $(".tipo[value='1']").addClass("active");
     });
@@ -71,28 +71,26 @@
     e.preventDefault();
     var v = $(this).val();
 
-    // feedback visual
     $(".tipo").removeClass("active");
     $(this).addClass("active");
 
-    // seta o hidden e dispara change
     $("#tipo").val(v).trigger("change");
 });
 
 $("#tipo").on("change", function () {
     var tipo = $("#tipo").val();
 
-    // 🔹 Primeiro, reseta tudo
+
     $("#cadastro1 input, #cadastro2 input, #cadastro2 select").prop("disabled", false).css("opacity", 1);
 
-    if (tipo == 1) { // Noivo(a)
+    if (tipo == 1) { 
         $("#cadastro1 .nome-marca").css("opacity", 0).prop("disabled", true);
         $("#cadastro2 .categoria").css("opacity", 0).prop("disabled", true);
     } 
-    else if (tipo == 2) { // Fornecedor(a)
+    else if (tipo == 2) { 
         $("#cadastro1 .parceiro").prop("disabled", true).css("opacity", 0);
     } 
-    else if (tipo == 3) { // Cerimonialista
+    else if (tipo == 3) { 
         $("#cadastro1 .nome-marca").prop("disabled", true).css("opacity", 0);
         $("#cadastro2 .categoria").prop("disabled", true).css("opacity", 0);
         $("#cadastro1 .parceiro").prop("disabled", true).css("opacity", 0);
@@ -182,7 +180,7 @@ $(document).ready(function () {
             nome_marca: nomeMarca,
             cargo: cargo
         };
-
+        
         console.log("Dados para envio:", dados);
 
         $.ajax({

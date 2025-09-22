@@ -167,6 +167,38 @@
             });
         });
     });
+        $(document).ready(function () {
+        // já deixa selecionado "Noivo(a)"
+        $("#tipo").val(1).trigger("change");
+        $(".tipo[value='1']").addClass("active");
+    });
+
+   $(".tipo").on("click", function (e) {
+    e.preventDefault();
+    var v = $(this).val();
+
+    // feedback visual
+    $(".tipo").removeClass("active");
+    $(this).addClass("active");
+
+    // seta o hidden e dispara change
+    $("#tipo").val(v).trigger("change");
+});
+
+$("#tipo").on("change", function () {
+    var tipo = $("#tipo").val();
+
+    $("#cadastro1 input, #cadastro2 input, #cadastro2 select").prop("disabled", false).css("opacity", 1);
+
+    if (tipo == 1) { // Noivo(a)
+        $("#cadastro1 .nome-marca").css("opacity", 0).prop("disabled", true);
+        $("#cadastro2 .categoria").css("opacity", 0).prop("disabled", true);
+    }
+    else if (tipo == 3) { // Cerimonialista
+        $("#cadastro1 .nome-marca").prop("disabled", true).css("opacity", 0);
+        $("#cadastro2 .categoria").prop("disabled", true).css("opacity", 0);
+    }
+});
 </script>
 
 </html>

@@ -100,112 +100,116 @@ $("#tipo").on("change", function () {
 });
 </script>
 <script>
-    $(document).ready(function () {
-        // mudar tipo ao clicar nos botões
-        $(".tipo").on("click", function () {
-            let valor = $(this).val();
-            $("#tipo").val(valor);
+$(document).ready(function () {
+    $(".tipo").on("click", function () {
+        let valor = $(this).val();
+        $("#tipo").val(valor);
 
-            $(".tipo").removeClass("ativo");
-            $(this).addClass("ativo");
-        });
+        $(".tipo").removeClass("ativo");
+        $(this).addClass("ativo");
+    });
 
-        // toggle de mostrar senha
-        $("#senha").after('<img id="toggleSenha" src="https://cdn-icons-png.flaticon.com/512/2767/2767146.png" style="width:20px; cursor:pointer; position:relative; left:-30px; top:5px;">');
+ 
+    $("#senha").after('<img id="toggleSenha" src="https://cdn-icons-png.flaticon.com/512/2767/2767146.png" style="width:20px; cursor:pointer; position:relative; left:-30px; top:5px;">');
 
-        $("#toggleSenha").on("click", function () {
-            let senhaInput = $("#senha");
-            let icone = $("#toggleSenha");
+    $("#toggleSenha").on("click", function () {
+        let senhaInput = $("#senha");
+        let icone = $("#toggleSenha");
 
-            if (senhaInput.attr("type") === "password") {
-                senhaInput.attr("type", "text");
-                icone.attr("src", "https://cdn-icons-png.flaticon.com/512/2767/2767149.png");
-            } else {
-                senhaInput.attr("type", "password");
-                icone.attr("src", "https://cdn-icons-png.flaticon.com/512/2767/2767146.png");
+        if (senhaInput.attr("type") === "password") {
+            senhaInput.attr("type", "text");
+            icone.attr("src", "https://cdn-icons-png.flaticon.com/512/2767/2767149.png");
+        } else {
+            senhaInput.attr("type", "password");
+            icone.attr("src", "https://cdn-icons-png.flaticon.com/512/2767/2767146.png");
+        }
+    });
+
+ 
+    $(".botao-cadastrar").on("click", function (e) {
+        e.preventDefault();
+
+        
+        let nome = $("#nome").val().trim();
+        let email = $("#email").val().trim();
+        let senha = $("#senha").val().trim();
+        let nomeMarca = $("#nome-marca").val().trim();
+        let telefone = $("#telefone").val().trim();
+        let dataNascimentoRaw = $("#data-nascimento").val(); 
+        let cep = $("#cep").val().trim();
+        let categoria = $("#categoria").val();
+        let tipoValor = $("#tipo").val();
+
+
+        let cargo = tipoValor === "1" ? "1" : tipoValor === "2" ? "2" : "3";
+
+        
+        let emailRegex = /^[^\s@]+@[^\s@]+\.[a-z]{2,}$/;
+        let telefoneRegex = /^[0-9]{10,11}$/;
+        let senhaRegex = /^(?=.*[A-Z])(?=.*[!@#$%^&*()_+{}":;'?/>,.<]).{8,}$/;
+
+   
+        if (!nome || !email || !senha || !telefone || !dataNascimentoRaw || !cep) {
+            return Swal.fire("Erro!", "Todos os campos são obrigatórios!", "error");
+        }
+        if (!emailRegex.test(email)) {
+            return Swal.fire("Erro!", "Digite um e-mail válido!", "error");
+        }
+        if (!senhaRegex.test(senha)) {
+            return Swal.fire("Erro!", "A senha deve ter pelo menos 8 caracteres, incluindo uma letra maiúscula e um caractere especial!", "error");
+        }
+        if (!telefoneRegex.test(telefone)) {
+            return Swal.fire("Erro!", "O telefone deve ter 10 ou 11 dígitos numéricos!", "error");
+        }
+        if (tipoValor === "2" && $("#categoria").prop("selectedIndex") === 0) {
+            return Swal.fire("Erro!", "Selecione uma categoria para fornecedor!", "error");
+        }
+
+        
+        let parts = dataNascimentoRaw.split("-");
+        let dataNascimento = parts[2] + "-" + parts[1] + "-" + parts[0]; 
+
+        
+        let dados = {
+            nome: nome,
+            email: email,
+            senha: senha,
+            telefone: telefone,
+            data_nascimento: dataNascimento,  
+            cep: cep,
+            categoria: tipoValor === "2" ? categoria : null,
+            nome_marca: nomeMarca,
+            cargo: cargo
+        };
+
+        console.log("Dados para envio:", dados);
+
+        $.ajax({
+            method: "POST",
+            url: "http://10.92.3.202:5000/usuario",
+            data: JSON.stringify(dados),
+            contentType: "application/json",
+            success: function (response) {
+                Swal.fire({
+                    title: "Cadastro realizado com sucesso!",
+                    icon: "success"
+                }).then(() => {
+                    window.location.href = "login.html";
+                });
+            },
+            error: function (xhr) {
+                Swal.fire({
+                    title: "Erro!",
+                    text: xhr.responseJSON?.error || "Ocorreu um erro, tente novamente.",
+                    icon: "error"
+                });
             }
-        });
-
-        // quando clicar em cadastrar
-        $(".botao-cadastrar").on("click", function (e) {
-            e.preventDefault();
-
-            // pega os valores
-            let nome = $("#nome").val().trim();
-            let email = $("#email").val().trim();
-            let senha = $("#senha").val().trim();
-            let nomeMarca = $("#nome-marca").val().trim();
-            let telefone = $("#telefone").val().trim();
-            let dataNascimento = $("#data-nascimento").val();
-            let cep = $("#cep").val().trim();
-            let categoria = $("#categoria").val();
-            let tipo = $("#tipo").val();
-
-            // regex
-            let emailRegex = /^[^\s@]+@[^\s@]+\.[a-z]{2,}$/;
-            let telefoneRegex = /^[0-9]{10,11}$/;
-            let senhaRegex = /^(?=.*[A-Z])(?=.*[!@#$%^&*()_+{}":;'?/>,.<]).{8,}$/;
-
-            if (nome === "") {
-                return Swal.fire("Erro!", "Os campos são obrigatórios!", "error");
-            }
-            if (!emailRegex.test(email)) {
-                return Swal.fire("Erro!", "Digite um e-mail válido!", "error");
-            }
-            if (!senhaRegex.test(senha)) {
-                return Swal.fire("Erro!", "A senha deve ter pelo menos 8 caracteres, incluindo uma letra maiúscula e um caractere especial!", "error");
-            }
-            if (!telefoneRegex.test(telefone)) {
-                return Swal.fire("Erro!", "O telefone deve ter 10 ou 11 dígitos numéricos!", "error");
-            }
-            if (cep === "") {
-                return Swal.fire("Erro!", "Informe o CEP!", "error");
-            }
-            if ($("#categoria").prop("selectedIndex") === 0 && tipo === "2") {
-                return Swal.fire("Erro!", "Selecione uma categoria para fornecedor!", "error");
-            }
-
-            // monta objeto
-            let dados = {
-                nome,
-                email,
-                senha,
-                nomeMarca,
-                telefone,
-                dataNascimento,
-                cep,
-                categoria,
-                tipo
-            };
-
-            console.log("Dados para envio:", dados);
-
-            $.ajax({
-                method: "POST",
-                url: "http://10.92.3.202:5000/usuario",
-                data: JSON.stringify(dados),
-                contentType: "application/json",
-                success: function (response) {
-                    console.log("Cadastro realizado:", response);
-                    Swal.fire({
-                        title: "Cadastro realizado com sucesso!",
-                        icon: "success"
-                    }).then(() => {
-                        window.location.href = "login.html";
-                    });
-                },
-                error: function (xhr, status, error) {
-                    console.log("Erro ao cadastrar:", xhr.responseJSON, status, error);
-                    Swal.fire({
-                        title: "Erro!",
-                        text: xhr.responseJSON?.error || "Ocorreu um erro, tente novamente.",
-                        icon: "error"
-                    });
-                }
-            });
         });
     });
+});
 </script>
+
+
 
 
 </html>

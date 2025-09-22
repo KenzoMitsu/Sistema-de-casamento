@@ -14,6 +14,7 @@
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
+    <script src="api.js"></script>
 </head>
 
 <body>
@@ -99,4 +100,113 @@ $("#tipo").on("change", function () {
     }
 });
 </script>
+<script>
+    $(document).ready(function () {
+        // mudar tipo ao clicar nos botões
+        $(".tipo").on("click", function () {
+            let valor = $(this).val();
+            $("#tipo").val(valor);
+
+            $(".tipo").removeClass("ativo");
+            $(this).addClass("ativo");
+        });
+
+        // toggle de mostrar senha
+        $("#senha").after('<img class=toggleSenha id="toggleSenha" src="https://cdn-icons-png.flaticon.com/512/2767/2767146.png" style="width:20px; cursor:pointer; position:absolute; left:580px; top:290px;">');
+
+        $("#toggleSenha").on("click", function () {
+            let senhaInput = $("#senha");
+            let icone = $("#toggleSenha");
+
+            if (senhaInput.attr("type") === "password") {
+                senhaInput.attr("type", "text");
+                icone.attr("src", "https://cdn-icons-png.flaticon.com/512/2767/2767149.png");
+            } else {
+                senhaInput.attr("type", "password");
+                icone.attr("src", "https://cdn-icons-png.flaticon.com/512/2767/2767146.png");
+            }
+        });
+
+        // quando clicar em cadastrar
+        $(".botao-cadastrar").on("click", function (e) {
+            e.preventDefault();
+
+            // pega os valores
+            let nome = $("#nome").val().trim();
+            let email = $("#email").val().trim();
+            let senha = $("#senha").val().trim();
+            let nomeMarca = $("#nome-marca").val().trim();
+            let telefone = $("#telefone").val().trim();
+            let dataNascimento = $("#data-nascimento").val();
+            let cep = $("#cep").val().trim();
+            let categoria = $("#categoria").val();
+            let tipo = $("#tipo").val();
+
+            // regex
+            let emailRegex = /^[^\s@]+@[^\s@]+\.[a-z]{2,}$/;
+            let telefoneRegex = /^[0-9]{10,11}$/;
+            let senhaRegex = /^(?=.*[A-Z])(?=.*[!@#$%^&*()_+{}":;'?/>,.<]).{8,}$/;
+
+            if (nome === "") {
+                return Swal.fire("Erro!", "Os campos são obrigatórios!", "error");
+            }
+            if (!emailRegex.test(email)) {
+                return Swal.fire("Erro!", "Digite um e-mail válido!", "error");
+            }
+            if (!senhaRegex.test(senha)) {
+                return Swal.fire("Erro!", "A senha deve ter pelo menos 8 caracteres, incluindo uma letra maiúscula e um caractere especial!", "error");
+            }
+            if (!telefoneRegex.test(telefone)) {
+                return Swal.fire("Erro!", "O telefone deve ter 10 ou 11 dígitos numéricos!", "error");
+            }
+            if (cep === "") {
+                return Swal.fire("Erro!", "Informe o CEP!", "error");
+            }
+            if ($("#categoria").prop("selectedIndex") === 0 && tipo === "2") {
+                return Swal.fire("Erro!", "Selecione uma categoria para fornecedor!", "error");
+            }
+
+            // monta objeto
+            let dados = {
+                nome,
+                email,
+                senha,
+                nomeMarca,
+                telefone,
+                dataNascimento,
+                cep,
+                categoria,
+                tipo
+            };
+
+            console.log("Dados para envio:", dados);
+
+            $.ajax({
+                method: "POST",
+                url: "http://10.92.3.202:5000/usuario",
+                data: JSON.stringify(dados),
+                contentType: "application/json",
+                success: function (response) {
+                    console.log("Cadastro realizado:", response);
+                    Swal.fire({
+                        title: "Cadastro realizado com sucesso!",
+                        icon: "success"
+                    }).then(() => {
+                        window.location.href = "login.html";
+                    });
+                },
+                error: function (xhr, status, error) {
+                    console.log("Erro ao cadastrar:", xhr.responseJSON, status, error);
+                    Swal.fire({
+                        title: "Erro!",
+                        text: xhr.responseJSON?.error || "Ocorreu um erro, tente novamente.",
+                        icon: "error"
+                    });
+                }
+            });
+        });
+    });
+</script>
+
+
 </html>

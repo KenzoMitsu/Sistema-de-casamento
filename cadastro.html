@@ -1,13 +1,87 @@
 <!DOCTYPE html>
 <html lang="pt-br" dir="ltr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastro - Casamento Perfeito</title>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="api.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
 </head>
+
 <body>
     <main>
-        
+        <div>
+            <h1>Cadastre-se</h1>
+            <div class="opcoes-cadastro">
+                <button type="button" class="tipo" value="1"> Noivo(a) </button>
+                <button type="button" class="tipo" value="2"> Fornecedor(a) </button>
+                <button type="button" class="tipo" value="3"> Cerimonialista </button>
+            </div>
+
+            <input type="hidden" id="tipo" name="tipo" value="">
+
+            <div id="cadastro1">
+                <input class="nome" type="text" placeholder="Seu nome" id="nome" name="nome">
+                <input class="email" type="email" placeholder="E-mail" id="email" name="email">
+                <input class="senha" type="password" placeholder="Senha" id="senha" name="senha">
+                <input type="text" placeholder="Nome do(a) parceiro(a)" class="parceiro" id="parceiro" name="parceiro">
+                <select name="categoria" id="categoria" class="categoria" name="categoria">
+                    <option selected disabled style="color: var(--cinza)">Categoria</option>
+                    <option>Buffet</option>
+                    <option>Confeiteiro</option>
+                    <option>Alfaiataria</option>
+                    <option>Maquiador/Cabelerereiro/Salão de Beleza</option>
+                    <option>DJ/Cantor</option>
+                    <option>Decoração</option>
+                    <option>Fotógrafo</option>
+                    <option>Transporte</option>
+                    <option>Espaço para eventos</option>
+                </select>
+            </div>
+            <div id="cadastro2">
+                <input class="telefone" type="tel" placeholder="Telefone" id="telefone" name="telefone">
+                <input class="data-nascimento" type="date" placeholder="Data de nascimento" id="data-nascimento" name="data-nascimento">
+                <input class="cep" type="text" placeholder="CEP" id="cep" name="cep">
+                <input class="nome-marca" type="text" placeholder="Nome da marca (Opcional)" id="nome-marca" name="nome-marca">
+            </div>
+        </div>
     </main>
 </body>
+<script>
+   $(".tipo").on("click", function (e) {
+    e.preventDefault();
+    var v = $(this).val();
+
+    // feedback visual
+    $(".tipo").removeClass("active");
+    $(this).addClass("active");
+
+    // seta o hidden e dispara change
+    $("#tipo").val(v).trigger("change");
+});
+
+$("#tipo").on("change", function () {
+    var tipo = $("#tipo").val();
+
+    // 🔹 Primeiro, reseta tudo
+    $("#cadastro1 input, #cadastro2 input, #cadastro1 select").prop("disabled", false).css("opacity", 1);
+
+    if (tipo == 1) { // Noivo(a)
+        $("#cadastro2 .nome-marca").css("opacity", 0).prop("disabled", true);
+        $("#cadastro1 .categoria").css("opacity", 0).prop("disabled", true);
+    } 
+    else if (tipo == 2) { // Fornecedor(a)
+        $("#cadastro2 .nome-marca").prop("disabled", true).css("opacity", 0);
+        $("#cadastro1 .parceiro").prop("disabled", true).css("opacity", 0);
+    } 
+    else if (tipo == 3) { // Cerimonialista
+        $("#cadastro2 .nome-marca").prop("disabled", true).css("opacity", 0);
+        $("#cadastro1 .categoria").prop("disabled", true).css("opacity", 0);
+        $("#cadastro1 .parceiro").prop("disabled", true).css("opacity", 0);
+    }
+});
+</script>
 </html>

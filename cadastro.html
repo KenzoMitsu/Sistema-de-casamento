@@ -21,7 +21,7 @@
                 <button type="button" class="tipo" value="3"> Cerimonialista </button>
             </div>
 
-            <input type="hidden" id="tipo" name="tipo" value="">
+            <input type="hidden" id="tipo" name="tipo" value="1">
 
             <div id="cadastro1">
                 <input class="nome" type="text" placeholder="Seu nome" id="nome" name="nome">
@@ -51,6 +51,12 @@
     </main>
 </body>
 <script>
+    $(document).ready(function () {
+        // já deixa selecionado "Noivo(a)"
+        $("#tipo").val(1).trigger("change");
+        $(".tipo[value='1']").addClass("active");
+    });
+
    $(".tipo").on("click", function (e) {
     e.preventDefault();
     var v = $(this).val();

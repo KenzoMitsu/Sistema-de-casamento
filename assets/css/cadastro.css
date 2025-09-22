@@ -25,7 +25,7 @@
     align-items: center;
     justify-content: center;
     gap: 20px;
-    background: url('../img/background.png') no-repeat center center fixed;
+    background: url('../img/background2.png') no-repeat center center fixed;
 }
 
 .formulario {
@@ -62,11 +62,7 @@
     flex-direction: column;
     gap: 10px;
     width: 250px;
-    margin-top: 2px;
-}
-
-.categoria {
-    margin-top: -39px;
+    margin-top: -5px;
 }
 
 .titulo {
@@ -143,7 +139,23 @@ input {
 
 .login {
     font-weight: 500;
-    color: var(--preto);
     margin-top: 10px;
     text-decoration: none;
+}
+
+.categoria {
+    width: 100%;
+    height: 40px;
+    border: 1px solid var(--preto);
+    border-radius: 3px;
+    padding-left: 10px;
+}
+
+.nome-marca {
+    width: 100%;
+    height: 40px;
+    border: 1px solid var(--preto);
+    border-radius: 3px;
+    padding-left: 10px;
+    position: relative;
 }

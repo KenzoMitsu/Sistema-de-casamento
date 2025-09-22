@@ -69,11 +69,12 @@
     margin-top: -39px;
 }
 
-h1 {
+.titulo {
     font-family: "Ledger", serif;
-    font-weight: 600;
-    font-size: 15px;
+    font-weight: 400;
+    font-size: 28px;
     color: var(--preto);
+    padding-top: 20px;
 }
 
 .logo-canto {
@@ -81,4 +82,21 @@ h1 {
     position: absolute;
     margin-left: 480px;
     margin-top: -40px;
+}
+
+.opcoes-cadastro {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+}
+
+.tipo {
+    width: 170px;
+    height: 40px;
+    border: none;
+    border-radius: 10px;
+    border-color: var(--preto);
+    background-color: var(--rosa-médio);
+    font-size: 16px;
+    cursor: pointer;
 }

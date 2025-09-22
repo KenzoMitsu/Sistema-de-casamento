@@ -1,0 +1,105 @@
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Playfair Display', serif;
+    }
+
+    body {
+      height: 100vh;
+      background: url('/assets/img/fundo\ aliança.png') no-repeat center center fixed;
+      background-size: cover;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .login-container {
+      background: rgba(255, 255, 255, 0.95);
+      padding: 40px 50px;
+      border-radius: 12px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+      max-width: 400px;
+      width: 100%;
+      position: relative;
+      text-align: center;
+    }
+
+    .logo {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      font-weight: 700;
+      font-size: 20px;
+      color: #333;
+      user-select: none;
+      line-height: 1;
+    }
+    .logo strong {
+      font-weight: 900;
+      font-style: italic;
+    }
+
+    h2 {
+      margin-bottom: 30px;
+      font-weight: 700;
+      font-size: 30px;
+      color: #222;
+    }
+
+    input[type="email"], input[type="password"] {
+      width: 100%;
+      padding: 12px 15px;
+      margin-bottom: 25px;
+      border: 1px solid #bbb;
+      border-radius: 6px;
+      font-size: 16px;
+      color: #444;
+      transition: border-color 0.3s ease;
+    }
+
+    input[type="email"]::placeholder,
+    input[type="password"]::placeholder {
+      color: #999;
+    }
+
+    input[type="email"]:focus,
+    input[type="password"]:focus {
+      border-color: #f6b8c7;
+      outline: none;
+    }
+
+    button {
+      width: 100%;
+      padding: 14px 0;
+      background-color: #f6b8c7;
+      border: none;
+      border-radius: 8px;
+      font-size: 22px;
+      font-weight: 700;
+      color: #fff;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #e89cb2;
+    }
+
+    .register-text {
+      margin-top: 20px;
+      font-size: 14px;
+      color: #333;
+    }
+
+    .register-text a {
+      color: #1e90ff;
+      text-decoration: none;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .register-text a:hover {
+      text-decoration: underline;
+    }

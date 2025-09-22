@@ -1,0 +1,84 @@
+* {
+    margin: 0;
+    padding: 0;
+    text-decoration: none;
+    transition: all 0.5s;
+}
+
+:root {
+    --rosa-claro: #FFEDF1;
+    --rosa-médio: #FFDBE4;
+    --rosa-médio-escuro: #FFC9D6;
+    --rosa-escuro: #FFB7C9;
+    --branco: white;
+    --preto: black;
+    --bege-claro: #F4F2EE;
+    --bege-médio: #EEECE1;
+    --bege-escuro: #F2EFE5;
+}
+
+.principal {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    background: url('../img/background.png') no-repeat center center fixed;
+}
+
+.formulario {
+    width: 600px;
+    height: auto;
+    background-color: var(--branco);
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.25);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    gap: 20px;
+    border-color: var(--preto);
+}
+
+.cadastro-sec {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.cadastro1 {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-right: 40px;
+    width: 250px;
+}
+
+.cadastro2 {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 250px;
+    margin-top: 2px;
+}
+
+.categoria {
+    margin-top: -39px;
+}
+
+h1 {
+    font-family: "Ledger", serif;
+    font-weight: 600;
+    font-size: 15px;
+    color: var(--preto);
+}
+
+.logo-canto {
+    width: 115px;
+    position: absolute;
+    margin-left: 480px;
+    margin-top: -40px;
+}

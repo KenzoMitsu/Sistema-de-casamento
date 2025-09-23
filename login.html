@@ -98,11 +98,7 @@ $(document).ready(function() {
                     title: "Login bem-sucedido!",
                     icon: "success"
                 }).then(() => {
-                    if (usuario.tipo === "adm") {
-                        window.location.href = "homeeae.html";
-                    } else {
-                        window.location.href = "homePoslogin.html";
-                    }
+                    window.location.href = "home.html";
                 });
             },
             error: function(retorno) {

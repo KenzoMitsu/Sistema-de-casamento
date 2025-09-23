@@ -13,7 +13,10 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Luxurious+Script&family=Old+Standard+TT:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" href="assets/css/index.css">
+    <link rel="stylesheet" href="assets/css/home.css">
+
+    <!-- SweetAlert baixado -->
+     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
 
@@ -29,11 +32,24 @@
                         <li><a href="#">Home</a></li>
                         <li><a href="#">Sobre Nós</a></li>
                         <li><a href="#">Contato</a></li>
-                        <li><a href="#" class="btn-login">Login</a></li>
+                        <li><a href="#"><img src="assets/img/perfil.png" alt="Ícone de Perfil" class="profile-icon"></a></li>
                     </ul>
                 </nav>
             </div>
         </header>
+
+        <!-- Modal de Logout -->
+        <div id="logoutModal" class="modal-overlay">
+            <div class="modal-content">
+                <span class="close-button">&times;</span>
+                <h2>Opções da Conta</h2>
+                <p>Deseja sair da sua conta?</p>
+                <button id="logoutButton" class="logout-btn">Sair</button>
+            </div>
+        </div>
+
+    <script src="assets/js/main.js"></script>
+    <!--  -->
 
         <div class="hero-content">
             <p class="hero-subtitle">SEU SONHO</p>
@@ -231,4 +247,86 @@
     </footer>
 
 </body>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+
+    // Verificar o Token de autenticação do usuário
+    const checkAuthentication = () => {
+        // Verifica se existe um item 'authToken' no localStorage
+        const authToken = localStorage.getItem('authToken');
+
+        if (!authToken) {
+            // Se o token NÃO existir, exibe o SweetAlert
+            Swal.fire({
+                icon: 'warning',
+                title: 'Acesso Restrito',
+                text: 'Você precisa estar logado para acessar esta página.',
+                confirmButtonText: 'Entendi, ir para Login',
+                allowOutsideClick: false, // Impede que o usuário feche clicando fora
+            }).then((result) => {
+                // Após o usuário clicar no botão, redireciona para a página de login
+                if (result.isConfirmed) {
+                    window.location.href = 'login.html'; // Mude para o nome da sua página de login
+                }
+            });
+        }
+    };
+
+    // Chama a função de verificação assim que a página carrega
+    checkAuthentication();
+
+    // 1. Seleciona os elementos da página
+    const profileLink = document.getElementById('profileLink');
+    const logoutModal = document.getElementById('logoutModal');
+    const closeModalButton = document.querySelector('.close-button');
+    const logoutButton = document.getElementById('logoutButton');
+
+    // 2. Funções para abrir e fechar a modal
+    const openModal = () => {
+        logoutModal.style.display = 'flex'; // Muda o display para 'flex' para mostrar e centralizar
+    };
+
+    const closeModal = () => {
+        logoutModal.style.display = 'none'; // Esconde a modal
+    };
+
+    // 3. Função para fazer o logout
+    const handleLogout = () => {
+        // Limpa todos os dados salvos no LocalStorage
+        localStorage.clear();
+
+        // Avisa o usuário que a ação foi concluída
+        alert('Você saiu da sua conta. Todos os dados locais foram limpos.');
+
+        // Fecha a modal
+        closeModal();
+        
+        // Opcional: Redireciona o usuário para a página de login ou recarrega a página
+        // window.location.href = 'login.html'; 
+        // window.location.reload(); 
+    };
+
+    // 4. Adiciona os eventos de clique
+    // Ao clicar no ícone de perfil, abre a modal
+    profileLink.addEventListener('click', (event) => {
+        event.preventDefault(); // Impede que o link '#' recarregue a página
+        openModal();
+    });
+
+    // Ao clicar no botão 'Sair', executa a função de logout
+    logoutButton.addEventListener('click', handleLogout);
+    
+    // Ao clicar no 'X', fecha a modal
+    closeModalButton.addEventListener('click', closeModal);
+
+    // Ao clicar fora da caixa da modal (no fundo escuro), fecha a modal
+    logoutModal.addEventListener('click', (event) => {
+        if (event.target === logoutModal) { // Verifica se o clique foi no fundo e não no conteúdo
+            closeModal();
+        }
+    });
+});
+</script>
+
 </html>

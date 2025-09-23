@@ -179,3 +179,67 @@ input {
   width: 20px;
   cursor: pointer;
 }
+
+
+/* RESPONSIVO */
+@media (max-width: 768px) {
+
+}
+
+@media (max-width: 426px) {
+    .principal {
+        white-space: nowrap;
+        background: url('../img/background2.png') no-repeat center center fixed;
+        background-size: cover;
+    }
+    .formulario {
+        width: 300px;
+        margin-top: 350px;
+        padding: 20px;
+    }
+    .opcoes-cadastro {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+    .cadastro-sec {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+    .cadastro1 {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        margin-right: 0px;
+        width: 250px;
+    }
+    .cadastro2 {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        width: 250px;
+        margin-top: 10px;
+    }
+    .botao-cadastrar {
+        margin-top: -5px;
+    }
+    .logo-canto {
+        width: 80px;
+        position: absolute;
+        margin-left: 0px;
+        margin-top: -30px;
+    }
+    .titulo {
+        font-size: 28px;
+
+        padding-top: 40px;
+    }
+}
+
+@media (max-width: 375px) {
+}
+
+@media (max-width: 320px) {
+}

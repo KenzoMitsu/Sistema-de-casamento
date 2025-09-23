@@ -90,4 +90,21 @@ input {
     text-decoration: none;
 }
 
+.senha-container {
+  position: relative;
+  width: 60%;
+}
 
+.senha-container input {
+  width: 100%;
+  padding-right: 40px; 
+}
+
+.senha-container img {
+  position: absolute;
+  right: 10px;  
+  top: 50%;
+  transform: translateY(-50%); 
+  width: 20px;
+  cursor: pointer;
+}

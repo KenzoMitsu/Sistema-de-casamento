@@ -21,19 +21,22 @@
 
 <body>
     <main>
-      <div class="principal">
-        <div class="formulario">
-        <h1 class="titulo">Login</h1>
-        <img src="assets/img/logo-preta.png" alt="Logo Casamento Perfeito" class="logo-canto">
-        <input name="email" id="email" type="email" placeholder="E-mail" required />
-        <input name="senha" id="senha" type="password" placeholder="Senha" required />
-        <button type="submit" class="botao-login">Entrar</button>
-        <p class="cadastro">Não possui uma conta? <a class="cadastro" href="cadastro.html">Cadastre-se</a></p>
-        </div>
+        <div class="principal">
+            <div class="formulario">
+                <h1 class="titulo">Login</h1>
+                <img src="assets/img/logo-preta.png" alt="Logo Casamento Perfeito" class="logo-canto">
+                <input name="email" id="email" type="email" placeholder="E-mail" required />
+                <div class="senha-container">
+                    <input class="senha" type="password" placeholder="Senha" id="senha" name="senha">
+                    <img id="toggleSenha" src="https://cdn-icons-png.flaticon.com/512/2767/2767146.png" alt="Mostrar senha">
+                </div>
+                <button type="submit" class="botao-login">Entrar</button>
+                <p class="cadastro">Não possui uma conta? <a class="cadastro" href="cadastro.html">Cadastre-se</a></p>
+            </div>
     </main>
 </body>
 <script>
-  $("#senha").after('<img class=toggleSenha id="toggleSenha" src="https://cdn-icons-png.flaticon.com/512/2767/2767146.png" style="width:20px; cursor:pointer; position:absolute; left:770px; top:265px;">');
+
 
         $("#toggleSenha").on("click", function () {
             let senhaInput = $("#senha");

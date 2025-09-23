@@ -354,14 +354,6 @@ body {
     line-height: 1.4;
 }
 
-/* Responsividade */
-@media (max-width: 768px) {
-    .features-grid {
-        flex-direction: column;
-        align-items: center;
-    }
-}
-
 .journey-section {
     background-color: #f7e1e6;
     padding: 60px 8%;
@@ -553,4 +545,27 @@ body {
 .titulos-info {
     font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     color: #F3BDD1;
+}
+
+/* Responsividade */
+@media (max-width: 769px) {
+    .features-grid {
+        flex-direction: column;
+        align-items: center;
+        gap: 40px;
+    }
+}
+
+@media (max-width: 426px) {
+
+}
+
+
+@media (max-width: 376px) {
+
+}
+
+
+@media (max-width: 321px) {
+
 }

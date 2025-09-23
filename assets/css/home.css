@@ -212,8 +212,9 @@ body {
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.6); /* Cor preta com opacidade */
-    /* Centraliza o conteúdo da modal */
-    display: flex;
+    
+    display: none; /* ESSA É A LINHA MAIS IMPORTANTE! */
+    
     justify-content: center;
     align-items: center;
 }

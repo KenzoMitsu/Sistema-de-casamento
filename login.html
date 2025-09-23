@@ -52,6 +52,7 @@
         });
 
 </script>
+
 <script>
     $(document).ready(function() {
 
@@ -61,52 +62,8 @@
             let email = $("#email").val().trim();
             let senha = $("#senha").val().trim();
 
+            // Verificação de campos (corrigida, sem duplicar)
             if (!email || !senha) {
-        if (!email || !senha) {
-            Swal.fire({
-                title: "Erro!",
-                text: "Por favor, preencha todos os campos!",
-                icon: "error"
-            });
-            return;
-        }
-        let dados = JSON.stringify({ email, senha });
-
-        $.ajax({
-            method: "POST",
-            url: "http://10.92.3.172:5000/login",
-            contentType: "application/json",
-            data: dados,
-            success: function(retorno) {
-                console.log("Resposta do servidor:", retorno); 
-
-                let usuario = retorno.usuarios || retorno.user || retorno; 
-
-                if (!usuario || !usuario.token) {
-                    Swal.fire({
-                        title: "Erro!",
-                        text: "Não foi possível recuperar os dados do usuário.",
-                        icon: "error"
-                    });
-                    return;
-                }
-
-                localStorage.setItem("token", usuario.token || "");
-                localStorage.setItem("nome", usuario.nome || "");
-                localStorage.setItem("email", usuario.email || "");
-                localStorage.setItem("telefone", usuario.telefone || "");
-                localStorage.setItem("id_cadastro", usuario.id_cadastro || "");
-                localStorage.setItem("tipo", usuario.tipo || "");
-
-                Swal.fire({
-                    title: "Login bem-sucedido!",
-                    icon: "success"
-                }).then(() => {
-                    window.location.href = "home.html";
-                });
-            },
-            error: function(retorno) {
-                console.log("Erro na requisição:", retorno);
                 Swal.fire({
                     title: "Erro!",
                     text: "Por favor, preencha todos os campos!",
@@ -115,14 +72,16 @@
                 return;
             }
 
+            // Apenas um objeto de dados
             let dados = JSON.stringify({
                 email,
                 senha
             });
 
+            // Apenas UMA chamada AJAX
             $.ajax({
                 method: "POST",
-                url: "http://10.92.3.172:5000/login",
+                url: "http://10.92.3.172:5000/login", // Verifique se este IP ainda é válido
                 contentType: "application/json",
                 data: dados,
                 success: function(retorno) {
@@ -151,23 +110,15 @@
                         title: "Login bem-sucedido!",
                         icon: "success"
                     }).then(() => {
-                        // Redirecionar de acordo com o cargo
-                        if (usuario.cargo === "noivo") {
-                            window.location.href = "homeNoivo.html";
-                        } else if (usuario.cargo === "fornecedor") {
-                            window.location.href = "homeFornecedor.html";
-                        } else if (usuario.cargo === "cerimonialista") {
-                            window.location.href = "homeCerimonialista.html";
-                        } else {
-                            window.location.href = "homePoslogin.html";
-                        }
+                        // Redireciona SEMPRE para home.html
+                        window.location.href = "home.html";
                     });
                 },
                 error: function(retorno) {
                     console.log("Erro na requisição:", retorno);
                     Swal.fire({
                         title: "Erro!",
-                        text: retorno.responseJSON?.error || "Erro ao tentar fazer login.",
+                        text: retorno.responseJSON?.error || "E-mail ou senha incorretos. Tente novamente.",
                         icon: "error"
                     });
                 }
@@ -177,7 +128,5 @@
 
     });
 </script>
-
-
 
 </html>

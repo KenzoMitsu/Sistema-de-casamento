@@ -30,9 +30,12 @@
                 <nav class="navbar">
                     <ul>
                         <li><a href="#">Home</a></li>
+        
+                        <li id="menu-dinamico" style="display: none;"><a href="#"></a></li> 
+        
                         <li><a href="#">Sobre Nós</a></li>
                         <li><a href="#">Contato</a></li>
-                        <li><a href="#"><img src="assets/img/perfil.png" alt="Ícone de Perfil" class="profile-icon"></a></li>
+                        <li><a id="profileLink" href="#"><img src="assets/img/perfil.png" alt="Ícone de Perfil" class="profile-icon"></a></li>
                     </ul>
                 </nav>
             </div>
@@ -249,27 +252,64 @@
 </body>
 
 <script>
-    document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', () => {
+
+    // Função para atualizar o cabeçalho com base no cargo do usuário
+    const atualizarCabecalho = () => {
+        const dadosUsuarioJSON = localStorage.getItem('dados_usuario');
+        
+        if (!dadosUsuarioJSON) {
+            console.error("Dados do usuário não encontrados no localStorage.");
+            return;
+        }
+
+        const dadosUsuario = JSON.parse(dadosUsuarioJSON);
+        const cargo = dadosUsuario.cargo;
+        
+        const menuDinamico = document.getElementById('menu-dinamico');
+        const linkDinamico = menuDinamico.querySelector('a');
+
+        if (!menuDinamico || !linkDinamico) {
+            console.error("Elemento do menu dinâmico não encontrado.");
+            return;
+        }
+
+        // Regras de exibição baseadas no cargo
+        if (cargo === 'noivo') {
+            linkDinamico.textContent = 'Cerimonialistas e fornecedores';
+            linkDinamico.href = 'pagina-de-cerimonialistas.html'; // Defina o link correto
+            menuDinamico.style.display = 'list-item'; // Mostra o item do menu
+        } 
+        else if (cargo === 'cerimonialista') {
+            linkDinamico.textContent = 'Fornecedores';
+            linkDinamico.href = 'pagina-de-fornecedores.html'; // Defina o link correto
+            menuDinamico.style.display = 'list-item'; // Mostra o item do menu
+        }
+        // Se o cargo for 'fornecedor' ou qualquer outro, o menu permanece escondido (display: none)
+    };
+
+    // --- SEU CÓDIGO EXISTENTE (com uma pequena correção no nome do token) ---
 
     // Verificar o Token de autenticação do usuário
     const checkAuthentication = () => {
-        // Verifica se existe um item 'authToken' no localStorage
-        const authToken = localStorage.getItem('authToken');
+        // Corrigido para verificar 'dados_usuario' que contém o token, como no seu login.html
+        const dadosUsuario = localStorage.getItem('dados_usuario'); 
 
-        if (!authToken) {
-            // Se o token NÃO existir, exibe o SweetAlert
+        if (!dadosUsuario) {
             Swal.fire({
                 icon: 'warning',
                 title: 'Acesso Restrito',
                 text: 'Você precisa estar logado para acessar esta página.',
                 confirmButtonText: 'Entendi, ir para Login',
-                allowOutsideClick: false, // Impede que o usuário feche clicando fora
+                allowOutsideClick: false,
             }).then((result) => {
-                // Após o usuário clicar no botão, redireciona para a página de login
                 if (result.isConfirmed) {
-                    window.location.href = 'login.html'; // Mude para o nome da sua página de login
+                    window.location.href = 'login.html';
                 }
             });
+        } else {
+            // Se o usuário está autenticado, atualizamos o cabeçalho
+            atualizarCabecalho();
         }
     };
 
@@ -284,48 +324,46 @@
 
     // 2. Funções para abrir e fechar a modal
     const openModal = () => {
-        logoutModal.style.display = 'flex'; // Muda o display para 'flex' para mostrar e centralizar
+        logoutModal.style.display = 'flex';
     };
 
     const closeModal = () => {
-        logoutModal.style.display = 'none'; // Esconde a modal
+        logoutModal.style.display = 'none';
     };
 
     // 3. Função para fazer o logout
     const handleLogout = () => {
-        // Limpa todos os dados salvos no LocalStorage
         localStorage.clear();
-
-        // Avisa o usuário que a ação foi concluída
-        alert('Você saiu da sua conta. Todos os dados locais foram limpos.');
-
-        // Fecha a modal
-        closeModal();
         
-        // Opcional: Redireciona o usuário para a página de login ou recarrega a página
-        // window.location.href = 'login.html'; 
-        // window.location.reload(); 
+        Swal.fire({
+            title: 'Você saiu!',
+            text: 'Sua sessão foi encerrada.',
+            icon: 'info'
+        }).then(() => {
+            window.location.href = 'login.html'; 
+        });
+
+        closeModal();
     };
 
     // 4. Adiciona os eventos de clique
-    // Ao clicar no ícone de perfil, abre a modal
-    profileLink.addEventListener('click', (event) => {
-        event.preventDefault(); // Impede que o link '#' recarregue a página
-        openModal();
-    });
+    if(profileLink) {
+        profileLink.addEventListener('click', (event) => {
+            event.preventDefault();
+            openModal();
+        });
+    }
 
-    // Ao clicar no botão 'Sair', executa a função de logout
-    logoutButton.addEventListener('click', handleLogout);
-    
-    // Ao clicar no 'X', fecha a modal
-    closeModalButton.addEventListener('click', closeModal);
+    if(logoutButton) logoutButton.addEventListener('click', handleLogout);
+    if(closeModalButton) closeModalButton.addEventListener('click', closeModal);
 
-    // Ao clicar fora da caixa da modal (no fundo escuro), fecha a modal
-    logoutModal.addEventListener('click', (event) => {
-        if (event.target === logoutModal) { // Verifica se o clique foi no fundo e não no conteúdo
-            closeModal();
-        }
-    });
+    if(logoutModal) {
+        logoutModal.addEventListener('click', (event) => {
+            if (event.target === logoutModal) {
+                closeModal();
+            }
+        });
+    }
 });
 </script>
 

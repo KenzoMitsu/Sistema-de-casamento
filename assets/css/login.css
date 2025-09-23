@@ -108,3 +108,99 @@ input {
   width: 20px;
   cursor: pointer;
 }
+
+/* RESPONSIVO */
+@media (max-width: 768px) {
+    input {
+        width: 80%;
+    }
+    .senha-container {
+        position: relative;
+        width: 80%;
+    }
+    .botao-login {
+        margin-top: -5px;
+        width: 80%;
+    }
+}
+
+@media (max-width: 426px) {
+    body {
+        margin: 0;
+        padding: 0;
+        background: url('../img/background2.png') no-repeat center center fixed;
+        background-size: cover;
+        font-family: 'Ledger', serif;
+    }
+
+    .principal {
+        white-space: nowrap;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+    }
+    .formulario {
+        padding: 20px;
+        max-width: 350px;
+        width: 100%;
+    }
+    .opcoes-cadastro {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+    .cadastro-sec {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+    .cadastro1 {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        margin-right: 0px;
+        width: 250px;
+    }
+    .cadastro2 {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        width: 250px;
+        margin-top: 10px;
+    }
+    .botao-login {
+        margin-top: -5px;
+        width: 80%;
+    }
+    .logo-canto {
+        width: 80px;
+        position: absolute;
+        margin-left: 0px;
+        margin-top: -30px;
+    }
+    .titulo {
+        font-size: 28px;
+
+        padding-top: 40px;
+    }
+    input {
+        width: 80%;
+    }
+    .senha-container {
+        position: relative;
+        width: 80%;
+    }
+}
+
+@media (max-width: 376px) {
+    .formulario {
+        padding: 20px;
+        max-width: 350px;
+        width: 300px;
+    }
+}
+
+@media (max-width: 321px) {
+}

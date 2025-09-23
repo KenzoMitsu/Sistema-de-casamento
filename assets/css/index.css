@@ -557,7 +557,25 @@ body {
 }
 
 @media (max-width: 426px) {
-
+    header {
+        flex-direction: column;
+    }
+    .header-container {
+        flex-direction: column;
+        align-items: center;
+        gap: 15px;
+    }
+    .footer-container {
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        gap: 20px;
+    }
+    .footer-columns {
+        flex-direction: column;
+        gap: 30px;
+    }
 }
 
 

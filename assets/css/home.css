@@ -315,7 +315,7 @@ body {
 .features-grid {
     display: flex;
     justify-content: center;
-    gap: 160px;
+    gap: 130px;
     margin-bottom: 50px;
     flex-wrap: wrap; /* Permite que os itens quebrem a linha em telas menores */
 }
@@ -324,7 +324,7 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    max-width: 250px;
+    max-width: 230px;
 }
 
 .feature-icon-container {
@@ -342,7 +342,7 @@ body {
 }
 
 .feature-title {
-    font-size: 1.7rem;
+    font-size: 1.6rem;
     font-weight: 700;
     color: #BB9245;
     margin: 15px 0 5px;
@@ -351,7 +351,7 @@ body {
 }
 
 .feature-description {
-    font-size: 1.3rem;
+    font-size: 1.2rem;
     color: #BB9245;
     line-height: 1.5;
     font-family: "Old Standard TT", serif;

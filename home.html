@@ -29,9 +29,7 @@
     
                 <nav class="navbar">
                     <ul>
-                        <li><a href="#">Home</a></li>
-        
-                        <li id="menu-dinamico" style="display: none;"><a href="#"></a></li> 
+                        <li><a href="#">Home</a></li> 
         
                         <li><a href="#">Sobre Nós</a></li>
                         <li><a href="#">Contato</a></li>
@@ -254,48 +252,47 @@
 <script>
 document.addEventListener('DOMContentLoaded', () => {
 
-    // Função para atualizar o cabeçalho com base no cargo do usuário
-    const atualizarCabecalho = () => {
-        const dadosUsuarioJSON = localStorage.getItem('dados_usuario');
+    // Função para ATUALIZAR O BOTÃO PRINCIPAL com base no cargo
+    const atualizarBotaoPrincipal = () => {
+        const cargo = localStorage.getItem('cargo');
         
-        if (!dadosUsuarioJSON) {
-            console.error("Dados do usuário não encontrados no localStorage.");
-            return;
-        }
+        // Seleciona o botão principal pela sua classe
+        const botaoHeroi = document.querySelector('.hero-button');
 
-        const dadosUsuario = JSON.parse(dadosUsuarioJSON);
-        const cargo = dadosUsuario.cargo;
-        
-        const menuDinamico = document.getElementById('menu-dinamico');
-        const linkDinamico = menuDinamico.querySelector('a');
-
-        if (!menuDinamico || !linkDinamico) {
-            console.error("Elemento do menu dinâmico não encontrado.");
+        if (!botaoHeroi) {
+            console.error("Botão principal (.hero-button) não encontrado.");
             return;
         }
 
         // Regras de exibição baseadas no cargo
-        if (cargo === 'noivo') {
-            linkDinamico.textContent = 'Cerimonialistas e fornecedores';
-            linkDinamico.href = 'pagina-de-cerimonialistas.html'; // Defina o link correto
-            menuDinamico.style.display = 'list-item'; // Mostra o item do menu
+        // Assumindo: 1 = noivo, 2 = cerimonialista, 3 = fornecedor
+        if (cargo === '1') { // Se for NOIVO
+            botaoHeroi.textContent = 'Cerimonialistas e Fornecedores';
+            botaoHeroi.href = 'pagina-de-busca.html'; // Defina o link correto
+            botaoHeroi.style.display = 'inline-block'; // Garante que o botão seja visível
         } 
-        else if (cargo === 'cerimonialista') {
-            linkDinamico.textContent = 'Fornecedores';
-            linkDinamico.href = 'pagina-de-fornecedores.html'; // Defina o link correto
-            menuDinamico.style.display = 'list-item'; // Mostra o item do menu
+        else if (cargo === '3') { // Se for CERIMONIALISTA
+            botaoHeroi.textContent = 'Fornecedores';
+            botaoHeroi.href = 'pagina-de-fornecedores.html'; // Defina o link correto
+            botaoHeroi.style.display = 'inline-block'; // Garante que o botão seja visível
         }
-        // Se o cargo for 'fornecedor' ou qualquer outro, o menu permanece escondido (display: none)
+        else { 
+            // Para outros cargos (como fornecedor), esconde o botão
+            botaoHeroi.style.display = 'none';
+        }
     };
 
-    // --- SEU CÓDIGO EXISTENTE (com uma pequena correção no nome do token) ---
-
-    // Verificar o Token de autenticação do usuário
+    // Verificar a autenticação do usuário
     const checkAuthentication = () => {
-        // Corrigido para verificar 'dados_usuario' que contém o token, como no seu login.html
-        const dadosUsuario = localStorage.getItem('dados_usuario'); 
+        const token = localStorage.getItem('token'); 
 
-        if (!dadosUsuario) {
+        if (!token) {
+            // Se não estiver logado, esconde o botão principal
+            const botaoHeroi = document.querySelector('.hero-button');
+            if(botaoHeroi) {
+                botaoHeroi.style.display = 'none';
+            }
+
             Swal.fire({
                 icon: 'warning',
                 title: 'Acesso Restrito',
@@ -308,21 +305,21 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             });
         } else {
-            // Se o usuário está autenticado, atualizamos o cabeçalho
-            atualizarCabecalho();
+            // Se o usuário está autenticado, atualizamos o botão
+            atualizarBotaoPrincipal();
         }
     };
 
     // Chama a função de verificação assim que a página carrega
     checkAuthentication();
 
-    // 1. Seleciona os elementos da página
+    // --- O resto do seu código para o modal de logout continua igual ---
+
     const profileLink = document.getElementById('profileLink');
     const logoutModal = document.getElementById('logoutModal');
     const closeModalButton = document.querySelector('.close-button');
     const logoutButton = document.getElementById('logoutButton');
 
-    // 2. Funções para abrir e fechar a modal
     const openModal = () => {
         logoutModal.style.display = 'flex';
     };
@@ -331,7 +328,6 @@ document.addEventListener('DOMContentLoaded', () => {
         logoutModal.style.display = 'none';
     };
 
-    // 3. Função para fazer o logout
     const handleLogout = () => {
         localStorage.clear();
         
@@ -346,7 +342,6 @@ document.addEventListener('DOMContentLoaded', () => {
         closeModal();
     };
 
-    // 4. Adiciona os eventos de clique
     if(profileLink) {
         profileLink.addEventListener('click', (event) => {
             event.preventDefault();

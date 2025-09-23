@@ -90,21 +90,19 @@
                     let token = retorno.token || null;
                     let usuario = retorno.usuario || {};
 
-                    // Cria um objeto com os dados necessários
-                    const dadosUsuario = {
-                        token: token,
-                        id_usuario: usuario.id_usuario || null,
-                        nome: usuario.nome || null,
-                        email: usuario.email || null,
-                        telefone: usuario.telefone || null,
-                        data_nascimento: usuario.data_nascimento || null,
-                        cargo: usuario.cargo || null,
-                        categoria: usuario.categoria || null,
-                        nome_marca: usuario.nome_marca || null,
-                    };
+                    // Salva cada informação em um campo separado no localStorage
+                    localStorage.setItem('token', token);
+                    localStorage.setItem('id_usuario', usuario.id_usuario || '');
+                    localStorage.setItem('nome', usuario.nome || '');
+                    localStorage.setItem('email', usuario.email || '');
+                    localStorage.setItem('telefone', usuario.telefone || '');
+                    localStorage.setItem('data_nascimento', usuario.data_nascimento || '');
+                    localStorage.setItem('cargo', usuario.cargo || '');
+                    localStorage.setItem('categoria', usuario.categoria || '');
+                    localStorage.setItem('nome_marca', usuario.nome_marca || '');
 
                     // Salva o objeto completo no localStorage como uma string JSON
-                    localStorage.setItem("dados_usuario", JSON.stringify(dadosUsuario));
+                    localStorage.setItem("dados_usuario", JSON.stringify(usuario));
 
                     Swal.fire({
                         title: "Login bem-sucedido!",

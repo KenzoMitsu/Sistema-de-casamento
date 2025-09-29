@@ -698,8 +698,7 @@ body {
     .hero-section {
         padding: 180px 6% 50px; /* Padding para o conteúdo não ficar colado nas bordas */
     }
-
-
+}
 @media (max-width: 376px) {
     .navbar a {
         text-decoration: none;

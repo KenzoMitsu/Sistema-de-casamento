@@ -1,0 +1,328 @@
+* {
+    margin: 0;
+    padding: 0;
+    text-decoration: none;
+    transition: all 0.5s;
+}
+
+:root {
+    --rosa-claro: #FFEDF1;
+    --rosa-médio: #FFDBE4;
+    --rosa-médio-escuro: #FFC9D6;
+    --rosa-escuro: #FFB7C9;
+    --branco: white;
+    --preto: black;
+    --bege-claro: #F4F2EE;
+    --bege-médio: #EEECE1;
+    --bege-escuro: #F2EFE5;
+}
+
+.principal {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    background: url('../img/background2.png') no-repeat center center fixed;
+    background-size: cover;
+}
+
+.formulario {
+    width: 600px;
+    height: auto;
+    background-color: var(--branco);
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.25);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    padding-bottom: 50px;
+    gap: 20px;
+    border-color: var(--preto);
+}
+
+.cadastro-sec {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.cadastro1 {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-right: 20px;
+    width: 250px;
+}
+
+.cadastro2 {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 250px;
+    margin-top: -5px;
+}
+
+.titulo {
+    font-family: "Ledger", serif;
+    font-weight: 400;
+    font-size: 28px;
+    color: var(--preto);
+    padding-top: 20px;
+}
+
+.bot-fechar {
+    font-size: 20px;
+    text-decoration: none;
+    color: black;
+    position: absolute;
+    margin-left: 260px;
+    margin-top: -80px;
+}
+
+.logo-canto {
+    width: 115px;
+    position: absolute;
+    margin-left: -480px;
+    margin-top: -40px;
+}
+
+.opcoes-cadastro {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+}
+
+.tipo {
+    width: 170px;
+    height: 40px;
+    border: none;
+    border-radius: 10px;
+    border-color: var(--preto);
+    background-color: var(--branco);
+    font-size: 16px;
+    cursor: pointer;
+    border: 1px solid var(--preto);
+    font-family: "Ledger", serif;
+    font-weight: 400;
+    font-size: 17px;
+}
+
+.tipo.active {
+    background-color: var(--rosa-médio-escuro);
+    border: 1px solid var(--preto);
+}
+
+.tipo:hover {
+    background-color: var(--rosa-escuro);
+    color: var(--branco);
+    border: 1px solid var(--preto);
+}
+
+input {
+    width: 100%;
+    height: 40px;
+    border: 1px solid var(--preto);
+    border-radius: 3px;
+    padding-left: 10px;
+    font-size: 10px;
+    font-family: "Ledger", serif;
+}
+
+.botao-cadastrar {
+    width: 80%;
+    height: 50px;
+    border: 1px solid var(--preto);
+    border-radius: 10px;
+    background-color: var(--rosa-médio-escuro);
+    color: var(--branco);
+    font-size: 16px;
+    cursor: pointer;
+    font-family: "Ledger", serif;
+    font-weight: 400;
+    font-size: 20px;
+    margin-top: 10px;
+}
+
+.login {
+    font-weight: 500;
+    margin-top: 10px;
+    text-decoration: none;
+}
+
+.categoria {
+    width: 100%;
+    height: 40px;
+    border: 1px solid var(--preto);
+    border-radius: 3px;
+    padding-left: 10px;
+}
+
+.nome-marca {
+    width: 100%;
+    height: 40px;
+    border: 1px solid var(--preto);
+    border-radius: 3px;
+    padding-left: 10px;
+    position: relative;
+}
+
+.senha-container {
+  position: relative;
+  width: 100%;
+}
+
+.senha-container input {
+  width: 100%;
+  padding-right: 40px; 
+}
+
+.senha-container img {
+  position: absolute;
+  right: 10px;  
+  top: 50%;
+  transform: translateY(-50%); 
+  width: 20px;
+  cursor: pointer;
+}
+
+ .upload-box {
+      border: 2px dashed #ccc;
+      border-radius: 8px;
+      width: 200px;
+      height: 200px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .upload-box:hover {
+      border-color: #ffb6c1; /* rosa claro */
+    }
+
+    .upload-box input {
+      display: none; /* esconde o input real */
+    }
+
+    .upload-box img {
+      width: 170px;
+      opacity: 0.6;
+      margin-bottom: 10px;
+    }
+
+    .upload-box span {
+      color: gray;
+      font-size: 12px;
+    }
+
+/* RESPONSIVO */
+@media (max-width: 768px) {
+
+}
+
+@media (max-width: 426px) {
+    body {
+        margin: 0;
+        padding: 0;
+        background: url('../img/background2.png') no-repeat center center fixed;
+        background-size: cover;
+        font-family: 'Ledger', serif;
+    }
+    .bot-fechar {
+        font-size: 20px;
+        text-decoration: none;
+        color: black;
+        position: absolute;
+        margin-left: 145px;
+        margin-top: -110px;
+    }
+    .principal {
+        white-space: nowrap;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+    }
+    .formulario {
+        margin-top: 320px;
+        padding: 20px;
+        max-width: 350px;
+        width: 100%;
+    }
+    .opcoes-cadastro {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+    .sec-upload-box {
+        padding-left: 10%;
+        padding-bottom: 40px;
+    }
+    .cadastro-sec {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+    .cadastro1 {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        margin-right: 0px;
+        width: 250px;
+    }
+    .cadastro2 {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        width: 250px;
+        margin-top: 10px;
+        padding-bottom: 20px;
+    }
+    .botao-cadastrar {
+        margin-top: -5px;
+    }
+    .logo-canto {
+        width: 80px;
+        position: absolute;
+        margin-left: -270px;
+        margin-top: -30px;
+    }
+    .titulo {
+        font-size: 28px;
+        padding-top: 40px;
+    }
+}
+
+@media (max-width: 376px) {
+    .formulario {
+        margin-top: 370px;
+        padding: 20px;
+        max-width: 350px;
+        width: 300px;
+    }
+    .bot-fechar {
+        font-size: 20px;
+        text-decoration: none;
+        color: black;
+        position: absolute;
+        margin-left: 120px;
+        margin-top: -110px;
+    }
+    .logo-canto {
+        width: 80px;
+        position: absolute;
+        margin-left: -220px;
+        margin-top: -30px;
+    }
+}
+
+@media (max-width: 321px) {
+}

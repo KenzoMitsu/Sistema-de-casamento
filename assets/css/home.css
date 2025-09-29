@@ -449,10 +449,103 @@ body {
 }
 
 /* Responsividade */
-@media (max-width: 768px) {
+/* Responsividade */
+@media (max-width: 769px) {
     .features-grid {
         flex-direction: column;
         align-items: center;
+        gap: 40px;
+    }
+}
+
+@media (max-width: 426px) {
+    header {
+        flex-direction: column;
+    }
+    .header-container {
+        flex-direction: column;
+        align-items: center;
+        gap: 15px;
+        padding-bottom: 20px;
+    }
+     .footer-container {
+    flex-direction: column; /* Coloca os elementos um embaixo do outro */
+    justify-content: center;
+    align-items: center; /* Centraliza horizontalmente */
+    text-align: center; /* Centraliza o texto */
+    gap: 20px; /* Espaçamento entre os itens */
+  }
+
+    .footer-main .footer-container {
+        align-items: center; /* Centraliza também as colunas */
+    }
+
+    .footer-column {
+        flex: unset; /* Remove o "flex: 1" para não esticar */
+        width: 100%; /* Ocupa toda a largura disponível */
+        max-width: 300px; /* Limita para não ficar exagerado */
+    }
+
+    .footer-logo img {
+        max-width: 140px; /* Logo menor em telas pequenas */
+    }
+    .navbar a {
+        text-decoration: none;
+        color: #fff;
+        font-size: 12px;
+        font-weight: 500;
+        text-transform: uppercase;
+        transition: color 0.3s ease;
+    }
+    .hero-section {
+        padding: 180px 6% 50px; /* Padding para o conteúdo não ficar colado nas bordas */
+    }
+    .hero-title {
+        font-family: 'Great Vibes', cursive;
+        font-size: 4rem;
+        font-weight: 400;
+        line-height: 1;
+        margin-top: -10px;
+    }
+    .hero-subtitle {
+        font-size: 1rem;
+    }
+    .hero-button {
+        display: inline-block;
+        background-color: rgba(255, 183, 201, 0.75);
+        color: white;
+        padding: 12px 30px;
+        margin-top: 20px;
+        margin-bottom: 65px;
+        text-decoration: none;
+        font-weight: 500;
+        font-size: 1rem;
+        border-radius: 4px;
+        transition: background-color 0.3s 
+    ease;
+        font-family: "Old Standard TT", serif;
+    }
+}
+@media (max-width: 376px) {
+    .navbar a {
+        text-decoration: none;
+        color: #fff;
+        font-size: 11px;
+        font-weight: 500;
+        text-transform: uppercase;
+        transition: color 0.3s ease;
+    }
+}
+
+
+@media (max-width: 321px) {
+    .navbar a {
+        text-decoration: none;
+        color: #fff;
+        font-size: 10px;
+        font-weight: 500;
+        text-transform: uppercase;
+        transition: color 0.3s ease;
     }
 }
 

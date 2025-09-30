@@ -14,6 +14,7 @@
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
+    <script src="api.js"></script>
 </head>
 
 <body>
@@ -22,6 +23,9 @@
             <div class="formulario">
                 <h1 class="titulo">Cadastre-se</h1>
                 <img src="assets/img/logo-preta.png" alt="Logo Casamento Perfeito" class="logo-canto">
+                <a href="index.html">
+                    <p class="bot-fechar">X</p>
+                </a>
                 <div class="opcoes-cadastro">
                     <button type="button" class="tipo" value="1"> Noivo(a) </button>
                     <button type="button" class="tipo" value="2"> Fornecedor(a) </button>
@@ -184,7 +188,7 @@ $(document).ready(function () {
 
         $.ajax({
             method: "POST",
-            url: "http://10.92.3.172:5000/usuario",
+            url: ipPython + "/usuario",
             data: JSON.stringify(dados),
             contentType: "application/json",
             success: function (response) {

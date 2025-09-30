@@ -51,10 +51,19 @@
     padding-top: 20px;
 }
 
+.bot-fechar {
+    font-size: 20px;
+    text-decoration: none;
+    color: black;
+    position: absolute;
+    margin-left: 260px;
+    margin-top: -80px;
+}
+
 .logo-canto {
     width: 115px;
     position: absolute;
-    margin-left: 480px;
+    margin-left: -480px;
     margin-top: -40px;
 }
 
@@ -177,8 +186,16 @@ input {
     .logo-canto {
         width: 80px;
         position: absolute;
-        margin-left: 0px;
+        margin-left: -270px;
         margin-top: -30px;
+    }
+    .bot-fechar {
+        font-size: 20px;
+        text-decoration: none;
+        color: black;
+        position: absolute;
+        margin-left: 145px;
+        margin-top: -110px;
     }
     .titulo {
         font-size: 28px;
@@ -199,6 +216,20 @@ input {
         padding: 20px;
         max-width: 350px;
         width: 300px;
+    }
+    .bot-fechar {
+        font-size: 20px;
+        text-decoration: none;
+        color: black;
+        position: absolute;
+        margin-left: 120px;
+        margin-top: -110px;
+    }
+    .logo-canto {
+        width: 80px;
+        position: absolute;
+        margin-left: -220px;
+        margin-top: -30px;
     }
 }
 

@@ -25,6 +25,9 @@
             <div class="formulario">
                 <h1 class="titulo">Login</h1>
                 <img src="assets/img/logo-preta.png" alt="Logo Casamento Perfeito" class="logo-canto">
+                <a href="index.html">
+                    <p class="bot-fechar">X</p>
+                </a>
                 <input name="email" id="email" type="email" placeholder="E-mail" required />
                 <div class="senha-container">
                     <input class="senha" type="password" placeholder="Senha" id="senha" name="senha">
@@ -81,7 +84,7 @@
             // Apenas UMA chamada AJAX
             $.ajax({
                 method: "POST",
-                url: "http://10.92.3.172:5000/login", // Verifique se este IP ainda é válido
+                url: ipPython + "/login", // Verifique se este IP ainda é válido
                 contentType: "application/json",
                 data: dados,
                 success: function(retorno) {

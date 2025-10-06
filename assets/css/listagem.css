@@ -7,6 +7,8 @@
   justify-content: center;
   align-items: center;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  min-height: 100vh;
+  overflow-y: auto;
 }
 
 /* Janela principal */
@@ -18,6 +20,7 @@
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
   position: relative;
 }
+
 
 /* Botão fechar */
 .close-btn {
@@ -131,7 +134,8 @@
 .lista .item a {
   text-decoration: none;
   color: #333;
-  word-break: break-all;
+  word-break: break-word;
+  overflow-wrap: anywhere;
 }
 
 .tipo {
@@ -195,5 +199,77 @@
 }
 
 
+/* Responsividade */
+@media (max-width: 769px) {
+  .modal {
+    width: 600px;
+  }
+}
 
+@media (max-width: 426px) {
+  .modal {
+    width: 350px;
+    margin-top: 60px;
+  }
+  .lista .item a {
+    font-size: 13px;
+  }
+  .item {
+    font-size: 15px;
+  }
+  .logo-canto{
+    width: 120px;
+  }
+}
 
+@media (max-width: 376px) {
+   .modal {
+    width: 85%;
+    margin-top: 150px;
+  }
+  .logo-canto{
+    width: 100px;
+  }
+}
+
+@media (max-width: 321px) {
+  .modal {
+    width: 90%;
+    padding: 10px;
+    margin-top: 250px;
+  }
+
+  .titulo {
+    font-size: 14px;
+  }
+
+  .lista .item,
+  .lista-header {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+
+  .lista .item a {
+    font-size: 13px;
+    word-break: normal;
+    overflow-wrap: anywhere;
+    white-space: normal;
+    display: inline-block;
+    text-align: center;
+  }
+
+  .tipo {
+    margin-top: 5px;
+    font-size: 13px;
+  }
+
+  .editar-btn {
+    margin-top: 4px;
+  }
+
+  .logo-canto{
+    width: 80px;
+    margin-top: -25px;
+    margin-left: -10px;
+  }
+}

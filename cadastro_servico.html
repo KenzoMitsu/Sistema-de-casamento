@@ -13,7 +13,9 @@
     <title>Cadastro de Serviço - Casamento Perfeito</title>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js">
+    </script>
+    <script src="api.js"></script>
 </head>
 
 <body>
@@ -40,7 +42,7 @@
                         </div>
                         <div id="cadastro2" class="cadastro2">
                             <input class="nome_servico" type="text" placeholder="Nome do serviço" id="nome_servico" name="nome_servico">
-                            <input class="valor" type="text" placeholder="Valor" id="valor" name="valor">
+                            <input class="valor" type="number" placeholder="Valor" id="valor" name="valor">
                             <input class="descricao" type="text" placeholder="Descrição" id="descricao" name="descricao">
                         </div>
                     </div>
@@ -50,150 +52,92 @@
     </main>
 </body>
 <script>
-    $(document).ready(function () {
+    document.addEventListener("DOMContentLoaded", () => {
+    const botaoCadastrar = document.querySelector(".botao-cadastrar");
 
-        $("#tipo").val(1).trigger("change");
-        $(".tipo[value='1']").addClass("active");
-    });
+    botaoCadastrar.addEventListener("click", async (e) => {
+        e.preventDefault(); 
 
-   $(".tipo").on("click", function (e) {
-    e.preventDefault();
-    var v = $(this).val();
+        const nomeServico = document.getElementById("nome_servico").value.trim();
+        const valor = document.getElementById("valor").value.trim();
+        const descricao = document.getElementById("descricao").value.trim();
+        const fotoInput = document.querySelector('input[name="foto"]');
 
-    $(".tipo").removeClass("active");
-    $(this).addClass("active");
-
-    $("#tipo").val(v).trigger("change");
-});
-
-$("#tipo").on("change", function () {
-    var tipo = $("#tipo").val();
-
-
-    $("#cadastro1 input, #cadastro2 input, #cadastro2 select").prop("disabled", false).css("opacity", 1);
-
-    if (tipo == 1) { 
-        $("#cadastro1 .nome-marca").css("opacity", 0).prop("disabled", true);
-        $("#cadastro2 .categoria").css("opacity", 0).prop("disabled", true);
-    } 
-    else if (tipo == 2) { 
-        $("#cadastro1 .parceiro").prop("disabled", true).css("opacity", 0);
-    } 
-    else if (tipo == 3) { 
-        $("#cadastro1 .nome-marca").prop("disabled", true).css("opacity", 0);
-        $("#cadastro2 .categoria").prop("disabled", true).css("opacity", 0);
-        $("#cadastro1 .parceiro").prop("disabled", true).css("opacity", 0);
-    }
-});
-</script>
-<script>
-$(document).ready(function () {
-    $(".tipo").on("click", function () {
-        let valor = $(this).val();
-        $("#tipo").val(valor);
-
-        $(".tipo").removeClass("ativo");
-        $(this).addClass("ativo");
-    });
-
-    $("#toggleSenha").on("click", function () {
-        let senhaInput = $("#senha");
-        let icone = $("#toggleSenha");
-
-        if (senhaInput.attr("type") === "password") {
-            senhaInput.attr("type", "text");
-            icone.attr("src", "https://cdn-icons-png.flaticon.com/512/2767/2767149.png");
-        } else {
-            senhaInput.attr("type", "password");
-            icone.attr("src", "https://cdn-icons-png.flaticon.com/512/2767/2767146.png");
-        }
-    });
-
- 
-    $(".botao-cadastrar").on("click", function (e) {
-        e.preventDefault();
-
-        
-        let nome = $("#nome").val().trim();
-        let email = $("#email").val().trim();
-        let senha = $("#senha").val().trim();
-        let nomeMarca = $("#nome-marca").val().trim();
-        let telefone = $("#telefone").val().trim();
-        let dataNascimentoRaw = $("#data-nascimento").val(); 
-        let cep = $("#cep").val().trim();
-        let categoria = $("#categoria").val();
-        let tipoValor = $("#tipo").val();
-
-
-        let cargo = tipoValor === "1" ? "1" : tipoValor === "2" ? "2" : "3";
-
-        
-        let emailRegex = /^[^\s@]+@[^\s@]+\.[a-z]{2,}$/;
-        let telefoneRegex = /^[0-9]{10,11}$/;
-        let senhaRegex = /^(?=.*[A-Z])(?=.*[!@#$%^&*()_+{}":;'?/>,.<]).{8,}$/;
-
-   
-        if (!nome || !email || !senha || !telefone || !dataNascimentoRaw || !cep) {
-            return Swal.fire("Erro!", "Todos os campos são obrigatórios!", "error");
-        }
-        if (!emailRegex.test(email)) {
-            return Swal.fire("Erro!", "Digite um e-mail válido!", "error");
-        }
-        if (!senhaRegex.test(senha)) {
-            return Swal.fire("Erro!", "A senha deve ter pelo menos 8 caracteres, incluindo uma letra maiúscula e um caractere especial!", "error");
-        }
-        if (!telefoneRegex.test(telefone)) {
-            return Swal.fire("Erro!", "O telefone deve ter 10 ou 11 dígitos numéricos!", "error");
-        }
-        if (tipoValor === "2" && $("#categoria").prop("selectedIndex") === 0) {
-            return Swal.fire("Erro!", "Selecione uma categoria para fornecedor!", "error");
+  
+        if (!nomeServico || !valor || !descricao) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Ops...',
+                text: 'Por favor, preencha todos os campos!'
+            });
+            return;
         }
 
-        
-        let parts = dataNascimentoRaw.split("-");
-        let dataNascimento = parts[2] + "-" + parts[1] + "-" + parts[0]; 
+        if (!fotoInput.files[0]) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Ops...',
+                text: 'Por favor, adicione uma foto!'
+            });
+            return;
+        }
 
-        
-        let dados = {
-            nome: nome,
-            email: email,
-            senha: senha,
-            telefone: telefone,
-            data_nascimento: dataNascimento,  
-            cep: cep,
-            categoria: tipoValor === "2" ? categoria : null,
-            nome_marca: nomeMarca,
-            cargo: cargo
-        };
-        
-        console.log("Dados para envio:", dados);
 
-        $.ajax({
+        const token = localStorage.getItem("token")
+
+        const myHeaders = new Headers();
+        myHeaders.append("Authorization", token);
+
+        const formdata = new FormData();
+        formdata.append("nome", nomeServico);
+        formdata.append("descricao", descricao);
+        formdata.append("valor", valor);
+        formdata.append("imagem", fotoInput.files[0]);
+
+        const requestOptions = {
             method: "POST",
-            url: "http://10.92.3.172:5000/usuario",
-            data: JSON.stringify(dados),
-            contentType: "application/json",
-            success: function (response) {
+            headers: myHeaders,
+            body: formdata,
+            redirect: "follow"
+        };
+
+
+        try {
+            const response = await fetch(ipPython + "/servico", requestOptions);
+
+            const data = await response.json();
+
+            if (response.ok) {
                 Swal.fire({
-                    title: "Cadastro realizado com sucesso!",
-                    icon: "success"
-                }).then(() => {
-                    window.location.href = "login.html";
+                    icon: 'success',
+                    title: 'Sucesso!',
+                    text: 'Serviço cadastrado com sucesso!'
                 });
-            },
-            error: function (xhr) {
+
+        
+                document.getElementById("nome_servico").value = "";
+                document.getElementById("valor").value = "";
+                document.getElementById("descricao").value = "";
+                fotoInput.value = "";
+            } else {
                 Swal.fire({
-                    title: "Erro!",
-                    text: xhr.responseJSON?.error || "Ocorreu um erro, tente novamente.",
-                    icon: "error"
+                    icon: 'error',
+                    title: 'Erro',
+                    text: data.message || 'Ocorreu um erro ao cadastrar o serviço.'
                 });
             }
-        });
+
+        } catch (error) {
+            console.error(error);
+            Swal.fire({
+                icon: 'error',
+                title: 'Erro',
+                text: 'Não foi possível conectar ao servidor.'
+            });
+        }
     });
 });
+
 </script>
-
-
-
 
 </html>

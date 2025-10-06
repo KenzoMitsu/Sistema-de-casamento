@@ -9,6 +9,59 @@
   <script src="api.js"></script>
 </head>
 
+<body style="background: url('assets/img/fundo-alianca.jpg')">
+  <div class="overlay">
+    <div class="modal">
+      <img src="assets/img/logo-preta.png" alt="Logo Casamento Perfeito" class="logo-canto">
+      <a href="home.html">
+                    <p class="close-btn">X</p>
+                </a>
+      <h2 class="titulo">Listagem de usuários</h2>
+
+      <div class="lista">
+        <!-- Cabeçalho -->
+        <div class="lista-header">
+          <div class="header-usuario">Usuário:</div>
+          <div class="header-tipo">Tipo:</div>
+          <div class="header-acao"></div>
+        </div>
+
+        <!-- Itens -->
+        <div class="item">
+          <a href="mailto:davi@gmail.com">davi@gmail.com</a>
+          <span class="tipo">Fornecedores</span>
+          <button class="editar-btn"  onclick="window.location.href='edicao_usuarios_adm.html'">
+            <img src="https://cdn-icons-png.flaticon.com/512/1159/1159633.png" alt="editar">
+          </button>
+        </div>
+
+        <div class="item">
+          <a href="mailto:julia@gmail.com">julia@gmail.com</a>
+          <span class="tipo">Cerimonialista</span>
+          <button class="editar-btn">
+            <img src="https://cdn-icons-png.flaticon.com/512/1159/1159633.png" alt="editar">
+          </button>
+        </div>
+
+        <div class="item">
+          <a href="mailto:sthefany@gmail.com">sthefany@gmail.com</a>
+          <span class="tipo">Noivo(a)</span>
+          <button class="editar-btn">
+            <img src="https://cdn-icons-png.flaticon.com/512/1159/1159633.png" alt="editar">
+          </button>
+        </div>
+
+        <div class="item">
+          <a href="mailto:kenzo@gmail.com">kenzo@gmail.com</a>
+          <span class="tipo">Cerimonialista</span>
+          <button class="editar-btn">
+            <img src="https://cdn-icons-png.flaticon.com/512/1159/1159633.png" alt="editar">
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
 <script>
 document.addEventListener("DOMContentLoaded", async () => {
   const lista = document.querySelector(".lista");
@@ -57,59 +110,6 @@ document.addEventListener("DOMContentLoaded", async () => {
 });
 </script>
 
-
-<body style="background: url('assets/img/fundo-alianca.jpg')">
-  <div class="overlay">
-    <div class="modal">
-      <img src="assets/img/logo-preta.png" alt="Logo Casamento Perfeito" class="logo-canto">
-      <a href="home.html">
-                    <p class="close-btn">X</p>
-                </a>
-      <h2 class="titulo">Listagem de usuários</h2>
-
-      <div class="lista">
-        <!-- Cabeçalho -->
-        <div class="lista-header">
-          <div class="header-usuario">Usuário:</div>
-          <div class="header-tipo">Tipo:</div>
-          <div class="header-acao"></div>
-        </div>
-
-        <!-- Itens -->
-        <div class="item">
-          <a href="mailto:davi@gmail.com">davi@gmail.com</a>
-          <span class="tipo">Fornecedores</span>
-          <button class="editar-btn">
-            <img src="https://cdn-icons-png.flaticon.com/512/1159/1159633.png" alt="editar">
-          </button>
-        </div>
-
-        <div class="item">
-          <a href="mailto:julia@gmail.com">julia@gmail.com</a>
-          <span class="tipo">Cerimonialista</span>
-          <button class="editar-btn">
-            <img src="https://cdn-icons-png.flaticon.com/512/1159/1159633.png" alt="editar">
-          </button>
-        </div>
-
-        <div class="item">
-          <a href="mailto:sthefany@gmail.com">sthefany@gmail.com</a>
-          <span class="tipo">Noivo(a)</span>
-          <button class="editar-btn">
-            <img src="https://cdn-icons-png.flaticon.com/512/1159/1159633.png" alt="editar">
-          </button>
-        </div>
-
-        <div class="item">
-          <a href="mailto:kenzo@gmail.com">kenzo@gmail.com</a>
-          <span class="tipo">Cerimonialista</span>
-          <button class="editar-btn">
-            <img src="https://cdn-icons-png.flaticon.com/512/1159/1159633.png" alt="editar">
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
 </body>
 </html>
 

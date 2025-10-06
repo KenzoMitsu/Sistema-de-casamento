@@ -1,20 +1,84 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Listagem de Usuários</title>
   <link rel="stylesheet" href="assets/css/listagem.css">
+  <script src="api.js"></script>
 </head>
+
+<script>
+document.addEventListener("DOMContentLoaded", async () => {
+  const lista = document.querySelector(".lista");
+
+  // Mapeamento dos tipos
+  const tiposMap = {
+    1: "Noivo",
+    2: "Fornecedor",
+    3: "Cerimonialista"
+  };
+
+  try {
+    const response = await fetch(`${ipPython}/usuario`);
+    if (!response.ok) {
+      throw new Error("Erro HTTP: " + response.status);
+    }
+    const data = await response.json();
+
+    // Remove os usuários fictícios (mantém só o cabeçalho)
+    const header = document.querySelector(".lista-header");
+    lista.innerHTML = "";
+    lista.appendChild(header);
+
+    // Cria os itens reais
+    data.usuarios.forEach(u => {
+      // Se não for 1,2 ou 3, será 'Adm'
+      const tipoNome = tiposMap[u.cargo] || "Adm"; 
+      const item = document.createElement("div");
+      item.classList.add("item");
+      item.innerHTML = `
+        <a href="mailto:${u.email}">${u.email}</a>
+        <span class="tipo">${tipoNome}</span>
+        <button class="editar-btn">
+          <img src="https://cdn-icons-png.flaticon.com/512/1159/1159633.png" alt="editar">
+        </button>
+      `;
+      lista.appendChild(item);
+    });
+
+  } catch (error) {
+    console.error("Erro ao carregar usuários:", error);
+    const erroMsg = document.createElement("div");
+    erroMsg.textContent = "Erro ao carregar usuários.";
+    lista.appendChild(erroMsg);
+  }
+});
+</script>
+
+
+
+
+
 <body style="background: url('assets/img/fundo-alianca.jpg')">
   <div class="overlay">
     <div class="modal">
-         <img src="assets/img/logo-preta.png" alt="Logo Casamento Perfeito" class="logo-canto">
+      <img src="assets/img/logo-preta.png" alt="Logo Casamento Perfeito" class="logo-canto">
       <button class="close-btn">✕</button>
       <h2 class="titulo">Listagem de usuários</h2>
+
       <div class="lista">
+        <!-- Cabeçalho -->
+        <div class="lista-header">
+          <div class="header-usuario">Usuário:</div>
+          <div class="header-tipo">Tipo:</div>
+          <div class="header-acao"></div>
+        </div>
+
+        <!-- Itens -->
         <div class="item">
           <a href="mailto:davi@gmail.com">davi@gmail.com</a>
+          <span class="tipo">Fornecedores</span>
           <button class="editar-btn">
             <img src="https://cdn-icons-png.flaticon.com/512/1159/1159633.png" alt="editar">
           </button>
@@ -22,6 +86,7 @@
 
         <div class="item">
           <a href="mailto:julia@gmail.com">julia@gmail.com</a>
+          <span class="tipo">Cerimonialista</span>
           <button class="editar-btn">
             <img src="https://cdn-icons-png.flaticon.com/512/1159/1159633.png" alt="editar">
           </button>
@@ -29,13 +94,15 @@
 
         <div class="item">
           <a href="mailto:sthefany@gmail.com">sthefany@gmail.com</a>
+          <span class="tipo">Noivo(a)</span>
           <button class="editar-btn">
             <img src="https://cdn-icons-png.flaticon.com/512/1159/1159633.png" alt="editar">
           </button>
         </div>
 
-        <div class="item vazio">
-          <span>Novo usuário...</span>
+        <div class="item">
+          <a href="mailto:kenzo@gmail.com">kenzo@gmail.com</a>
+          <span class="tipo">Cerimonialista</span>
           <button class="editar-btn">
             <img src="https://cdn-icons-png.flaticon.com/512/1159/1159633.png" alt="editar">
           </button>
@@ -45,3 +112,6 @@
   </div>
 </body>
 </html>
+
+
+

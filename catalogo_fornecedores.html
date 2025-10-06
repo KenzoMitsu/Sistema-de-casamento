@@ -244,14 +244,13 @@
                     var fornecedores = retorno.usuarios;
                     fornecedores.forEach((item) => {
                     document.getElementById("exibe_fornecedores").innerHTML += `
-                    <section class="secao-ongs prod">
-                        <div class="container-ong">
-                            <div class="img-wrapper">
-                                <img src="${ipPython}/static/uploads/Livros/${item.id_usuario}.jpeg" class="img-logo" alt="Logo da ONG">
-                            </div>
+                    <section class="secao-fornecedores prod">
+                        <div class="container-fornecedor">
+                            <div onclick="window.open('perfil_ong_p_doador.html?id_usuario=${item.id_usuario}&nome=${item.nome}&email=${item.email}&data_nascimento=${item.data_nascimento}&telefone=${item.telefone}&categoria=${item.categoria}&cargo=${item.cargo}&nome_marca=${item.nome_marca}&status=${item.status}')"><div class="img-wrapper">
+                                <img src="${ipPython}/static/uploads/Usuarios/${item.id_usuario}.jpeg" class="img-logo" alt="Logo do Fornecedor">
+                            </div></div>
                             <h3 class="titulo-ong descricao">${item.nome_marca}</h3>
                             <p class="texto-ong categoria">${item.categoria}</p>
-                            <button class="btn-slide" onclick="window.open('perfil_ong_p_doador.html?id_usuario=${item.id_usuario}&nome=${item.nome}&e_mail=${item.email}&data_nascimento=${item.data_nascimento}&telefone=${item.telefone}&categoria=${item.categoria}&cargo=${item.cargo}&nome_marca=${item.nome_marca}&status=${item.status}')">Conheça</button>
                         </div>
                     </section>`;
                 });

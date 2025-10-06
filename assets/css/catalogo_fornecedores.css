@@ -659,18 +659,16 @@ body {
     color: #F3BDD1;
 }
 
-.secao-ongs {
+.secao-fornecedores {
     padding-bottom: 0px;
 }
 
-.container-ong {
+.container-fornecedor {
     display: flex;
     flex-direction: column;
     align-items: center;
     padding: 20px;
-    border: 1px solid #ccc;
     border-radius: 15px;
-    background: #fff;
     flex: 0 0 33.33%;
     box-sizing: border-box;
     margin-bottom: 40px;
@@ -703,8 +701,10 @@ body {
 }
 
 .titulo-ong {
-    font-family: 'Poppins', sans-serif;
-    font-weight: 600;
+    font-family: "Ledger", serif;
+    font-weight: 400;
+    font-size: 26px;
+    color: #DB748E;
     text-align: center;
     margin-top: 10px;
     max-width: 200px;
@@ -713,7 +713,7 @@ body {
 .texto-ong {
     font-family: 'Poppins', sans-serif;
     font-size: 14px;
-    color: #555;
+    color: #BB9245;
     margin-top: 5px;
     text-align: center;
 }

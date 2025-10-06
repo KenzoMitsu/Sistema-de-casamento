@@ -22,8 +22,8 @@
 /* Botão fechar */
 .close-btn {
   position: absolute;
-  top: 8px;
-  right: 10px;
+  top: 5px;
+  right: 20px;
   border: none;
   background: none;
   font-size: 18px;
@@ -95,5 +95,105 @@
     margin-left: -20px;
     margin-top: -40px;
 }
+.tipo {
+  margin-left: 20px;
+  font-weight: 500;
+  color: #444;
+}
+
+.lista-header,
+.lista .item {
+  display: grid;
+  grid-template-columns: 1fr 150px 44px; /* diminuí de 200px para 150px */
+  gap: 8px;                /* também reduzi o gap de 12px para 8px */
+  align-items: center;
+}
+
+.header-usuario {
+  text-align: left;
+}
+
+.header-tipo {
+  text-align: center;
+}
+
+.lista .item {
+  background: rgba(0,0,0,0.05);
+  border-radius: 6px;
+  padding: 8px;
+  margin-bottom: 8px;
+  display: grid;
+  grid-template-columns: 1fr 150px 44px; /* igual ao cabeçalho */
+  gap: 8px;
+  align-items: center;
+}
+
+.lista .item a {
+  text-decoration: none;
+  color: #333;
+  word-break: break-all;
+}
+
+.tipo {
+  text-align: center;
+  font-weight: 500;
+  color: #444;
+}
+
+.editar-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.editar-btn img {
+  width: 20px;
+  height: 20px;
+}
+/* Cabeçalho */
+.lista-header {
+  margin-bottom: 10px;
+  font-weight: 600;
+  color: #222;
+  padding: 6px 8px;
+  border-bottom: 1px solid #ddd;
+  display: grid;
+  grid-template-columns: 1fr 200px 44px;
+  align-items: center;
+}
+
+/* Alinhar cada célula do cabeçalho */
+.header-usuario {
+  text-align: left;  /* email fica à esquerda */
+}
+
+.header-tipo {
+  text-align: center;  /* centraliza a palavra "Tipo:" */
+}
+
+/* Cada linha de item */
+.lista .item {
+  display: grid;
+  grid-template-columns: 1fr 200px 44px;
+  gap: 12px;
+  align-items: center;
+  background: rgba(0,0,0,0.05);
+  border-radius: 6px;
+  padding: 8px;
+  margin-bottom: 8px;
+}
+
+/* Coluna de tipo */
+.tipo {
+  text-align: center;   /* centraliza o texto dos itens */
+  font-weight: 500;
+  color: #444;
+}
+
+
 
 

@@ -22,8 +22,8 @@
 /* Botão fechar */
 .close-btn {
   position: absolute;
-  top: 8px;
-  right: 10px;
+  top: 5px;
+  right: 20px;
   border: none;
   background: none;
   font-size: 18px;

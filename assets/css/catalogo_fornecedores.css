@@ -5,6 +5,18 @@
     box-sizing: border-box;
 }
 
+:root {
+    --rosa-claro: #FFEDF1;
+    --rosa-médio: #FFDBE4;
+    --rosa-médio-escuro: #FFC9D6;
+    --rosa-escuro: #FFB7C9;
+    --branco: white;
+    --preto: black;
+    --bege-claro: #F4F2EE;
+    --bege-médio: #EEECE1;
+    --bege-escuro: #F2EFE5;
+}
+
 /* FONTES */
 .luxurious-script-regular {
   font-family: "Luxurious Script", cursive;
@@ -38,7 +50,6 @@ body {
 
 .hero-section {
     position: relative;
-    height: 100vh;
     width: 100%;
     /* ALTERADO: Caminho da imagem de fundo */ 
     background-size: cover;
@@ -646,6 +657,83 @@ body {
 .titulos-info {
     font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     color: #F3BDD1;
+}
+
+.secao-ongs {
+    padding-bottom: 0px;
+}
+
+.container-ong {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 15px;
+    background: #fff;
+    flex: 0 0 33.33%;
+    box-sizing: border-box;
+    margin-bottom: 40px;
+}
+
+.img-wrapper {
+    position: relative;
+    width: 200px;
+    height: 300px !important;
+    margin-left: 80px;
+    /* menos altura pra não parecer vazio */
+}
+
+.exibe_fornecedores {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.img-logo {
+    width: 260px;
+    height: 260px;
+    object-fit: cover;
+    border-radius: 10px;
+    position: absolute;
+    top: 50%;
+    left: 30%;
+    transform: translate(-50%, -50%);
+}
+
+.titulo-ong {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    text-align: center;
+    margin-top: 10px;
+    max-width: 200px;
+}
+
+.texto-ong {
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    color: #555;
+    margin-top: 5px;
+    text-align: center;
+}
+
+.btn-slide {
+    margin-top: 10px;
+    background-color: var(--rosa-médio-escuro);
+    color: white;
+    font-family: 'Poppins', sans-serif;
+    padding: 8px 20px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.btn-slide:hover {
+    background-color: var(--rosa-médio);
+    border-color: var(--rosa-médio);
+    color: var(--branco);
 }
 
 /* Responsividade */

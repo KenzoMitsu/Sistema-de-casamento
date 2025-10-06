@@ -261,6 +261,7 @@
   .tipo {
     margin-top: 5px;
     font-size: 13px;
+    text-align: center;
   }
 
   .editar-btn {
@@ -271,5 +272,15 @@
     width: 80px;
     margin-top: -25px;
     margin-left: -10px;
+  }
+
+  .header-usuario {
+    position: absolute;
+    color: transparent;
+  }
+
+  .header-tipo {
+    position: absolute;
+    color: transparent;
   }
 }

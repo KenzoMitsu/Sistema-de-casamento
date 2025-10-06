@@ -1,0 +1,99 @@
+/* Fundo esmaecido */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Janela principal */
+.modal {
+  background: white;
+  border-radius: 10px;
+  width: 810px;
+  padding: 20px 25px 25px 25px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  position: relative;
+}
+
+/* Botão fechar */
+.close-btn {
+  position: absolute;
+  top: 8px;
+  right: 10px;
+  border: none;
+  background: none;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  color: #444;
+}
+
+/* Título */
+.titulo {
+  text-align: center;
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 15px;
+}
+
+/* Lista */
+.lista {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* Cada item */
+.item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #e8e8e8;
+  border-radius: 4px;
+  padding: 8px 10px;
+}
+
+/* Link de e-mail */
+.item a {
+  color: #2b2b8a;
+  text-decoration: underline;
+  font-size: 15px;
+}
+
+/* Botão de editar */
+.editar-btn {
+  background: #d9d9d9;
+  border: none;
+  padding: 6px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.editar-btn:hover {
+  background: #c9c9c9;
+}
+
+/* Ícone */
+.editar-btn img {
+  width: 16px;
+  height: 16px;
+}
+
+/* Item vazio (para novo usuário) */
+.item.vazio {
+  color: #888;
+  font-style: italic;
+}
+.logo-canto {
+    width: 115px;
+    position: absolute;
+    margin-left: -20px;
+    margin-top: -40px;
+}
+
+

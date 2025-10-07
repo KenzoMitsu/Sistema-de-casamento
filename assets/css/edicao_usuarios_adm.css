@@ -1,8 +1,9 @@
 * {
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
     text-decoration: none;
-    transition: all 0.5s;
+    transition: all 0.3s ease;
 }
 
 :root {
@@ -15,294 +16,295 @@
     --bege-claro: #F4F2EE;
     --bege-médio: #EEECE1;
     --bege-escuro: #F2EFE5;
+    --cinza: #666;
+}
+
+body {
+    font-family: 'Ledger', serif;
+    margin: 0;
+    padding: 0;
 }
 
 .principal {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.4);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  overflow-y: auto;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.4);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow-y: auto;
+    padding: 20px;
 }
 
-/* .principal {
-    width: 100%;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 20px;
-    background: url('../img/background2.png') no-repeat center center fixed;
-    background-size: cover;
-} */
-
 .formulario {
-    width: 600px;
-    height: auto;
+    position: relative;
+    width: 100%;
+    max-width: 600px;
     background-color: var(--branco);
     border-radius: 10px;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.25);
+    border: 1px solid var(--preto);
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 20px;
+    padding: 80px 40px 40px;
     gap: 20px;
-    border-color: var(--preto);
-}
-
-.cadastro-sec {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-}
-
-.cadastro1 {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    margin-right: 40px;
-    width: 250px;
-}
-
-.cadastro2 {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    width: 250px;
-    margin-top: -5px;
 }
 
 .titulo {
     font-weight: 500;
     font-size: 28px;
     color: var(--preto);
-    padding-top: 20px;
-}
-
-.bot-fechar {
-    font-size: 20px;
-    text-decoration: none;
-    color: black;
-    position: absolute;
-    margin-left: 260px;
-    margin-top: -80px;
+    text-align: center;
+    margin-bottom: 10px;
 }
 
 .logo-canto {
-    width: 115px;
     position: absolute;
-    margin-left: -480px;
-    margin-top: -40px;
+    width: 115px;
+    top: 20px;
+    left: 30px;
 }
 
+.bot-fechar {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    font-size: 24px;
+    font-weight: bold;
+    color: var(--preto);
+    cursor: pointer;
+    width: 35px;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    margin: 0;
+}
 
-.opcoes-cadastro {
+.bot-fechar:hover {
+    background-color: var(--rosa-médio);
+}
+
+.cadastro-sec {
     display: flex;
     flex-direction: row;
-    gap: 20px;
-}
-
-.tipo {
-    width: 170px;
-    height: 40px;
-    border: none;
-    border-radius: 10px;
-    border-color: var(--preto);
-    background-color: var(--branco);
-    font-size: 16px;
-    cursor: pointer;
-    border: 1px solid var(--preto);
-    font-family: "Ledger", serif;
-    font-weight: 400;
-    font-size: 17px;
-}
-
-.tipo.active {
-    background-color: var(--rosa-médio-escuro);
-    border: 1px solid var(--preto);
-}
-
-.tipo:hover {
-    background-color: var(--rosa-escuro);
-    color: var(--branco);
-    border: 1px solid var(--preto);
-}
-
-input {
+    align-items: flex-start;
+    justify-content: center;
+    gap: 30px;
     width: 100%;
-    height: 40px;
-    border: 1px solid var(--preto);
-    border-radius: 3px;
-    padding-left: 10px;
-    font-size: 10px;
-    font-family: "Ledger", serif;
 }
 
-.botao-editar {
-    width: 50%;
-    height: 50px;
-    border: 1px solid var(--preto);
-    border-radius: 10px;
-    background-color: var(--rosa-médio-escuro);
-    color: var(--branco);
-    font-size: 16px;
-    cursor: pointer;
-    font-family: "Ledger", serif;
-    font-weight: 400;
-    font-size: 20px;
-    margin-top: 10px;
-    margin-bottom: 25px;
+.cadastro1,
+.cadastro2 {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 100%;
+    max-width: 250px;
 }
 
-.login {
-    font-weight: 500;
-    margin-top: 10px;
-    text-decoration: none;
+.cadastro2 {
+    margin-top: 0;
 }
 
-.categoria {
-    width: 50%;
-    height: 40px;
+/* Padronização de todos os inputs e selects */
+input,
+select {
+    width: 100%;
+    height: 45px;
     border: 1px solid var(--preto);
-    border-radius: 3px;
-    padding-left: 10px;
+    border-radius: 5px;
+    padding: 0 12px;
+    font-size: 14px;
+    font-family: 'Ledger', serif;
+    background-color: var(--branco);
+}
+
+input:focus,
+select:focus {
+    outline: none;
+    border-color: var(--rosa-escuro);
+    box-shadow: 0 0 0 2px rgba(255, 183, 201, 0.2);
+}
+
+/* Campos específicos de fornecedor */
+#campos-fornecedor {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 100%;
+    max-width: 530px;
 }
 
 .nome-marca {
     width: 100%;
-    height: 40px;
+}
+
+.categoria {
+    width: 100%;
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23000' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    padding-right: 35px;
+}
+
+.botao-editar {
+    width: 100%;
+    max-width: 300px;
+    height: 50px;
     border: 1px solid var(--preto);
-    border-radius: 3px;
-    padding-left: 10px;
-    position: relative;
+    border-radius: 10px;
+    background-color: var(--rosa-médio-escuro);
+    color: var(--preto);
+    font-size: 20px;
+    font-weight: 500;
+    cursor: pointer;
+    font-family: 'Ledger', serif;
+    margin-top: 10px;
 }
 
-.senha-container {
-  position: relative;
-  width: 100%;
+.botao-editar:hover {
+    background-color: var(--rosa-escuro);
+    color: var(--branco);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
-.senha-container input {
-  width: 100%;
-  padding-right: 40px; 
+.botao-editar:active {
+    transform: translateY(0);
 }
-
-.senha-container img {
-  position: absolute;
-  right: 10px;  
-  top: 50%;
-  transform: translateY(-50%); 
-  width: 20px;
-  cursor: pointer;
-}
-
 
 /* RESPONSIVO */
 @media (max-width: 768px) {
-
-}
-
-@media (max-width: 426px) {
-    body {
-        margin: 0;
-        padding: 0;
-        background: url('../img/background2.png') no-repeat center center fixed;
-        background-size: cover;
-        font-family: 'Ledger', serif;
-    }
-
-    .principal {
-        white-space: nowrap;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        min-height: 100vh;
-    }
     .formulario {
-        margin-top: 200px;
-        padding: 20px;
-        max-width: 350px;
-        width: 100%;
+        max-width: 500px;
+        padding: 70px 30px 35px;
     }
-    .opcoes-cadastro {
-        display: flex;
-        flex-direction: column;
+
+    .logo-canto {
+        width: 90px;
+        left: 20px;
+    }
+
+    .bot-fechar {
+        right: 20px;
+        font-size: 22px;
+    }
+
+    .cadastro-sec {
         gap: 20px;
     }
-    .cadastro-sec {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-    }
-    .cadastro1 {
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-        margin-right: 0px;
-        width: 250px;
-    }
-    .cadastro2 {
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-        width: 250px;
-        margin-top: 10px;
-    }
-    .botao-editar {
-        margin-top: -5px;
-    }
-    .logo-canto {
-        width: 80px;
-        position: absolute;
-        margin-left: -270px;
-        margin-top: -30px;
-    }
-    .bot-fechar {
-        font-size: 20px;
-        text-decoration: none;
-        color: black;
-        position: absolute;
-        margin-left: 145px;
-        margin-top: -110px;
-    }
+
     .titulo {
-        font-size: 28px;
-
-        padding-top: 40px;
-    }
-    .categoria {
-        width: 250px;
+        font-size: 26px;
     }
 }
 
-@media (max-width: 376px) {
+@media (max-width: 576px) {
+    .principal {
+        padding: 15px;
+    }
+
     .formulario {
-        margin-top: 200px;
-        padding: 20px;
-        max-width: 350px;
-        width: 300px;
+        padding: 70px 25px 30px;
     }
-    .bot-fechar {
-        font-size: 20px;
-        text-decoration: none;
-        color: black;
-        position: absolute;
-        margin-left: 120px;
-        margin-top: -110px;
+
+    .cadastro-sec {
+        flex-direction: column;
+        gap: 0;
     }
+
+    .cadastro1,
+    .cadastro2 {
+        max-width: 100%;
+        margin: 0;
+    }
+
+    .cadastro2 {
+        margin-top: 0;
+    }
+
+    #campos-fornecedor {
+        max-width: 100%;
+    }
+
     .logo-canto {
-        width: 80px;
-        position: absolute;
-        margin-left: -220px;
-        margin-top: -30px;
+        width: 75px;
+        left: 15px;
+        top: 15px;
+    }
+
+    .bot-fechar {
+        right: 15px;
+        top: 15px;
+        font-size: 20px;
+        width: 30px;
+        height: 30px;
+    }
+
+    .titulo {
+        font-size: 24px;
+    }
+
+    input,
+    select {
+        height: 42px;
+        font-size: 13px;
+    }
+
+    .botao-editar {
+        font-size: 18px;
+        height: 48px;
+        max-width: 100%;
     }
 }
 
-@media (max-width: 321px) {
+@media (max-width: 375px) {
+    .formulario {
+        padding: 65px 20px 25px;
+    }
+
+    .logo-canto {
+        width: 65px;
+        left: 12px;
+        top: 12px;
+    }
+
+    .bot-fechar {
+        right: 12px;
+        top: 12px;
+    }
+
+    .titulo {
+        font-size: 22px;
+    }
+
+    input,
+    select {
+        height: 40px;
+        font-size: 12px;
+    }
+
+    .botao-editar {
+        font-size: 17px;
+        height: 45px;
+    }
+}
+
+@media (max-width: 320px) {
+    .formulario {
+        padding: 60px 15px 20px;
+    }
+
+    .logo-canto {
+        width: 60px;
+    }
+
+    .titulo {
+        font-size: 20px;
+    }
 }

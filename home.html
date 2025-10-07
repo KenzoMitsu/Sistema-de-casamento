@@ -15,8 +15,38 @@
 
     <link rel="stylesheet" href="assets/css/home.css">
 
-    <!-- SweetAlert baixado -->
-     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+     
+     <style>
+        .modal-options-container a, .modal-options-container button {
+            display: block;
+            padding: 12px 20px;
+            margin: 10px 0;
+            border-radius: 5px;
+            text-decoration: none;
+            text-align: center;
+            width: 100%;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+            font-size: 16px;
+            cursor: pointer;
+            border: 1px solid #ddd;
+            background-color: #f9f9f9;
+            color: #333;
+            transition: background-color 0.3s;
+        }
+        .modal-options-container a:hover {
+            background-color: #eee;
+        }
+        .modal-options-container .logout-btn {
+            background-color: #f44336;
+            color: white;
+            border: none;
+        }
+        .modal-options-container .logout-btn:hover {
+            background-color: #d32f2f;
+        }
+     </style>
 </head>
 <body>
 
@@ -30,7 +60,7 @@
                 <nav class="navbar">
                     <ul>
                         <li><a href="#">Home</a></li> 
-        
+    
                         <li><a href="#">Sobre Nós</a></li>
                         <li><a href="#">Contato</a></li>
                         <li><a id="profileLink" href="#"><img src="assets/img/perfil.png" alt="Ícone de Perfil" class="profile-icon"></a></li>
@@ -39,20 +69,17 @@
             </div>
         </header>
 
-        <!-- Modal de Logout -->
         <div id="logoutModal" class="modal-overlay">
             <div class="modal-content">
                 <span class="close-button">&times;</span>
                 <h2>Opções da Conta</h2>
-                <p>Deseja sair da sua conta?</p>
-                <button id="logoutButton" class="logout-btn">Sair</button>
+                <div id="modalOptionsContainer" class="modal-options-container">
+                    </div>
             </div>
         </div>
 
     <script src="assets/js/main.js"></script>
-    <!--  -->
-
-        <div class="hero-content">
+    <div class="hero-content">
             <p class="hero-subtitle">SEU SONHO</p>
             <h1 class="hero-title">Começa Aqui!</h1>
             <a href="#" class="hero-button">CERIMONIALISTA</a>
@@ -256,25 +283,22 @@ document.addEventListener('DOMContentLoaded', () => {
     const atualizarBotaoPrincipal = () => {
         const cargo = localStorage.getItem('cargo');
         
-        // Seleciona o botão principal pela sua classe
         const botaoHeroi = document.querySelector('.hero-button');
-
         if (!botaoHeroi) {
             console.error("Botão principal (.hero-button) não encontrado.");
             return;
         }
 
-        // Regras de exibição baseadas no cargo
-        // Assumindo: 1 = noivo, 2 = cerimonialista, 3 = fornecedor
+        // Assumindo: 1 = noivo, 2 = fornecedor, 3 = cerimonialista
         if (cargo === '1') { // Se for NOIVO
             botaoHeroi.textContent = 'Cerimonialistas e Fornecedores';
-            botaoHeroi.href = 'pagina-de-busca.html'; // Defina o link correto
-            botaoHeroi.style.display = 'inline-block'; // Garante que o botão seja visível
+            botaoHeroi.href = 'pagina-de-busca.html'; 
+            botaoHeroi.style.display = 'inline-block';
         } 
         else if (cargo === '3') { // Se for CERIMONIALISTA
             botaoHeroi.textContent = 'Fornecedores';
-            botaoHeroi.href = 'catalogo_fornecedores.html'; // Defina o link correto
-            botaoHeroi.style.display = 'inline-block'; // Garante que o botão seja visível
+            botaoHeroi.href = 'catalogo_fornecedores.html';
+            botaoHeroi.style.display = 'inline-block';
         }
         else { 
             // Para outros cargos (como fornecedor), esconde o botão
@@ -287,7 +311,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const token = localStorage.getItem('token'); 
 
         if (!token) {
-            // Se não estiver logado, esconde o botão principal
             const botaoHeroi = document.querySelector('.hero-button');
             if(botaoHeroi) {
                 botaoHeroi.style.display = 'none';
@@ -305,28 +328,18 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             });
         } else {
-            // Se o usuário está autenticado, atualizamos o botão
             atualizarBotaoPrincipal();
         }
     };
 
-    // Chama a função de verificação assim que a página carrega
     checkAuthentication();
 
-    // --- O resto do seu código para o modal de logout continua igual ---
+    // --- Lógica do Modal ---
 
     const profileLink = document.getElementById('profileLink');
     const logoutModal = document.getElementById('logoutModal');
     const closeModalButton = document.querySelector('.close-button');
-    const logoutButton = document.getElementById('logoutButton');
-
-    const openModal = () => {
-        logoutModal.style.display = 'flex';
-    };
-
-    const closeModal = () => {
-        logoutModal.style.display = 'none';
-    };
+    const modalOptionsContainer = document.getElementById('modalOptionsContainer');
 
     const handleLogout = () => {
         localStorage.clear();
@@ -342,17 +355,64 @@ document.addEventListener('DOMContentLoaded', () => {
         closeModal();
     };
 
-    if(profileLink) {
+    const openModal = () => {
+        // Limpa opções anteriores para evitar duplicatas
+        modalOptionsContainer.innerHTML = '';
+
+        const cargo = localStorage.getItem('cargo');
+
+        // Assumindo: 1 = noivo, 2 = fornecedor, 3 = cerimonialista
+        if (cargo === '2') { // Se for FORNECEDOR
+            // Opção: Editar Perfil
+            const editProfileLink = document.createElement('a');
+            editProfileLink.href = 'editar_fornecedor.html';
+            editProfileLink.textContent = 'Editar perfil';
+            modalOptionsContainer.appendChild(editProfileLink);
+
+            // Opção: Editar Serviço
+            const editServiceLink = document.createElement('a');
+            editServiceLink.href = 'editar_servico.html';
+            editServiceLink.textContent = 'Editar serviço';
+            modalOptionsContainer.appendChild(editServiceLink);
+
+        } else if (cargo === '1' || cargo === '3') { // Se for NOIVO ou CERIMONIALISTA
+            const editProfileLink = document.createElement('a');
+            if (cargo === '1') { // Noivo
+                editProfileLink.href = 'editar_noivo.html';
+            } else { // Cerimonialista
+                editProfileLink.href = 'editar_cerimonialista.html';
+            }
+            editProfileLink.textContent = 'Editar perfil';
+            modalOptionsContainer.appendChild(editProfileLink);
+        }
+
+        // Opção de Sair da Conta (comum a todos)
+        const logoutButton = document.createElement('button');
+        logoutButton.textContent = 'Sair da conta';
+        logoutButton.className = 'logout-btn'; // Adiciona a classe para estilização
+        logoutButton.addEventListener('click', handleLogout); // Adiciona o evento de logout
+        modalOptionsContainer.appendChild(logoutButton);
+
+        // Exibe o modal
+        logoutModal.style.display = 'flex';
+    };
+
+    const closeModal = () => {
+        logoutModal.style.display = 'none';
+    };
+
+    if (profileLink) {
         profileLink.addEventListener('click', (event) => {
             event.preventDefault();
             openModal();
         });
     }
 
-    if(logoutButton) logoutButton.addEventListener('click', handleLogout);
-    if(closeModalButton) closeModalButton.addEventListener('click', closeModal);
+    if (closeModalButton) {
+        closeModalButton.addEventListener('click', closeModal);
+    }
 
-    if(logoutModal) {
+    if (logoutModal) {
         logoutModal.addEventListener('click', (event) => {
             if (event.target === logoutModal) {
                 closeModal();

@@ -301,9 +301,15 @@ document.addEventListener('DOMContentLoaded', () => {
             botaoHeroi.href = 'catalogo_fornecedores.html';
             botaoHeroi.style.display = 'inline-block';
         }
+        else if (cargo === '4') { // Se for CERIMONIALISTA
+            botaoHeroi.textContent = 'Fornecedores';
+            botaoHeroi.href = 'catalogo_fornecedores.html';
+            botaoHeroi.style.display = 'inline-block';
+        }
         else { 
             // Para outros cargos (como fornecedor), esconde o botão
             botaoHeroi.style.display = 'none';
+            botaoHeroi.style.display = 'inline-block';
         }
     };
 
@@ -372,7 +378,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Opção: Editar Serviço
             const editServiceLink = document.createElement('a');
-            editServiceLink.href = 'editar_servico.html';
+            editServiceLink.href = 'catalogo_servicos.html';
             editServiceLink.textContent = 'Editar serviço';
             modalOptionsContainer.appendChild(editServiceLink);
 

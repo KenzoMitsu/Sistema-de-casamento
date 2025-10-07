@@ -17,8 +17,8 @@
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="api.js"></script>
-     
-     <style>
+    
+    <style>
         .modal-options-container a, .modal-options-container button {
             display: block;
             padding: 12px 20px;
@@ -47,7 +47,7 @@
         .modal-options-container .logout-btn:hover {
             background-color: #d32f2f;
         }
-     </style>
+    </style>
 </head>
 <body>
 
@@ -75,7 +75,7 @@
                 <span class="close-button">&times;</span>
                 <h2>Opções da Conta</h2>
                 <div id="modalOptionsContainer" class="modal-options-container">
-                    </div>
+                </div>
             </div>
         </div>
 
@@ -301,15 +301,14 @@ document.addEventListener('DOMContentLoaded', () => {
             botaoHeroi.href = 'catalogo_fornecedores.html';
             botaoHeroi.style.display = 'inline-block';
         }
-        else if (cargo === '4') { // Se for CERIMONIALISTA
-            botaoHeroi.textContent = 'Fornecedores';
-            botaoHeroi.href = 'catalogo_fornecedores.html';
+        else if (cargo === '4') { // Se for ADM
+            botaoHeroi.textContent = 'Gerenciar usuários';
+            botaoHeroi.href = 'listagem.html'; // Pode direcionar para a listagem ou um dashboard
             botaoHeroi.style.display = 'inline-block';
         }
         else { 
             // Para outros cargos (como fornecedor), esconde o botão
             botaoHeroi.style.display = 'none';
-            botaoHeroi.style.display = 'inline-block';
         }
     };
 
@@ -368,7 +367,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const cargo = localStorage.getItem('cargo');
 
-        // Assumindo: 1 = noivo, 2 = fornecedor, 3 = cerimonialista
+        // 1 = noivo, 2 = fornecedor, 3 = cerimonialista, 4 = admin
         if (cargo === '2') { // Se for FORNECEDOR
             // Opção: Editar Perfil
             const editProfileLink = document.createElement('a');
@@ -391,6 +390,15 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             editProfileLink.textContent = 'Editar perfil';
             modalOptionsContainer.appendChild(editProfileLink);
+            
+        // --- INÍCIO DA ALTERAÇÃO ---
+        } else if (cargo === '4') { // Se for ADMIN
+            const listagemLink = document.createElement('a');
+            listagemLink.href = 'listagem.html'; // Redireciona para a página de listagem
+            listagemLink.textContent = 'Gerenciar Usuários';
+            modalOptionsContainer.appendChild(listagemLink);
+        // --- FIM DA ALTERAÇÃO ---
+
         }
 
         // Opção de Sair da Conta (comum a todos)

@@ -90,8 +90,8 @@
                     return; // Para a execução do script
                 }
 
-                // 2. BUSCAR E EXIBIR OS DADOS DO FORNECEDOR
-                // A sua rota `/fornecedores` retorna uma lista, então precisamos encontrar o usuário correto
+                // EXIBIR OS DADOS DO FORNECEDOR
+                // fornecedores retorna uma lista, então precisamos encontrar o usuário correto
                 $.ajax({
                     url: ipPython + '/fornecedores',
                     method: 'GET',

@@ -1,102 +1,40 @@
-/* Fundo esmaecido */
+/* ========== VARIÁVEIS ========== */
+:root {
+    --rosa-claro: #FFEDF1;
+    --rosa-médio: #FFDBE4;
+    --rosa-médio-escuro: #FFC9D6;
+    --rosa-escuro: #FFB7C9;
+    --branco: white;
+    --preto: black;
+}
+
+/* ========== FUNDO E MODAL ========== */
 .overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.4);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  min-height: 100vh;
-  overflow-y: auto;
-  z-index: 100;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.4);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    min-height: 100vh;
+    overflow-y: auto;
+    z-index: 100;
 }
 
-/* Janela principal */
 .modal {
-  background: white;
-  margin-top: 200px;
-  border-radius: 10px;
-  width: 810px;
-  padding: 20px 25px 25px 25px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-  position: relative;
-  z-index: 101;
-  pointer-events: auto; 
-  position: relative;
+    background: white;
+    margin-top: 200px;
+    border-radius: 10px;
+    width: 810px;
+    padding: 20px 25px 25px 25px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    position: relative;
+    z-index: 101;
+    pointer-events: auto;
 }
 
-
-/* Botão fechar */
-.close-btn {
-  position: absolute;
-  top: 5px;
-  right: 20px;
-  border: none;
-  background: none;
-  font-size: 18px;
-  font-weight: bold;
-  cursor: pointer;
-  color: #444;
-}
-
-/* Título */
-.titulo {
-  text-align: center;
-  font-size: 18px;
-  font-weight: 600;
-  margin-bottom: 15px;
-}
-
-/* Lista */
-.lista {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-/* Cada item */
-.item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: #e8e8e8;
-  border-radius: 4px;
-  padding: 8px 10px;
-}
-
-/* Link de e-mail */
-.item a {
-  color: #2b2b8a;
-  text-decoration: underline;
-  font-size: 15px;
-}
-
-/* Botão de editar */
-.editar-btn {
-  background: #d9d9d9;
-  border: none;
-  padding: 6px;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background 0.2s;
-}
-
-.editar-btn:hover {
-  background: #c9c9c9;
-}
-
-/* Ícone */
-.editar-btn img {
-  width: 16px;
-  height: 16px;
-}
-
-/* Item vazio (para novo usuário) */
-.item.vazio {
-  color: #888;
-  font-style: italic;
-}
+/* ========== LOGO E BOTÃO FECHAR ========== */
 .logo-canto {
     width: 115px;
     position: absolute;
@@ -104,216 +42,262 @@
     margin-top: -40px;
 }
 
-/* X para fechar */
-.bot-fechar {
-    font-size: 20px;
-    text-decoration: none;
-    color: black;
+.close-btn {
     position: absolute;
-    margin-left: 260px;
-    margin-top: -80px;
+    top: 5px;
+    right: 20px;
+    border: none;
+    background: none;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    color: #444;
 }
 
-
-.tipo {
-  margin-left: 20px;
-  font-weight: 500;
-  color: #444;
+/* ========== TÍTULO ========== */
+.titulo {
+    text-align: center;
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 15px;
 }
 
-.lista-header,
-.lista .item {
-  display: grid;
-  grid-template-columns: 1fr 150px 44px; /* diminuí de 200px para 150px */
-  gap: 8px;                /* também reduzi o gap de 12px para 8px */
-  align-items: center;
+/* ========== BOTÕES DE FILTRO ========== */
+.filtros {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 25px;
+    padding: 0 20px;
+}
+
+/* Estilo dos botões de filtro */
+button.tipo {
+    width: 140px;
+    height: 40px;
+    border: 1px solid var(--preto);
+    border-radius: 10px;
+    background-color: var(--branco);
+    color: var(--preto);
+    font-size: 17px;
+    cursor: pointer;
+    font-family: "Ledger", serif;
+    font-weight: 400;
+    
+    /* Melhorias de clique */
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+    touch-action: manipulation;
+    transition: all 0.3s ease;
+}
+
+button.tipo:hover {
+    background-color: var(--rosa-escuro);
+    color: var(--branco);
+    border: 1px solid var(--preto);
+}
+
+button.tipo.active {
+    background-color: var(--rosa-médio-escuro);
+    border: 1px solid var(--preto);
+    color: var(--preto);
+}
+
+button.tipo:active {
+    transform: scale(0.95);
+    transition: transform 0.1s ease;
+}
+
+/* ========== LISTA ========== */
+.lista {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+/* Cabeçalho */
+.lista-header {
+    margin-bottom: 10px;
+    font-weight: 600;
+    color: #222;
+    padding: 6px 8px;
+    border-bottom: 1px solid #ddd;
+    display: grid;
+    grid-template-columns: 1fr 150px 44px;
+    gap: 8px;
+    align-items: center;
 }
 
 .header-usuario {
-  text-align: left;
+    text-align: left;
 }
 
 .header-tipo {
-  text-align: center;
+    text-align: center;
 }
 
+/* Cada item da lista */
 .lista .item {
-  background: rgba(0,0,0,0.05);
-  border-radius: 6px;
-  padding: 8px;
-  margin-bottom: 8px;
-  display: grid;
-  grid-template-columns: 1fr 150px 44px; /* igual ao cabeçalho */
-  gap: 8px;
-  align-items: center;
+    display: grid;
+    grid-template-columns: 1fr 150px 44px;
+    gap: 8px;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.05);
+    border-radius: 6px;
+    padding: 8px;
+    margin-bottom: 8px;
 }
 
 .lista .item a {
-  text-decoration: none;
-  color: #333;
-  word-break: break-word;
-  overflow-wrap: anywhere;
+    text-decoration: none;
+    color: #333;
+    word-break: break-word;
+    overflow-wrap: anywhere;
 }
 
-.tipo {
-  text-align: center;
-  font-weight: 500;
-  color: #444;
+/* Label de tipo na lista (NÃO é botão) */
+.tipo-label {
+    text-align: center;
+    font-weight: 500;
+    color: #444;
 }
 
+/* Botão de editar */
 .editar-btn {
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  padding: 6px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+}
+
+.editar-btn:hover {
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
 }
 
 .editar-btn img {
-  width: 20px;
-  height: 20px;
-}
-/* Cabeçalho */
-.lista-header {
-  margin-bottom: 10px;
-  font-weight: 600;
-  color: #222;
-  padding: 6px 8px;
-  border-bottom: 1px solid #ddd;
-  display: grid;
-  grid-template-columns: 1fr 200px 44px;
-  align-items: center;
+    width: 20px;
+    height: 20px;
 }
 
-/* Alinhar cada célula do cabeçalho */
-.header-usuario {
-  text-align: left;  /* email fica à esquerda */
+/* ========== RESPONSIVIDADE ========== */
+@media (max-width: 768px) {
+    .modal {
+        width: 610px;
+    }
+
+    .filtros {
+        gap: 12px;
+    }
 }
 
-.header-tipo {
-  text-align: center;  /* centraliza a palavra "Tipo:" */
-}
+@media (max-width: 576px) {
+    .filtros {
+        gap: 10px;
+    }
 
-/* Cada linha de item */
-.lista .item {
-  display: grid;
-  grid-template-columns: 1fr 200px 44px;
-  gap: 12px;
-  align-items: center;
-  background: rgba(0,0,0,0.05);
-  border-radius: 6px;
-  padding: 8px;
-  margin-bottom: 8px;
-}
-
-/* Coluna de tipo */
-.tipo {
-  text-align: center;   /* centraliza o texto dos itens */
-  font-weight: 500;
-  color: #444;
-}
-
-
-/* Responsividade */
-@media (max-width: 769px) {
-  .modal {
-    width: 610px;
-  }
+    button.tipo {
+        min-height: 44px;
+        width: 150px;
+        font-size: 15px;
+    }
 }
 
 @media (max-width: 426px) {
-  .modal {
-    width: 350px;
-    margin-top: 350px;
-  }
-  .lista .item a {
-    font-size: 13px;
-  }
-  .item {
-    font-size: 15px;
-  }
-  .logo-canto{
-    width: 120px;
-  }
-  .bot-fechar {
-      font-size: 20px;
-      text-decoration: none;
-      color: black;
-      position: absolute;
-      margin-left: 145px;
-      margin-top: -110px;
-  }
-}
+    .modal {
+        width: 350px;
+        margin-top: 350px;
+    }
 
-@media (max-width: 376px) {
-   .modal {
-    width: 85%;
-    margin-top: 570px;
-  }
-  .logo-canto{
-    width: 100px;
-  }
-  .bot-fechar {
-        font-size: 20px;
-        text-decoration: none;
-        color: black;
-        position: absolute;
-        margin-left: 120px;
+    .lista .item a {
+        font-size: 13px;
+    }
+
+    .logo-canto {
+        width: 120px;
+    }
+
+    .close-btn {
+        margin-left: 145px;
         margin-top: -110px;
     }
 }
 
+@media (max-width: 375px) {
+    .modal {
+        width: 85%;
+        margin-top: 570px;
+    }
+
+    .logo-canto {
+        width: 100px;
+    }
+
+    .close-btn {
+        margin-left: 120px;
+        margin-top: -110px;
+    }
+
+    .filtros {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    button.tipo {
+        width: 100%;
+        max-width: 200px;
+    }
+}
+
 @media (max-width: 321px) {
-  .modal {
-    width: 90%;
-    padding: 10px;
-    margin-top: 810px;
-  }
+    .modal {
+        width: 90%;
+        padding: 10px;
+        margin-top: 810px;
+    }
 
-  .titulo {
-    font-size: 14px;
-  }
+    .titulo {
+        font-size: 14px;
+    }
 
-  .lista .item,
-  .lista-header {
-    grid-template-columns: 1fr;
-    text-align: center;
-  }
+    .lista .item,
+    .lista-header {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
 
-  .lista .item a {
-    font-size: 13px;
-    word-break: normal;
-    overflow-wrap: anywhere;
-    white-space: normal;
-    display: inline-block;
-    text-align: center;
-  }
+    .lista .item a {
+        font-size: 13px;
+        text-align: center;
+    }
 
-  .tipo {
-    margin-top: 5px;
-    font-size: 13px;
-    text-align: center;
-  }
+    .tipo-label {
+        margin-top: 5px;
+        font-size: 13px;
+    }
 
-  .editar-btn {
-    margin-top: 4px;
-  }
+    .editar-btn {
+        margin-top: 4px;
+    }
 
-  .logo-canto{
-    width: 80px;
-    margin-top: -25px;
-    margin-left: -10px;
-  }
+    .logo-canto {
+        width: 80px;
+        margin-top: -25px;
+        margin-left: -10px;
+    }
 
-  .header-usuario {
-    position: relative;
-    color: transparent;
-  }
+    .header-usuario,
+    .header-tipo {
+        color: transparent;
+    }
 
-  .header-tipo {
-    position: relative;
-    color: transparent;
-  }
+    button.tipo {
+        width: 100%;
+        font-size: 15px;
+    }
 }

@@ -26,6 +26,15 @@
 
       <h2 class="titulo">Listagem de usuários</h2>
 
+      <!-- Botões de filtro -->
+      <div class="filtros">
+        <button class="tipo active" data-cargo="todos" onclick="filtrarPorCargo('todos')">Todos</button>
+        <button class="tipo" data-cargo="1" onclick="filtrarPorCargo(1)">Noivos</button>
+        <button class="tipo" data-cargo="2" onclick="filtrarPorCargo(2)">Fornecedores</button>
+        <button class="tipo" data-cargo="3" onclick="filtrarPorCargo(3)">Cerimonialistas</button>
+        <button class="tipo" data-cargo="4" onclick="filtrarPorCargo(4)">ADMs</button>
+      </div>
+
       <div class="lista">
         <!-- Cabeçalho -->
         <div class="lista-header">
@@ -38,44 +47,47 @@
   </div>
   
   <script>
+    let todosUsuarios = []; // Armazena todos os usuários
+
     document.addEventListener("DOMContentLoaded", async () => {
         const token = localStorage.getItem('token'); 
 
         if (!token) {
-            // A biblioteca Swal precisa ser importada no <head> para funcionar
             Swal.fire({
                 icon: 'warning',
                 title: 'Acesso Restrito',
                 text: 'Você precisa estar logado para acessar esta página.',
                 confirmButtonText: 'Entendi, ir para Login',
-                allowOutsideClick: false, // Impede que o usuário feche o modal clicando fora
+                allowOutsideClick: false,
             }).then((result) => {
                 if (result.isConfirmed) {
-                    window.location.href = 'login.html'; // Redireciona para o login
+                    window.location.href = 'login.html';
                 }
             });
-
             return; 
         }
 
+        await carregarUsuarios(token);
+    });
+
+    async function carregarUsuarios(token) {
         const lista = document.querySelector(".lista");
 
         const tiposMap = {
             1: "Noivo",
             2: "Fornecedor",
-            3: "Cerimonialista"
+            3: "Cerimonialista",
+            4: "ADM"
         };
 
         try {
-            // Certifique-se de que a variável 'ipPython' está definida (provavelmente em api.js)
             const response = await fetch(`${ipPython}/usuario`, {
                 headers: {
-                    'Authorization': `Bearer ${token}` // É uma boa prática enviar o token para a API
+                    'Authorization': `Bearer ${token}`
                 }
             });
 
             if (response.status === 401 || response.status === 403) {
-                // Se o token for inválido, redireciona também
                 throw new Error("Token inválido ou expirado.");
             }
             
@@ -84,44 +96,94 @@
             }
 
             const data = await response.json();
+            todosUsuarios = data.usuarios; // Armazena todos os usuários
 
+            renderizarUsuarios(todosUsuarios);
+
+        } catch (error) {
+            console.error("Erro ao carregar usuários:", error);
+            
             const header = document.querySelector(".lista-header");
             lista.innerHTML = "";
             lista.appendChild(header);
-
-    // Cria os itens reais
-    data.usuarios.forEach(u => {
-      // Se não for 1,2 ou 3, será 'Adm'
-      const tipoNome = tiposMap[u.cargo] || "Adm"; 
-      const item = document.createElement("div");
-      item.classList.add("item");
-      item.innerHTML = `
-        <a href="mailto:${u.email}">${u.email}</a>
-        <span class="tipo">${tipoNome}</span>
-        <button class="editar-btn" onclick="abrirEdicao(${u.id_usuario})">
-          <img src="https://cdn-icons-png.flaticon.com/512/1159/1159633.png" alt="editar">
-        </button>
-      `;
-      lista.appendChild(item);
-    });
-
-  } catch (error) {
-    console.error("Erro ao carregar usuários:", error);
-    const erroMsg = document.createElement("div");
-    erroMsg.textContent = "Erro ao carregar usuários.";
-    lista.appendChild(erroMsg);
-  }
-});
-
-// Função para abrir a edição com o ID específico do usuário
-function abrirEdicao(idUsuario) {
-    if (idUsuario) {
-        window.location.href = `edicao_usuarios_adm.html?id=${idUsuario}`;
-    } else {
-        console.error('ID do usuário não encontrado');
+            
+            const erroMsg = document.createElement("div");
+            erroMsg.textContent = "Erro ao carregar usuários.";
+            erroMsg.style.padding = "20px";
+            erroMsg.style.textAlign = "center";
+            lista.appendChild(erroMsg);
+        }
     }
-}
-</script>
+
+    function renderizarUsuarios(usuarios) {
+        const lista = document.querySelector(".lista");
+        const tiposMap = {
+            1: "Noivo",
+            2: "Fornecedor",
+            3: "Cerimonialista",
+            4: "ADM"
+        };
+
+        const header = document.querySelector(".lista-header");
+        lista.innerHTML = "";
+        lista.appendChild(header);
+
+        if (usuarios.length === 0) {
+            const msgVazia = document.createElement("div");
+            msgVazia.textContent = "Nenhum usuário encontrado.";
+            msgVazia.style.padding = "20px";
+            msgVazia.style.textAlign = "center";
+            msgVazia.style.color = "#666";
+            lista.appendChild(msgVazia);
+            return;
+        }
+
+        usuarios.forEach(u => {
+            const tipoNome = tiposMap[u.cargo] || "Outro"; 
+            const item = document.createElement("div");
+            item.classList.add("item");
+            item.innerHTML = `
+                <a href="mailto:${u.email}">${u.email}</a>
+                <span class="tipo-label">${tipoNome}</span>
+                <button class="editar-btn" onclick="abrirEdicao(${u.id_usuario})">
+                    <img src="https://cdn-icons-png.flaticon.com/512/1159/1159633.png" alt="editar">
+                </button>
+            `;
+            lista.appendChild(item);
+        });
+    }
+
+    function filtrarPorCargo(cargo) {
+        // Remove active de todos os botões
+        document.querySelectorAll('.tipo').forEach(btn => {
+            btn.classList.remove('active');
+        });
+        
+        // Adiciona active no botão clicado
+        const btnClicado = document.querySelector(`[data-cargo="${cargo}"]`);
+        if (btnClicado) {
+            btnClicado.classList.add('active');
+        }
+
+        // Filtra os usuários
+        let usuariosFiltrados;
+        if (cargo === 'todos') {
+            usuariosFiltrados = todosUsuarios;
+        } else {
+            usuariosFiltrados = todosUsuarios.filter(u => u.cargo == cargo);
+        }
+
+        renderizarUsuarios(usuariosFiltrados);
+    }
+
+    function abrirEdicao(idUsuario) {
+        if (idUsuario) {
+            window.location.href = `edicao_usuarios_adm.html?id=${idUsuario}`;
+        } else {
+            console.error('ID do usuário não encontrado');
+        }
+    }
+  </script>
 
 </body>
 </html>

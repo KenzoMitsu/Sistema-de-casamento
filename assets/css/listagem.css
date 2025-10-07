@@ -15,6 +15,7 @@
 /* Janela principal */
 .modal {
   background: white;
+  margin-top: 200px;
   border-radius: 10px;
   width: 810px;
   padding: 20px 25px 25px 25px;
@@ -218,14 +219,14 @@
 /* Responsividade */
 @media (max-width: 769px) {
   .modal {
-    width: 600px;
+    width: 610px;
   }
 }
 
 @media (max-width: 426px) {
   .modal {
     width: 350px;
-    margin-top: 60px;
+    margin-top: 350px;
   }
   .lista .item a {
     font-size: 13px;
@@ -249,7 +250,7 @@
 @media (max-width: 376px) {
    .modal {
     width: 85%;
-    margin-top: 150px;
+    margin-top: 570px;
   }
   .logo-canto{
     width: 100px;
@@ -268,7 +269,7 @@
   .modal {
     width: 90%;
     padding: 10px;
-    margin-top: 250px;
+    margin-top: 810px;
   }
 
   .titulo {

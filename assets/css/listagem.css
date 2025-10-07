@@ -102,6 +102,18 @@
     margin-left: -20px;
     margin-top: -40px;
 }
+
+/* X para fechar */
+.bot-fechar {
+    font-size: 20px;
+    text-decoration: none;
+    color: black;
+    position: absolute;
+    margin-left: 260px;
+    margin-top: -80px;
+}
+
+
 .tipo {
   margin-left: 20px;
   font-weight: 500;
@@ -224,6 +236,14 @@
   .logo-canto{
     width: 120px;
   }
+  .bot-fechar {
+      font-size: 20px;
+      text-decoration: none;
+      color: black;
+      position: absolute;
+      margin-left: 145px;
+      margin-top: -110px;
+  }
 }
 
 @media (max-width: 376px) {
@@ -234,6 +254,14 @@
   .logo-canto{
     width: 100px;
   }
+  .bot-fechar {
+        font-size: 20px;
+        text-decoration: none;
+        color: black;
+        position: absolute;
+        margin-left: 120px;
+        margin-top: -110px;
+    }
 }
 
 @media (max-width: 321px) {

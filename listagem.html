@@ -6,6 +6,11 @@
   <title>Listagem de Usuários - Casamento Perfeito</title>
   <link rel="stylesheet" href="assets/css/listagem.css">
   <link rel="icon" href="assets/img/iconsite.png" type="image/x-icon">
+
+  <!-- Sweet Alert -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+
   <script src="api.js"></script>
 </head>
 
@@ -62,56 +67,87 @@
     </div>
   </div>
   
-<script>
-document.addEventListener("DOMContentLoaded", async () => {
-  const lista = document.querySelector(".lista");
+  <script>
+    document.addEventListener("DOMContentLoaded", async () => {
+        const token = localStorage.getItem('token'); 
 
-  // Mapeamento dos tipos
-  const tiposMap = {
-    1: "Noivo",
-    2: "Fornecedor",
-    3: "Cerimonialista"
-  };
+        if (!token) {
+            // A biblioteca Swal precisa ser importada no <head> para funcionar
+            Swal.fire({
+                icon: 'warning',
+                title: 'Acesso Restrito',
+                text: 'Você precisa estar logado para acessar esta página.',
+                confirmButtonText: 'Entendi, ir para Login',
+                allowOutsideClick: false, // Impede que o usuário feche o modal clicando fora
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = 'login.html'; // Redireciona para o login
+                }
+            });
 
-  try {
-    const response = await fetch(`${ipPython}/usuario`);
-    if (!response.ok) {
-      throw new Error("Erro HTTP: " + response.status);
-    }
-    const data = await response.json();
+            return; 
+        }
 
-    // Remove os usuários fictícios (mantém só o cabeçalho)
-    const header = document.querySelector(".lista-header");
-    lista.innerHTML = "";
-    lista.appendChild(header);
+        const lista = document.querySelector(".lista");
 
-    // Cria os itens reais
-    data.usuarios.forEach(u => {
-      // Se não for 1,2 ou 3, será 'Adm'
-      const tipoNome = tiposMap[u.cargo] || "Adm"; 
-      const item = document.createElement("div");
-      item.classList.add("item");
-      item.innerHTML = `
-        <a href="mailto:${u.email}">${u.email}</a>
-        <span class="tipo">${tipoNome}</span>
-        <button class="editar-btn">
-          <a href="editar_usuarios_adm.html?id=${u.id}">
-          <img src="https://cdn-icons-png.flaticon.com/512/1159/1159633.png" alt="editar">
-          </a>
-        </button>
-      `;
-        
-      lista.appendChild(item);
+        const tiposMap = {
+            1: "Noivo",
+            2: "Fornecedor",
+            3: "Cerimonialista"
+        };
+
+        try {
+            // Certifique-se de que a variável 'ipPython' está definida (provavelmente em api.js)
+            const response = await fetch(`${ipPython}/usuario`, {
+                headers: {
+                    'Authorization': `Bearer ${token}` // É uma boa prática enviar o token para a API
+                }
+            });
+
+            if (response.status === 401 || response.status === 403) {
+                // Se o token for inválido, redireciona também
+                throw new Error("Token inválido ou expirado.");
+            }
+            
+            if (!response.ok) {
+                throw new Error("Erro HTTP: " + response.status);
+            }
+
+            const data = await response.json();
+
+            const header = document.querySelector(".lista-header");
+            lista.innerHTML = "";
+            lista.appendChild(header);
+
+            data.usuarios.forEach(u => {
+                const tipoNome = tiposMap[u.cargo] || "Adm"; 
+                const item = document.createElement("div");
+                item.classList.add("item");
+                item.innerHTML = `
+                    <a href="mailto:${u.email}">${u.email}</a>
+                    <span class="tipo">${tipoNome}</span>
+                    <button class="editar-btn" onclick="window.location.href='edicao_usuarios_adm.html?id=${u.id}'">
+                        <img src="https://cdn-icons-png.flaticon.com/512/1159/1159633.png" alt="editar">
+                    </button>
+                `;
+                lista.appendChild(item);
+            });
+
+        } catch (error) {
+            console.error("Erro ao carregar usuários:", error);
+            
+            // Se o erro for de token inválido, redirecionar para o login
+            if (error.message.includes("Token")) {
+                localStorage.removeItem('token'); // Limpa o token inválido
+                window.location.href = 'login.html';
+            } else {
+                const erroMsg = document.createElement("div");
+                erroMsg.textContent = "Erro ao carregar usuários.";
+                lista.appendChild(erroMsg);
+            }
+        }
     });
-
-  } catch (error) {
-    console.error("Erro ao carregar usuários:", error);
-    const erroMsg = document.createElement("div");
-    erroMsg.textContent = "Erro ao carregar usuários.";
-    lista.appendChild(erroMsg);
-  }
-});
-</script>
+  </script>
 
 </body>
 </html>

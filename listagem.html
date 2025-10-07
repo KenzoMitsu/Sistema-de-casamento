@@ -95,9 +95,12 @@ document.addEventListener("DOMContentLoaded", async () => {
         <a href="mailto:${u.email}">${u.email}</a>
         <span class="tipo">${tipoNome}</span>
         <button class="editar-btn">
+          <a href="editar_usuarios_adm.html?id=${u.id}">
           <img src="https://cdn-icons-png.flaticon.com/512/1159/1159633.png" alt="editar">
+          </a>
         </button>
       `;
+        
       lista.appendChild(item);
     });
 

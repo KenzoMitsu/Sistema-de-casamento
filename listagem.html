@@ -9,7 +9,7 @@
 
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
-
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="api.js"></script>
 </head>
 
@@ -34,7 +34,11 @@
                 <div class="form-row">
                     <div class="form-group">
                         <label for="senha">Senha</label>
-                        <input type="password" id="senha" name="senha" placeholder="Crie uma senha forte" required>
+                        <div class="senha-container">
+                            <input class="senha" type="password" placeholder="Senha" id="senha" name="senha">
+                            <img id="toggleSenha" src="https://cdn-icons-png.flaticon.com/512/2767/2767146.png"
+                                alt="Mostrar senha">
+                        </div>
                     </div>
                     <div class="form-group">
                         <label for="telefone">Telefone</label>
@@ -143,6 +147,20 @@
   </div>
   
   <script>
+
+    $("#toggleSenha").on("click", function () {
+            let senhaInput = $("#senha");
+            let icone = $("#toggleSenha");
+
+            if (senhaInput.attr("type") === "password") {
+                senhaInput.attr("type", "text");
+                icone.attr("src", "https://cdn-icons-png.flaticon.com/512/2767/2767149.png");
+            } else {
+                senhaInput.attr("type", "password");
+                icone.attr("src", "https://cdn-icons-png.flaticon.com/512/2767/2767146.png");
+            }
+    });
+
     let todosUsuarios = []; // Armazena todos os usuários
 
     document.addEventListener("DOMContentLoaded", async () => {
@@ -370,6 +388,7 @@
                 timer: 2000,
                 showConfirmButton: false
             });
+            
 
             fecharModalCadastro(); // Fecha a modal
             formCadastro.reset(); // Limpa o formulário
@@ -386,6 +405,7 @@
             });
         }
     });
+
   </script>
 
 </body>

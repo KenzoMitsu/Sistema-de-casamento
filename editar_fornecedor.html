@@ -143,7 +143,7 @@
                     // Cria um objeto FormData para enviar os dados, incluindo a imagem
                     var formData = new FormData(this);
                     
-                    // Sua API espera 'data_nascimento' no formato dd-mm-yyyy, então convertemos
+                    //A API espera 'data_nascimento' no formato dd-mm-yyyy, então convertemos
                     const dataInput = $('#data_nascimento').val(); // Pega 'YYYY-MM-DD'
                     if (dataInput) {
                         const [ano, mes, dia] = dataInput.split('-');
@@ -155,7 +155,7 @@
                         method: 'PUT',
                         data: formData,
                         processData: false, // Necessário para FormData
-                        contentType: false, // Necessário para FormData
+                        contentType: false,
                         success: function (response) {
                             Swal.fire({
                                 icon: 'success',

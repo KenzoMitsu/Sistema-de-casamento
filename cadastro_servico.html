@@ -24,7 +24,7 @@
             <div class="formulario">
                 <h1 class="titulo">Cadastrar Serviço</h1>
                 <img src="assets/img/logo-preta.png" alt="Logo Casamento Perfeito" class="logo-canto">
-                <a href="">
+                <a href="home.html">
                     <p class="bot-fechar">X</p>
                 </a>
                 <input type="hidden">
@@ -63,7 +63,6 @@
         const descricao = document.getElementById("descricao").value.trim();
         const fotoInput = document.querySelector('input[name="foto"]');
 
-  
         if (!nomeServico || !valor || !descricao) {
             Swal.fire({
                 icon: 'error',

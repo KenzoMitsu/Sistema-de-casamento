@@ -26,6 +26,7 @@
                 <a href="index.html">
                     <p class="bot-fechar">X</p>
                 </a>
+
                 <div class="opcoes-cadastro">
                     <button type="button" class="tipo" value="1"> Noivo(a) </button>
                     <button type="button" class="tipo" value="2"> Fornecedor(a) </button>
@@ -47,7 +48,8 @@
                             <input class="telefone" type="tel" placeholder="Telefone" id="telefone" name="telefone">
                             <input class="data-nascimento" type="date" placeholder="Data de nascimento" id="data-nascimento" name="data-nascimento">
                             <input class="cep" type="text" placeholder="CEP" id="cep" name="cep">
-                            <select name="categoria" id="categoria" class="categoria" name="categoria" class="categoria">
+                            
+                            <select name="categoria" id="categoria" class="categoria">
                                 <option selected disabled style="color: var(--cinza)">Categoria</option>
                                 <option>Buffet</option>
                                 <option>Confeiteiro</option>
@@ -62,6 +64,7 @@
                         </div>
                     </div>
                         <button type="submit" class="botao-cadastrar">Cadastrar</button>
+                <form></form>
                         <p class="login">Já possui uma conta? <a class="login" href="login.html">Login</a></p>
                 </div>
         </div>
@@ -74,15 +77,15 @@
         $(".tipo[value='1']").addClass("active");
     });
 
-   $(".tipo").on("click", function (e) {
-    e.preventDefault();
-    var v = $(this).val();
+    $(".tipo").on("click", function (e) {
+        e.preventDefault();
+        var v = $(this).val();
 
-    $(".tipo").removeClass("active");
-    $(this).addClass("active");
+        $(".tipo").removeClass("active");
+        $(this).addClass("active");
 
-    $("#tipo").val(v).trigger("change");
-});
+        $("#tipo").val(v).trigger("change");
+    });
 
 $("#tipo").on("change", function () {
     var tipo = $("#tipo").val();
@@ -104,6 +107,7 @@ $("#tipo").on("change", function () {
     }
 });
 </script>
+
 <script>
 $(document).ready(function () {
     $(".tipo").on("click", function () {
@@ -127,7 +131,6 @@ $(document).ready(function () {
         }
     });
 
- 
     $(".botao-cadastrar").on("click", function (e) {
         e.preventDefault();
 
@@ -150,7 +153,6 @@ $(document).ready(function () {
         let telefoneRegex = /^[0-9]{10,11}$/;
         let senhaRegex = /^(?=.*[A-Z])(?=.*[!@#$%^&*()_+{}":;'?/>,.<]).{8,}$/;
 
-   
         if (!nome || !email || !senha || !telefone || !dataNascimentoRaw || !cep) {
             return Swal.fire("Erro!", "Todos os campos são obrigatórios!", "error");
         }

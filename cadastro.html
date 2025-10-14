@@ -26,6 +26,7 @@
                 <a href="index.html">
                     <p class="bot-fechar">X</p>
                 </a>
+
                 <div class="opcoes-cadastro">
                     <button type="button" class="tipo" value="1"> Noivo(a) </button>
                     <button type="button" class="tipo" value="2"> Fornecedor(a) </button>
@@ -47,7 +48,8 @@
                             <input class="telefone" type="tel" placeholder="Telefone" id="telefone" name="telefone">
                             <input class="data-nascimento" type="date" placeholder="Data de nascimento" id="data-nascimento" name="data-nascimento">
                             <input class="cep" type="text" placeholder="CEP" id="cep" name="cep">
-                            <select name="categoria" id="categoria" class="categoria" name="categoria" class="categoria">
+                            
+                            <select name="categoria" id="categoria" class="categoria">
                                 <option selected disabled style="color: var(--cinza)">Categoria</option>
                                 <option>Buffet</option>
                                 <option>Confeiteiro</option>
@@ -62,11 +64,13 @@
                         </div>
                     </div>
                         <button type="submit" class="botao-cadastrar">Cadastrar</button>
+                <form></form>
                         <p class="login">Já possui uma conta? <a class="login" href="login.html">Login</a></p>
                 </div>
         </div>
     </main>
 </body>
+
 <script>
     $(document).ready(function () {
 
@@ -74,141 +78,140 @@
         $(".tipo[value='1']").addClass("active");
     });
 
-   $(".tipo").on("click", function (e) {
-    e.preventDefault();
-    var v = $(this).val();
-
-    $(".tipo").removeClass("active");
-    $(this).addClass("active");
-
-    $("#tipo").val(v).trigger("change");
-});
-
-$("#tipo").on("change", function () {
-    var tipo = $("#tipo").val();
-
-
-    $("#cadastro1 input, #cadastro2 input, #cadastro2 select").prop("disabled", false).css("opacity", 1);
-
-    if (tipo == 1) { 
-        $("#cadastro1 .nome-marca").css("opacity", 0).prop("disabled", true);
-        $("#cadastro2 .categoria").css("opacity", 0).prop("disabled", true);
-    } 
-    else if (tipo == 2) { 
-        $("#cadastro1 .parceiro").prop("disabled", true).css("opacity", 0);
-    } 
-    else if (tipo == 3) { 
-        $("#cadastro1 .nome-marca").prop("disabled", true).css("opacity", 0);
-        $("#cadastro2 .categoria").prop("disabled", true).css("opacity", 0);
-        $("#cadastro1 .parceiro").prop("disabled", true).css("opacity", 0);
-    }
-});
-</script>
-<script>
-$(document).ready(function () {
-    $(".tipo").on("click", function () {
-        let valor = $(this).val();
-        $("#tipo").val(valor);
-        
-        $(".tipo").removeClass("ativo");
-        $(this).addClass("ativo");
-    });
-
-    $("#toggleSenha").on("click", function () {
-        let senhaInput = $("#senha");
-        let icone = $("#toggleSenha");
-
-        if (senhaInput.attr("type") === "password") {
-            senhaInput.attr("type", "text");
-            icone.attr("src", "https://cdn-icons-png.flaticon.com/512/2767/2767149.png");
-        } else {
-            senhaInput.attr("type", "password");
-            icone.attr("src", "https://cdn-icons-png.flaticon.com/512/2767/2767146.png");
-        }
-    });
-
- 
-    $(".botao-cadastrar").on("click", function (e) {
+    $(".tipo").on("click", function (e) {
         e.preventDefault();
+        var v = $(this).val();
 
-        
-        let nome = $("#nome").val().trim();
-        let email = $("#email").val().trim();
-        let senha = $("#senha").val().trim();
-        let nomeMarca = $("#nome-marca").val().trim();
-        let telefone = $("#telefone").val().trim();
-        let dataNascimentoRaw = $("#data-nascimento").val(); 
-        let cep = $("#cep").val().trim();
-        let categoria = $("#categoria").val();
-        let tipoValor = $("#tipo").val();
+        $(".tipo").removeClass("active");
+        $(this).addClass("active");
+
+        $("#tipo").val(v).trigger("change");
+    });
+
+    $("#tipo").on("change", function () {
+        var tipo = $("#tipo").val();
 
 
-        let cargo = tipoValor === "1" ? "1" : tipoValor === "2" ? "2" : "3";
+        $("#cadastro1 input, #cadastro2 input, #cadastro2 select").prop("disabled", false).css("opacity", 1);
 
-        
-        let emailRegex = /^[^\s@]+@[^\s@]+\.[a-z]{2,}$/;
-        let telefoneRegex = /^[0-9]{10,11}$/;
-        let senhaRegex = /^(?=.*[A-Z])(?=.*[!@#$%^&*()_+{}":;'?/>,.<]).{8,}$/;
-
-   
-        if (!nome || !email || !senha || !telefone || !dataNascimentoRaw || !cep) {
-            return Swal.fire("Erro!", "Todos os campos são obrigatórios!", "error");
+        if (tipo == 1) { 
+            $("#cadastro1 .nome-marca").css("opacity", 0).prop("disabled", true);
+            $("#cadastro2 .categoria").css("opacity", 0).prop("disabled", true);
+        } 
+        else if (tipo == 2) { 
+            $("#cadastro1 .parceiro").prop("disabled", true).css("opacity", 0);
+        } 
+        else if (tipo == 3) { 
+            $("#cadastro1 .nome-marca").prop("disabled", true).css("opacity", 0);
+            $("#cadastro2 .categoria").prop("disabled", true).css("opacity", 0);
+            $("#cadastro1 .parceiro").prop("disabled", true).css("opacity", 0);
         }
-        if (!emailRegex.test(email)) {
-            return Swal.fire("Erro!", "Digite um e-mail válido!", "error");
-        }
-        if (!senhaRegex.test(senha)) {
-            return Swal.fire("Erro!", "A senha deve ter pelo menos 8 caracteres, incluindo uma letra maiúscula e um caractere especial!", "error");
-        }
-        if (!telefoneRegex.test(telefone)) {
-            return Swal.fire("Erro!", "O telefone deve ter 10 ou 11 dígitos numéricos!", "error");
-        }
-        if (tipoValor === "2" && $("#categoria").prop("selectedIndex") === 0) {
-            return Swal.fire("Erro!", "Selecione uma categoria para fornecedor!", "error");
-        }
+    });
+</script>
 
+<script>
+    $(document).ready(function () {
+        $(".tipo").on("click", function () {
+            let valor = $(this).val();
+            $("#tipo").val(valor);
         
-        let parts = dataNascimentoRaw.split("-");
-        let dataNascimento = parts[2] + "-" + parts[1] + "-" + parts[0]; 
+            $(".tipo").removeClass("ativo");
+            $(this).addClass("ativo");
+        });
 
-        
-        let dados = {
-            nome: nome,
-            email: email,
-            senha: senha,
-            telefone: telefone,
-            data_nascimento: dataNascimento,  
-            cep: cep,
-            categoria: tipoValor === "2" ? categoria : null,
-            nome_marca: nomeMarca,
-            cargo: cargo
-        };
-        
-        console.log("Dados para envio:", dados);
+        $("#toggleSenha").on("click", function () {
+            let senhaInput = $("#senha");
+            let icone = $("#toggleSenha");
 
-        $.ajax({
-            method: "POST",
-            url: ipPython + "/usuario",
-            data: JSON.stringify(dados),
-            contentType: "application/json",
-            success: function (response) {
-                Swal.fire({
-                    title: "Cadastro realizado com sucesso!",
-                    icon: "success"
-                }).then(() => {
-                    window.location.href = "login.html";
-                });
-            },
-            error: function (xhr) {
-                Swal.fire({
-                    title: "Erro!",
-                    text: xhr.responseJSON?.error || "Ocorreu um erro, tente novamente.",
-                    icon: "error"
-                });
+            if (senhaInput.attr("type") === "password") {
+                senhaInput.attr("type", "text");
+                icone.attr("src", "https://cdn-icons-png.flaticon.com/512/2767/2767149.png");
+            } else {
+                senhaInput.attr("type", "password");
+                icone.attr("src", "https://cdn-icons-png.flaticon.com/512/2767/2767146.png");
             }
         });
+
+        $(".botao-cadastrar").on("click", function (e) {
+            e.preventDefault();
+
+            
+            let nome = $("#nome").val().trim();
+            let email = $("#email").val().trim();
+            let senha = $("#senha").val().trim();
+            let nomeMarca = $("#nome-marca").val().trim();
+            let telefone = $("#telefone").val().trim();
+            let dataNascimentoRaw = $("#data-nascimento").val(); 
+            let cep = $("#cep").val().trim();
+            let categoria = $("#categoria").val();
+            let tipoValor = $("#tipo").val();
+
+
+            let cargo = tipoValor === "1" ? "1" : tipoValor === "2" ? "2" : "3";
+
+            
+            let emailRegex = /^[^\s@]+@[^\s@]+\.[a-z]{2,}$/;
+            let telefoneRegex = /^[0-9]{10,11}$/;
+            let senhaRegex = /^(?=.*[A-Z])(?=.*[!@#$%^&*()_+{}":;'?/>,.<]).{8,}$/;
+
+            if (!nome || !email || !senha || !telefone || !dataNascimentoRaw || !cep) {
+                return Swal.fire("Erro!", "Todos os campos são obrigatórios!", "error");
+            }
+            if (!emailRegex.test(email)) {
+                return Swal.fire("Erro!", "Digite um e-mail válido!", "error");
+            }
+            if (!senhaRegex.test(senha)) {
+                return Swal.fire("Erro!", "A senha deve ter pelo menos 8 caracteres, incluindo uma letra maiúscula e um caractere especial!", "error");
+            }
+            if (!telefoneRegex.test(telefone)) {
+                return Swal.fire("Erro!", "O telefone deve ter 10 ou 11 dígitos numéricos!", "error");
+            }
+            if (tipoValor === "2" && $("#categoria").prop("selectedIndex") === 0) {
+                return Swal.fire("Erro!", "Selecione uma categoria para fornecedor!", "error");
+            }
+
+            
+            let parts = dataNascimentoRaw.split("-");
+            let dataNascimento = parts[2] + "-" + parts[1] + "-" + parts[0]; 
+
+            
+            let dados = {
+                nome: nome,
+                email: email,
+                senha: senha,
+                telefone: telefone,
+                data_nascimento: dataNascimento,  
+                cep: cep,
+                categoria: tipoValor === "2" ? categoria : null,
+                nome_marca: nomeMarca,
+                cargo: cargo
+            };
+            
+            console.log("Dados para envio:", dados);
+
+            $.ajax({
+                method: "POST",
+                url: ipPython + "/usuario",
+                data: JSON.stringify(dados),
+                contentType: "application/json",
+                success: function (response) {
+                    Swal.fire({
+                        title: "Cadastro realizado com sucesso!",
+                        icon: "success"
+                    }).then(() => {
+                        window.location.href = "login.html";
+                    });
+                },
+                error: function (xhr) {
+                    Swal.fire({
+                        title: "Erro!",
+                        text: xhr.responseJSON?.error || "Ocorreu um erro, tente novamente.",
+                        icon: "error"
+                    });
+                }
+            });
+        });
     });
-});
 </script>
 
 

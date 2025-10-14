@@ -24,7 +24,6 @@
 
 .modal {
     background: white;
-    margin-top: 200px;
     border-radius: 10px;
     width: 810px;
     padding: 20px 25px 25px 25px;
@@ -211,7 +210,6 @@ button.tipo:active {
 @media (max-width: 426px) {
     .modal {
         width: 350px;
-        margin-top: 350px;
     }
 
     .lista .item a {
@@ -231,7 +229,6 @@ button.tipo:active {
 @media (max-width: 375px) {
     .modal {
         width: 85%;
-        margin-top: 570px;
     }
 
     .logo-canto {
@@ -258,7 +255,6 @@ button.tipo:active {
     .modal {
         width: 90%;
         padding: 10px;
-        margin-top: 810px;
     }
 
     .titulo {

@@ -53,6 +53,147 @@
     color: #444;
 }
 
+/* ========== BOTÃO E MODAL DE CADASTRO ========== */
+
+/* Container para o botão de cadastrar, para centralizá-lo */
+.container-principal {
+    display: flex;
+    justify-content: center;
+    padding: 20px 0;
+    position: relative;
+    z-index: 102; /* Garante que fique acima do fundo mas abaixo da modal de listagem */
+    margin-bottom: 15px;
+}
+
+/* Botão de Cadastrar Novo Usuário */
+.botao-cadastrar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    color: var(--preto);
+    background-color: var(--rosa-médio-escuro);
+    border: 1px solid var(--preto);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.botao-cadastrar:hover {
+    background-color: var(--rosa-escuro);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+.botao-cadastrar img {
+    width: 20px;
+    height: 20px;
+}
+
+/* Overlay da Modal de Cadastro */
+.modal-cadastro-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 200; /* Z-index alto para ficar sobre tudo */
+}
+
+/* Classe para ocultar elementos */
+.hidden {
+    display: none !important;
+}
+
+/* Conteúdo da Modal de Cadastro */
+.modal-cadastro-content {
+    background: white;
+    padding: 25px 35px;
+    border-radius: 12px;
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2);
+    width: 90%;
+    max-width: 700px;
+    position: relative;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+.modal-cadastro-content h3 {
+    text-align: center;
+    font-size: 22px;
+    margin-top: 0;
+    margin-bottom: 25px;
+    font-weight: 600;
+}
+
+/* Botão de Fechar da Modal de Cadastro */
+.close-btn-cadastro {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 28px;
+    font-weight: bold;
+    color: #555;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+/* Estilo do Formulário */
+#formCadastro {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.form-row {
+    display: flex;
+    gap: 20px;
+}
+
+.form-group {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    margin-bottom: 5px;
+    font-weight: 500;
+    color: #333;
+}
+
+.form-group input,
+.form-group select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 15px;
+    box-sizing: border-box; /* Garante que o padding não aumente o tamanho */
+}
+
+/* Botão de Envio do Formulário */
+.submit-btn {
+    padding: 12px;
+    font-size: 16px;
+    font-weight: bold;
+    color: var(--preto);
+    background-color: var(--rosa-médio-escuro);
+    border: 1px solid var(--preto);
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background-color 0.3s;
+}
+
+.submit-btn:hover {
+    background-color: var(--rosa-escuro);
+}
+
 /* ========== TÍTULO ========== */
 .titulo {
     text-align: center;

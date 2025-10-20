@@ -24,7 +24,7 @@
 </head>
 
 <body>
-
+<!-- hero traduzido do inglês como "herói", essa sessão representa o que eu deveria ter sido para a vida dela mas não fui... -->
     <section class="hero-section">
         <header class="header">
             <div class="header-container">
@@ -55,7 +55,7 @@
             </div>
         </div>
 
-        <!--  -->
+        <!-- Fim da modal de Logout (assim como tudo na vida isso também teve um fim) -->
 
     </section>
     <div class="visualizacao-sec">
@@ -72,7 +72,7 @@
         <a href="" style="text-decoration: none; text-align: center;">
             <div class="bot-excluir">
                 <img src="assets/img/bot-excluir.png" alt="Botão de Exclusão de Serviço" class="img-excluir">
-                <p class="text-excluir">EXCLUIR</p>
+                <p class="text-excluir">EXCLUIR</p> <!-- Excluir serviços pode ser fácil, mas excluir sentimentos à vista é o verdadeiro desafio -->
             </div>
         </a>
     </div>
@@ -172,20 +172,25 @@
             else if (cargo === '3') { // Se for CERIMONIALISTA
                 botaoHeroi.textContent = 'Fornecedores';
                 botaoHeroi.href = 'pagina-de-fornecedores.html'; // Defina o link correto
-                botaoHeroi.style.display = 'inline-block'; // Garante que o botão seja visível
+                botaoHeroi.style.display = 'inline-block'; // Garante que o botão seja visível, assim como ela foi visível para meu coração
             }
             else {
-                // Para outros cargos (como fornecedor), esconde o botão
+                // Para outros cargos (como fornecedor), esconde o botão (assim como tive que esconder o real motivo)
                 botaoHeroi.style.display = 'none';
             }
         };
 
         // // Verificar a autenticação do usuário
 
-        document.addEventListener("DOMContentLoaded", async () => {
-            const token = localStorage.getItem('token');
+        const checkAuthentication = () => {
+            const token = localStorage.getItem('token'); 
 
             if (!token) {
+                const botaoHeroi = document.querySelector('.hero-button');
+                if(botaoHeroi) {
+                    botaoHeroi.style.display = 'none';
+                }
+
                 Swal.fire({
                     icon: 'warning',
                     title: 'Acesso Restrito',
@@ -197,13 +202,11 @@
                         window.location.href = 'login.html';
                     }
                 });
-                return;
+            } else {
+                atualizarBotaoPrincipal();
             }
+        };
 
-            await carregarUsuarios(token);
-        });
-
-        // Chama a função de verificação assim que a página carrega
         checkAuthentication();
 
         const profileLink = document.getElementById('profileLink');
@@ -269,7 +272,7 @@
                         'Content-Type': 'application/json'
                     },
                     // ATENÇÃO: 'credentials: include' é ESSENCIAL para
-                    // que o navegador envie o cookie de sessão para o backend.
+                    // que o navegador envie o cookie de sessão para o backend pessoal.
                     credentials: 'include'
                 });
 
@@ -285,10 +288,10 @@
 
                 const data = await response.json();
 
-                // Limpa o container
+                // Limpa o container, deixando-o vazio como está o meu coração agora...
                 container.innerHTML = '';
 
-                if (data.servicos && data.servicos.length > 0) {
+                if (data.servicos && data.servicos.length > 0) { // Condição
                     // Se existem serviços, cria os cards
                     data.servicos.forEach(servico => {
                         const servicoCard = document.createElement('div');
@@ -313,16 +316,15 @@
         };
 
 
-        // --- 5. EXECUÇÃO DAS FUNÇÕES DA PÁGINA ---
+        // - EXECUÇÃO DAS FUNÇÕES DA PÁGINA
 
-        // (Como já passamos pela verificação do token, podemos carregar os dados)
+        // (Aqui é para carregar os dados)
 
-        // Chama a nova função para buscar os serviços
+        // Chama a função para buscar os serviços
         carregarMeusServicos();
 
-        // Chama a sua função original (caso seja necessária em algum contexto)
+        // Chama a função original (caso seja necessária em algum)
         atualizarBotaoPrincipal();
-
     });
 </script>
 

@@ -1,0 +1,28 @@
+<html>
+
+</html>
+
+<!-- ROTA DA API
+@app.route('/servico', methods=['GET'])
+def servico_get():
+    cursor = con.cursor()
+    cursor.execute(
+        "SELECT ID_USUARIO, NOME, VALOR, DESCRICAO FROM SERVICOS"
+    )
+    servicos = cursor.fetchall()
+    cursor.close()
+
+    servicos_lista = []
+    for servico in servicos:
+        servicos_lista.append({
+            'id_usuario': servico[0],
+            'nome': servico[1],
+            'valor': servico[2],
+            'descricao': servico[3]
+        })
+
+    if servicos_lista:
+        return jsonify(mensagem='Lista de serviços cadastrados', servicos=servicos_lista)
+    else:
+        return jsonify(mensagem='Nenhum serviço encontrado')
+-->

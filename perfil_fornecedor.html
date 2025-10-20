@@ -18,6 +18,7 @@
     <!-- SweetAlert baixado -->
      <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
+
 <body>
 
     <section class="hero-section">
@@ -57,7 +58,7 @@
     </div>
     <div></div>
     <div class="buttons">
-        <a href="editar_fornecedor.html" style="text-decoration: none; text-align: center;">
+        <a href="editar_servico.html" style="text-decoration: none; text-align: center;">
             <div class="bot-editar">
                 <img src="assets/img/bot-edicao.png" alt="Botão de Edição de Serviço" class="img-editar">
                 <p class="text-editar">EDITAR</p>
@@ -130,116 +131,182 @@
 </body>
 
 <script>
-document.addEventListener('DOMContentLoaded', () => {
+    document.addEventListener('DOMContentLoaded', () => {
 
-    // Função para ATUALIZAR O BOTÃO PRINCIPAL com base no cargo
-    const atualizarBotaoPrincipal = () => {
-        const cargo = localStorage.getItem('cargo');
-        
-        // Seleciona o botão principal pela sua classe
-        const botaoHeroi = document.querySelector('.hero-button');
+        // Função para ATUALIZAR O BOTÃO PRINCIPAL com base no cargo
+        const atualizarBotaoPrincipal = () => {
+            const cargo = localStorage.getItem('cargo');
+            
+            // Seleciona o botão principal pela sua classe
+            const botaoHeroi = document.querySelector('.hero-button');
 
-        if (!botaoHeroi) {
-            console.error("Botão principal (.hero-button) não encontrado.");
+            if (!botaoHeroi) {
+                console.error("Botão principal (.hero-button) não encontrado.");
+                return;
+            }
+
+            // Regras de exibição baseadas no cargo
+            // Assumindo: 1 = noivo, 2 = cerimonialista, 3 = fornecedor
+            if (cargo === '1') { // Se for NOIVO
+                botaoHeroi.textContent = 'Cerimonialistas e Fornecedores';
+                botaoHeroi.href = 'pagina-de-busca.html'; // Defina o link correto
+                botaoHeroi.style.display = 'inline-block'; // Garante que o botão seja visível
+            } 
+            else if (cargo === '3') { // Se for CERIMONIALISTA
+                botaoHeroi.textContent = 'Fornecedores';
+                botaoHeroi.href = 'pagina-de-fornecedores.html'; // Defina o link correto
+                botaoHeroi.style.display = 'inline-block'; // Garante que o botão seja visível
+            }
+            else { 
+                // Para outros cargos (como fornecedor), esconde o botão
+                botaoHeroi.style.display = 'none';
+            }
+        };
+
+        // // Verificar a autenticação do usuário
+
+        document.addEventListener("DOMContentLoaded", async () => {
+            const token = localStorage.getItem('token'); 
+
+            if (!token) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Acesso Restrito',
+                    text: 'Você precisa estar logado para acessar esta página.',
+                    confirmButtonText: 'Entendi, ir para Login',
+                    allowOutsideClick: false,
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = 'login.html';
+                    }
+                });
+                return; 
+            }
+
+            await carregarUsuarios(token);
+        });
+
+        // Chama a função de verificação assim que a página carrega
+        checkAuthentication();
+
+        const profileLink = document.getElementById('profileLink');
+        const logoutModal = document.getElementById('logoutModal');
+        const closeModalButton = document.querySelector('.close-button');
+        const logoutButton = document.getElementById('logoutButton');
+
+        const openModal = () => {
+            logoutModal.style.display = 'flex';
+        };
+
+        const closeModal = () => {
+            logoutModal.style.display = 'none';
+        };
+
+        const handleLogout = () => {
+            localStorage.clear();
+            
+            Swal.fire({
+                title: 'Você saiu!',
+                text: 'Sua sessão foi encerrada.',
+                icon: 'info'
+            }).then(() => {
+                window.location.href = 'login.html'; 
+            });
+
+            closeModal();
+        };
+
+        if(profileLink) {
+            profileLink.addEventListener('click', (event) => {
+                event.preventDefault();
+                openModal();
+            });
+        }
+
+        if(logoutButton) logoutButton.addEventListener('click', handleLogout);
+        if(closeModalButton) closeModalButton.addEventListener('click', closeModal);
+
+        if(logoutModal) {
+            logoutModal.addEventListener('click', (event) => {
+                if (event.target === logoutModal) {
+                    closeModal();
+                }
+            });
+        }
+
+        // nova função para EXIBIR o serviço
+        const carregarMeusServicos = async () => {
+        const container = document.getElementById('meus-servicos-container');
+
+        // Verifica se a variável 'ipPython' existe
+        if (typeof ipPython === 'undefined') {
+            console.error("A variável 'ipPython' não foi definida.");
+            container.innerHTML = '<p style="text-align: center; color: red;">Erro de configuração (ipPython).</p>';
             return;
         }
 
-        // Regras de exibição baseadas no cargo
-        // Assumindo: 1 = noivo, 2 = cerimonialista, 3 = fornecedor
-        if (cargo === '1') { // Se for NOIVO
-            botaoHeroi.textContent = 'Cerimonialistas e Fornecedores';
-            botaoHeroi.href = 'pagina-de-busca.html'; // Defina o link correto
-            botaoHeroi.style.display = 'inline-block'; // Garante que o botão seja visível
-        } 
-        else if (cargo === '3') { // Se for CERIMONIALISTA
-            botaoHeroi.textContent = 'Fornecedores';
-            botaoHeroi.href = 'pagina-de-fornecedores.html'; // Defina o link correto
-            botaoHeroi.style.display = 'inline-block'; // Garante que o botão seja visível
-        }
-        else { 
-            // Para outros cargos (como fornecedor), esconde o botão
-            botaoHeroi.style.display = 'none';
-        }
-    };
+        try {
+            const response = await fetch(`${ipPython}/meus-servicos`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                // ATENÇÃO: 'credentials: include' é ESSENCIAL para
+                // que o navegador envie o cookie de sessão para o backend.
+                credentials: 'include' 
+            });
 
-    // // Verificar a autenticação do usuário
-    // const checkAuthentication = () => {
-    //     const token = localStorage.getItem('token'); 
-
-    //     if (!token) {
-    //         // Se não estiver logado, esconde o botão principal
-    //         const botaoHeroi = document.querySelector('.hero-button');
-    //         if(botaoHeroi) {
-    //             botaoHeroi.style.display = 'none';
-    //         }
-
-    //         Swal.fire({
-    //             icon: 'warning',
-    //             title: 'Acesso Restrito',
-    //             text: 'Você precisa estar logado para acessar esta página.',
-    //             confirmButtonText: 'Entendi, ir para Login',
-    //             allowOutsideClick: false,
-    //         }).then((result) => {
-    //             if (result.isConfirmed) {
-    //                 window.location.href = 'login.html';
-    //             }
-    //         });
-    //     } else {
-    //         // Se o usuário está autenticado, atualizamos o botão
-    //         atualizarBotaoPrincipal();
-    //     }
-    // };
-
-    // Chama a função de verificação assim que a página carrega
-    checkAuthentication();
-
-    // --- O resto do seu código para o modal de logout continua igual ---
-
-    const profileLink = document.getElementById('profileLink');
-    const logoutModal = document.getElementById('logoutModal');
-    const closeModalButton = document.querySelector('.close-button');
-    const logoutButton = document.getElementById('logoutButton');
-
-    const openModal = () => {
-        logoutModal.style.display = 'flex';
-    };
-
-    const closeModal = () => {
-        logoutModal.style.display = 'none';
-    };
-
-    const handleLogout = () => {
-        localStorage.clear();
-        
-        Swal.fire({
-            title: 'Você saiu!',
-            text: 'Sua sessão foi encerrada.',
-            icon: 'info'
-        }).then(() => {
-            window.location.href = 'login.html'; 
-        });
-
-        closeModal();
-    };
-
-    if(profileLink) {
-        profileLink.addEventListener('click', (event) => {
-            event.preventDefault();
-            openModal();
-        });
-    }
-
-    if(logoutButton) logoutButton.addEventListener('click', handleLogout);
-    if(closeModalButton) closeModalButton.addEventListener('click', closeModal);
-
-    if(logoutModal) {
-        logoutModal.addEventListener('click', (event) => {
-            if (event.target === logoutModal) {
-                closeModal();
+            // Se a sessão expirou ou é inválida, o backend retorna 401
+            if (response.status === 401) {
+                handleLogout(); // Desloga o usuário
+                return;
             }
-        });
-    }
-});
+
+            if (!response.ok) {
+                throw new Error(`Erro na rede: ${response.statusText}`);
+            }
+
+            const data = await response.json();
+            
+            // Limpa o container
+            container.innerHTML = ''; 
+
+            if (data.servicos && data.servicos.length > 0) {
+                // Se existem serviços, cria os cards
+                data.servicos.forEach(servico => {
+                    const servicoCard = document.createElement('div');
+                    servicoCard.className = 'servico-card'; // Use esta classe no CSS para estilizar
+                    
+                    servicoCard.innerHTML = `
+                        <h3>${servico.nome}</h3>
+                        <p><strong>Valor:</strong> R$ ${Number(servico.valor).toFixed(2)}</p>
+                        <p><strong>Descrição:</strong> ${servico.descricao}</p>
+                    `;
+                    container.appendChild(servicoCard);
+                });
+            } else {
+                // Se não há serviços, exibe a mensagem do backend
+                container.innerHTML = `<p style="text-align: center;">${data.mensagem}</p>`;
+            }
+
+        } catch (error) {
+            console.error('Erro ao buscar serviços:', error);
+            container.innerHTML = '<p style="text-align: center; color: red;">Não foi possível carregar seus serviços. Tente novamente mais tarde.</p>';
+        }
+    };
+
+
+    // --- 5. EXECUÇÃO DAS FUNÇÕES DA PÁGINA ---
+    
+    // (Como já passamos pela verificação do token, podemos carregar os dados)
+    
+    // Chama a nova função para buscar os serviços
+    carregarMeusServicos();
+
+    // Chama a sua função original (caso seja necessária em algum contexto)
+    atualizarBotaoPrincipal();
+
+    });
 </script>
 
 </html>

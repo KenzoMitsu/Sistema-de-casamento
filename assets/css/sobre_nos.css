@@ -49,8 +49,8 @@ body {
     justify-content: space-between; /* Para empurrar a barra de pesquisa para baixo */
     align-items: center; /* Centraliza o conteúdo (inclusive a barra de pesquisa) */
     padding: 300px 6% 50px; /* Padding para o conteúdo não ficar colado nas bordas */
-    border-bottom-left-radius: 5px;
-    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 7px;
+    border-bottom-right-radius: 7px;
 }
 
 /* Estilos do conteúdo do Hero */
@@ -297,6 +297,45 @@ body {
     }
 }
 
+.sec-principal {
+    background-color: #FFEDF1;
+    padding-bottom: 80px;
+}
+
+.quadro-sobre {
+    background-color: white;
+    margin-left: 220px;
+    margin-right: 220px;
+    padding: 40px;
+    margin-top: -60px;
+    position: relative;
+}
+
+.titulo-casamento {
+    font-family: "Lato", sans-serif;
+    font-weight: 300;
+    font-style: italic;    
+    font-size: 27px;
+    padding-bottom: 12px;
+    color: #605B52;
+}
+
+.titulo-editado {
+    font-family: "Lato", sans-serif;
+    font-weight: 700;
+    font-style: italic;
+    font-size: 27px;
+    padding-bottom: 12px;
+    color: #BB9245;
+}
+
+.texto-casamento {
+    font-family: "Lato", sans-serif;
+    font-weight: 300;
+    font-style: normal;
+    font-size: 23px;
+    color: #605B52;
+}
 
 /* --- RODAPÉ --- */
 .footer {

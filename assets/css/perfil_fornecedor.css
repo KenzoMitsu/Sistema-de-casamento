@@ -702,8 +702,8 @@ body {
     align-items: center;
     gap: 10px;
     margin-top: 30px;
-    margin-left: 440px;
-    margin-right: 440px;
+    margin-left: 20px;
+    margin-right: 20px;
     border-radius: 5px;
     border: 2px solid #793C3C; /* <-- Corrigido aqui */
     text-align: center;
@@ -719,8 +719,8 @@ body {
     font-weight: 600;
 }
 .img-excluir {
-    width: 40px;
-    height: 40px;
+    width: 60px;
+    height: 60px;
     margin-left: 80px;
     align-items: center;
     justify-content: center;

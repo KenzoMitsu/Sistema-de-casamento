@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Criar Festa</title>
+  <link rel="stylesheet" href="assets/css/criarfesta.css" />
+</head>
+<body>
+  <div class="container">
+    <div class="modal">
+      <header>
+        <img src="assets/img/logo-branca.png" alt="Casamento Perfeito" class="logo" />
+        <h2>Criar Festa</h2>
+        <span class="fechar">X</span>
+      </header>
+
+      <div class="formulario">
+        <form>
+          <div class="coluna">
+            <input type="text" placeholder="Nome da festa" required />
+            <select>
+              <option value="">Categoria</option>
+              <option value="casamento">Casamento</option>
+              <option value="chábar">Chá Bar</option>
+              <option value="formatura">Formatura</option>
+              <option value="outros">Outros</option>
+            </select>
+            <input type="number" placeholder="Número de convidados" required />
+          </div>
+
+          <div class="linha-divisoria"></div>
+
+          <div class="coluna">
+            <input type="date" placeholder="Data da festa" required />
+            <input type="text" placeholder="Estimativa de valor" required />
+            <input type="text" placeholder="Descrição" required />
+          </div>
+        </form>
+      </div>
+
+      <div class="botao">
+        <button type="submit">Criar</button>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

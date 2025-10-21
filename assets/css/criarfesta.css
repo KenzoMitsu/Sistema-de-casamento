@@ -1,0 +1,122 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+body {
+  background: url('../img/background2.png') no-repeat center center fixed;
+  background-size: cover; /* Faz a imagem preencher toda a tela */
+  background-position: center; /* Centraliza bem */
+  background-repeat: no-repeat; /* Evita repetição */
+  height: 100vh;
+  margin: 0; /* remove espaçamento padrão */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+.container {
+  width: 100%;
+  height: 100%;
+  backdrop-filter: blur(2px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal {
+  background: #fff;
+  width: 750px;
+  border-radius: 10px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  padding: 40px 30px;
+  position: relative;
+}
+
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 30px;
+}
+
+.logo {
+  height: 35px;
+}
+
+header h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.fechar {
+  font-size: 1.3rem;
+  font-weight: bold;
+  cursor: pointer;
+  color: #333;
+}
+
+.formulario {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+}
+
+form {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.coluna {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  width: 45%;
+}
+
+input,
+select {
+  padding: 10px 15px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  outline: none;
+  transition: 0.3s;
+}
+
+input:focus,
+select:focus {
+  border-color: #ffb6c1;
+  box-shadow: 0 0 5px rgba(255, 182, 193, 0.5);
+}
+
+.linha-divisoria {
+  width: 1px;
+  background: #e0e0e0;
+  height: 150px;
+}
+
+.botao {
+  text-align: center;
+  margin-top: 30px;
+}
+
+.botao button {
+  background: #ffb6c1;
+  border: none;
+  color: white;
+  font-size: 1rem;
+  padding: 10px 40px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.botao button:hover {
+  background: #ff8fa3;
+}

@@ -161,7 +161,170 @@
             </div>
         </div>
     </footer>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
 
+    // Função para ATUALIZAR O BOTÃO PRINCIPAL com base no cargo
+    const atualizarBotaoPrincipal = () => {
+        const cargo = localStorage.getItem('cargo');
+        
+        const botaoHeroi = document.querySelector('.hero-button');
+        if (!botaoHeroi) {
+            console.error("Botão principal (.hero-button) não encontrado.");
+            return;
+        }
+
+        // Assumindo: 1 = noivo, 2 = fornecedor, 3 = cerimonialista
+        if (cargo === '1') { // Se for NOIVO
+            botaoHeroi.textContent = 'Cerimonialistas e Fornecedores';
+            botaoHeroi.href = 'pagina-de-busca.html'; 
+            botaoHeroi.style.display = 'inline-block';
+        } 
+        else if (cargo === '3') { // Se for CERIMONIALISTA
+            botaoHeroi.textContent = 'Fornecedores';
+            botaoHeroi.href = 'catalogo_fornecedores.html';
+            botaoHeroi.style.display = 'inline-block';
+        }
+        else if (cargo === '4') { // Se for ADM
+            botaoHeroi.textContent = 'Gerenciar usuários';
+            botaoHeroi.href = 'listagem.html'; // Pode direcionar para a listagem ou um dashboard
+            botaoHeroi.style.display = 'inline-block';
+        }
+        else { 
+            // Para outros cargos (como fornecedor), esconde o botão
+            botaoHeroi.style.display = 'none';
+        }
+    };
+
+    // Verificar a autenticação do usuário
+    const checkAuthentication = () => {
+        const token = localStorage.getItem('token'); 
+
+        if (!token) {
+            const botaoHeroi = document.querySelector('.hero-button');
+            if(botaoHeroi) {
+                botaoHeroi.style.display = 'none';
+            }
+
+            Swal.fire({
+                icon: 'warning',
+                title: 'Acesso Restrito',
+                text: 'Você precisa estar logado para acessar esta página.',
+                confirmButtonText: 'Entendi, ir para Login',
+                allowOutsideClick: false,
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = 'login.html';
+                }
+            });
+        } else {
+            atualizarBotaoPrincipal();
+        }
+    };
+
+    checkAuthentication();
+
+    // --- Lógica do Modal ---
+
+    const profileLink = document.getElementById('profileLink');
+    const logoutModal = document.getElementById('logoutModal');
+    const closeModalButton = document.querySelector('.close-button');
+    const modalOptionsContainer = document.getElementById('modalOptionsContainer');
+
+    const handleLogout = () => {
+        localStorage.clear();
+        
+        Swal.fire({
+            title: 'Você saiu!',
+            text: 'Sua sessão foi encerrada.',
+            icon: 'info'
+        }).then(() => {
+            window.location.href = 'login.html'; 
+        });
+
+        closeModal();
+    };
+
+    const openModal = () => {
+        // Limpa opções anteriores para evitar duplicatas
+        modalOptionsContainer.innerHTML = '';
+
+        const cargo = localStorage.getItem('cargo');
+
+        // 1 = noivo, 2 = fornecedor, 3 = cerimonialista, 4 = admin
+        if (cargo === '2') { // Se for FORNECEDOR
+            // Opção: Editar Perfil
+            const editProfileLink = document.createElement('a');
+            editProfileLink.href = 'editar_fornecedor.html';
+            editProfileLink.textContent = 'Editar perfil';
+            modalOptionsContainer.appendChild(editProfileLink);
+
+            // Opção: Cadastrar Serviço
+            const editServiceLink = document.createElement('a');
+            editServiceLink.href = 'cadastro_servico.html';
+            editServiceLink.textContent = 'Cadastrar novo serviço';
+            modalOptionsContainer.appendChild(editServiceLink);
+
+        } else if (cargo === '1' || cargo === '3') { // Se for NOIVO ou CERIMONIALISTA
+            const editProfileLink = document.createElement('a');
+            if (cargo === '1') { // Noivo
+                editProfileLink.href = 'editar_noivo.html';
+            } else { // Cerimonialista
+                editProfileLink.href = 'editar_cerimonialista.html';
+            }
+            editProfileLink.textContent = 'Editar perfil';
+            modalOptionsContainer.appendChild(editProfileLink);
+            
+        // --- INÍCIO DA ALTERAÇÃO ---
+        } else if (cargo === '4') { // Se for ADMIN
+            const listagemLink = document.createElement('a');
+            listagemLink.href = 'listagem.html'; // Redireciona para a página de listagem
+            listagemLink.textContent = 'Gerenciar Usuários';
+            modalOptionsContainer.appendChild(listagemLink);
+
+            // const cadastrarLink = document.createElement('a');
+            // cadastrarLink.href = 'cadastro_admin.html'; // Redireciona para a página de listagem
+            // cadastrarLink.textContent = 'Cadastrar Usuários';
+            // modalOptionsContainer.appendChild(cadastrarLink);
+        // --- FIM DA ALTERAÇÃO ---
+
+        }
+
+        // Opção de Sair da Conta (comum a todos)
+        const logoutButton = document.createElement('button');
+        logoutButton.textContent = 'Sair da conta';
+        logoutButton.className = 'logout-btn'; // Adiciona a classe para estilização
+        logoutButton.addEventListener('click', handleLogout); // Adiciona o evento de logout
+        modalOptionsContainer.appendChild(logoutButton);
+
+        // Exibe o modal
+        logoutModal.style.display = 'flex';
+    };
+
+    const closeModal = () => {
+        logoutModal.style.display = 'none';
+    };
+
+    if (profileLink) {
+        profileLink.addEventListener('click', (event) => {
+            event.preventDefault();
+            openModal();
+        });
+    }
+
+    if (closeModalButton) {
+        closeModalButton.addEventListener('click', closeModal);
+    }
+
+    if (logoutModal) {
+        logoutModal.addEventListener('click', (event) => {
+            if (event.target === logoutModal) {
+                closeModal();
+            }
+        });
+    }
+});
+</script>
 </body>
 
 </html>

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sobre Nós - Casamento Perfeito</title>
+    <title>Contato - Casamento Perfeito</title>
     <link rel="icon" href="assets/img/iconsite.png" type="image/x-icon">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -13,7 +13,11 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Luxurious+Script&family=Old+Standard+TT:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" href="assets/css/sobre_nos.css">
+    <link rel="stylesheet" href="assets/css/contato.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Ledger&display=swap" rel="stylesheet">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -53,7 +57,7 @@
         }
     </style>
 </head>
-<body>
+<body class="body-sec">
 
     <section class="hero-section">
         <header class="header">
@@ -72,9 +76,8 @@
                     </ul>
                 </nav>
             </div>
-        </header>
 
-        <img class="logo-2" src="assets/img/logo-branca-2.png" alt="Logo branca.">
+            
         <div id="logoutModal" class="modal-overlay">
             <div class="modal-content">
                 <span class="close-button">&times;</span>
@@ -84,8 +87,10 @@
             </div>
         </div>
 
-    <script src="assets/js/main.js"></script>
-    <div class="hero-content">
+        <script src="assets/js/main.js"></script>
+        <div class="hero-content">
+        </header>
+
 
         </div>
     </section>
@@ -96,19 +101,28 @@
 
     </section>
     <main class="sec-principal">
-        <section class="quadro-sobre">
-            <h2 class="titulo-casamento">Conheça a <span class="titulo-editado">Casamento Perfeito</span>,</h2>
-            <p class="texto-casamento">
-                O Casamento Perfeito nasceu do sonho de transformar cada detalhe do grande dia em uma experiência única e inesquecível. Sabemos que organizar um casamento envolve muito mais do que escolher flores, trajes ou músicas — é sobre contar uma história de amor do jeito certo, com cuidado, carinho e significado.
-            </br></br>
-                Nosso objetivo é inspirar, orientar e ajudar casais a realizarem o casamento que sempre imaginaram. Aqui você encontra dicas, tendências, ideias criativas e soluções práticas para cada etapa, desde o planejamento até o tão esperado “sim”.
-            </br></br>
-                Acreditamos que cada amor é único e, por isso, cada celebração deve refletir a essência dos noivos. O Casamento Perfeito é mais do que um site: é um espaço feito para sonhar, planejar e viver a magia de um dos momentos mais especiais da vida.
-            </p>
+        <section class="quadro-contato">
+            <h2 class="titulo-contato">CONTATO</h2>
+            <form action="" class="form-sec">
+                <label for="">Nome:</label>
+                <input class="input-geral" type="text" placeholder="Digite seu nome">
+            </br>
+                <label for="">E-mail:</label>
+                <input class="input-geral" type="email" placeholder="Digite seu e-mail">
+            </br>
+                <label for="">Assunto:</label>
+                <input class="input-geral" type="text" placeholder="Digite o assunto">
+            </br>
+                <label for="">Dúvidas:</label>
+                <input class="input-duvida" type="text" placeholder="Escreva sua dúvida aqui...">
+                <div class="bot-enviar-sec">
+                    <button class="bot-enviar" type="submit">Enviar</button>
+                </div>
+            </form>
         </section>
     </main>
 
-    <footer class="footer">
+    <!-- <footer class="footer">
         <div class="footer-contact-bar">
             <div class="footer-container">
                 <p class="contato">Entre em contato conosco</p>
@@ -160,7 +174,7 @@
                 </div>
             </div>
         </div>
-    </footer>
+    </footer> -->
 <script>
 document.addEventListener('DOMContentLoaded', () => {
 

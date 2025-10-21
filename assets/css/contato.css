@@ -7,28 +7,29 @@
 
 /* FONTES */
 .luxurious-script-regular {
-  font-family: "Luxurious Script", cursive;
-  font-weight: 400;
-  font-style: normal;
+    font-family: "Luxurious Script", cursive;
+    font-weight: 400;
+    font-style: normal;
 }
 
 .old-standard-tt-regular {
-  font-family: "Old Standard TT", serif;
-  font-weight: 400;
-  font-style: normal;
+    font-family: "Old Standard TT", serif;
+    font-weight: 400;
+    font-style: normal;
 }
 
 .old-standard-tt-bold {
-  font-family: "Old Standard TT", serif;
-  font-weight: 700;
-  font-style: normal;
+    font-family: "Old Standard TT", serif;
+    font-weight: 700;
+    font-style: normal;
 }
 
 .old-standard-tt-regular-italic {
-  font-family: "Old Standard TT", serif;
-  font-weight: 400;
-  font-style: italic;
+    font-family: "Old Standard TT", serif;
+    font-weight: 400;
+    font-style: italic;
 }
+
 /* FIM DAS FONTES */
 
 body {
@@ -38,17 +39,18 @@ body {
 
 .hero-section {
     position: relative;
-    height: 100vh;
     width: 100%;
     /* ALTERADO: Caminho da imagem de fundo */
-    background-image: url('../img/cabecalho-sobre-nos.png'); 
     background-size: cover;
     background-position: center;
     display: flex;
     flex-direction: column;
-    justify-content: space-between; /* Para empurrar a barra de pesquisa para baixo */
-    align-items: center; /* Centraliza o conteúdo (inclusive a barra de pesquisa) */
-    padding: 300px 6% 50px; /* Padding para o conteúdo não ficar colado nas bordas */
+    justify-content: space-between;
+    /* Para empurrar a barra de pesquisa para baixo */
+    align-items: center;
+    /* Centraliza o conteúdo (inclusive a barra de pesquisa) */
+    padding: 150px 1% 0px;
+    /* Padding para o conteúdo não ficar colado nas bordas */
     border-bottom-left-radius: 7px;
     border-bottom-right-radius: 7px;
 }
@@ -57,8 +59,10 @@ body {
 .hero-content {
     color: white;
     text-align: left;
-    width: 100%; /* Garante que o conteúdo ocupe a largura para alinhamento */
+    width: 100%;
+    /* Garante que o conteúdo ocupe a largura para alinhamento */
 }
+
 .hero-subtitle {
     font-size: 1.6rem;
     font-weight: 500;
@@ -66,6 +70,7 @@ body {
     margin-bottom: 20px;
     font-family: "Old Standard TT", serif;
 }
+
 .hero-title {
     font-family: 'Great Vibes', cursive;
     font-size: 6rem;
@@ -73,9 +78,11 @@ body {
     line-height: 1;
     margin-top: -10px;
 }
+
 .hero-button {
     display: inline-block;
-    background-color: rgba(255, 183, 201, 0.75); /* Cor rosa com opacidade */
+    background-color: rgba(255, 183, 201, 0.75);
+    /* Cor rosa com opacidade */
     color: white;
     padding: 12px 30px;
     margin-top: 20px;
@@ -87,6 +94,7 @@ body {
     transition: background-color 0.3s ease;
     font-family: "Old Standard TT", serif;
 }
+
 .hero-button:hover {
     background-color: #fca9be;
 }
@@ -97,14 +105,15 @@ body {
     top: 0;
     left: 0;
     width: 100%;
-    background-color: rgba(255, 183, 201, 0.75); /* Cor rosa com opacidade */
+    background-color: rgba(255, 183, 201, 0.75);
+    /* Cor rosa com opacidade */
     z-index: 1000;
 }
 
 .header-container {
     max-width: 1500px;
     margin: 0 auto;
-    padding: 10px 30px; 
+    padding: 10px 30px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -116,7 +125,7 @@ body {
 }
 
 .logo-2 {
-    height:520px;
+    height: 520px;
     width: auto;
     margin-top: -200px;
 }
@@ -157,14 +166,15 @@ body {
 
 .btn-login:hover {
     background-color: #ed6688;
-    color:#fff;
+    color: #fff;
 }
 
 /* --- NOVOS ESTILOS PARA A BARRA DE PESQUISA --- */
 .search-bar-container {
     width: 100%;
     display: flex;
-    justify-content: center; /* Centraliza a barra de pesquisa horizontalmente */
+    justify-content: center;
+    /* Centraliza a barra de pesquisa horizontalmente */
 }
 
 .search-bar {
@@ -175,17 +185,20 @@ body {
     border-radius: 8px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
     width: 100%;
-    max-width: 700px; /* Largura máxima da barra */
+    max-width: 700px;
+    /* Largura máxima da barra */
 }
 
 .search-input {
     border: none;
     outline: none;
-    width: 100%; /* Ocupa todo o espaço disponível */
+    width: 100%;
+    /* Ocupa todo o espaço disponível */
     font-size: 1rem;
     color: #555;
     background-color: transparent;
-    margin: 0 15px; /* Espaçamento entre o input e os ícones */
+    margin: 0 15px;
+    /* Espaçamento entre o input e os ícones */
 }
 
 .search-input::placeholder {
@@ -196,8 +209,10 @@ body {
 .filter-icon {
     width: 24px;
     height: 24px;
-    stroke: #777; /* Cor dos ícones */
-    flex-shrink: 0; /* Impede que os ícones encolham */
+    stroke: #777;
+    /* Cor dos ícones */
+    flex-shrink: 0;
+    /* Impede que os ícones encolham */
 }
 
 .filter-icon {
@@ -206,24 +221,30 @@ body {
 }
 
 .filter-icon:hover {
-    stroke: #FF87A5; /* Muda a cor ao passar o mouse */
+    stroke: #FF87A5;
+    /* Muda a cor ao passar o mouse */
 }
 
 /* --- ESTILOS DA MODAL DE LOGOUT --- */
 
 /* O fundo escuro que cobre a página */
 .modal-overlay {
-    display: none; /* Inicia escondido */
-    position: fixed; /* Cobre toda a tela */
-    z-index: 1000; /* Fica na frente de tudo */
+    display: none;
+    /* Inicia escondido */
+    position: fixed;
+    /* Cobre toda a tela */
+    z-index: 1000;
+    /* Fica na frente de tudo */
     left: 0;
     top: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.6); /* Cor preta com opacidade */
-    
-    display: none; /* ESSA É A LINHA MAIS IMPORTANTE! */
-    
+    background-color: rgba(0, 0, 0, 0.6);
+    /* Cor preta com opacidade */
+
+    display: none;
+    /* ESSA É A LINHA MAIS IMPORTANTE! */
+
     justify-content: center;
     align-items: center;
 }
@@ -270,7 +291,8 @@ body {
 
 /* Botão de Sair */
 .logout-btn {
-    background-color: #d9534f; /* Vermelho para indicar uma ação de 'saída' */
+    background-color: #d9534f;
+    /* Vermelho para indicar uma ação de 'saída' */
     color: white;
     border: none;
     padding: 12px 25px;
@@ -291,56 +313,116 @@ body {
         opacity: 0;
         transform: scale(0.95);
     }
+
     to {
         opacity: 1;
         transform: scale(1);
     }
 }
 
+.body-sec {
+    background-image: url('../img/fundo-contato.png');
+}
+
 .sec-principal {
-    background-color: #FFEDF1;
-    padding-bottom: 80px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
-.quadro-sobre {
-    background-color: white;
-    margin-left: 220px;
-    margin-right: 220px;
+.quadro-contato {
+    padding-bottom: 40px;
+}
+
+.form-sec {
+    background-color: #FFC9D6;
     padding: 40px;
-    margin-top: -60px;
-    position: relative;
+    border: 1px solid #FFC9D6;
+    border-radius: 16px;
+    padding-bottom: 20px;
 }
 
-.titulo-casamento {
-    font-family: "Lato", sans-serif;
-    font-weight: 300;
-    font-style: italic;    
-    font-size: 27px;
-    padding-bottom: 12px;
-    color: #605B52;
-}
-
-.titulo-editado {
-    font-family: "Lato", sans-serif;
-    font-weight: 700;
-    font-style: italic;
-    font-size: 27px;
-    padding-bottom: 12px;
-    color: #BB9245;
-}
-
-.texto-casamento {
-    font-family: "Lato", sans-serif;
-    font-weight: 300;
+.form-sec .input-geral {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 400px;
+    padding-left: 10px;
+    padding-right: 30px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    font-family: "Ledger", serif;
+    font-weight: 600;
     font-style: normal;
-    font-size: 23px;
-    color: #605B52;
+    font-size: 13px;
+    border: none;
+    outline: none;
+}
+
+.titulo-contato {
+    font-family: "Ledger", serif;
+    font-weight: 500;
+    font-style: normal;
+    font-size: 33px;
+    color: white;
+    text-align: center;
+    padding-bottom: 40px;
+}
+
+.form-sec label {
+    font-family: "Ledger", serif;
+    font-weight: 600;
+    font-size: 17px;
+    padding-bottom: 15px;
+}
+
+.input-duvida {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 400px;
+    padding-left: 10px;
+    padding-right: 30px;
+    padding-top: 10px;
+    padding-bottom: 40px;
+    font-family: "Ledger", serif;
+    font-weight: 600;
+    font-style: normal;
+    font-size: 13px;
+    border: none;
+    outline: none;
+}
+
+.bot-enviar-sec {
+    margin-top: 25px;
+    text-align: center;
+    justify-content: center;
+}
+
+.bot-enviar {
+    background-color: #474545;
+    padding-left: 40px;
+    padding-right: 40px;
+    padding-bottom: 10px;
+    padding-top: 10px;
+    text-decoration: none;
+    border: 1px solid #474545;
+    border-radius: 5px;
+    font-family: "Ledger", serif;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 17px;
+    color: white;
 }
 
 /* --- RODAPÉ --- */
 .footer {
     position: relative;
-    background-color: #333; /* Cor de fallback caso a imagem não carregue */
+    background-color: #333;
+    /* Cor de fallback caso a imagem não carregue */
     color: #ffffff;
     width: 100%;
 }
@@ -356,15 +438,18 @@ body {
     background-image: url('../img/fundo-alianca.jpg');
     background-size: cover;
     background-position: center;
-    filter: brightness(0.5); /* Escurece a imagem para o texto ficar legível */
+    filter: brightness(0.5);
+    /* Escurece a imagem para o texto ficar legível */
     z-index: 1;
 }
 
 /* Barra de contato rosa no topo */
 .footer-contact-bar {
     position: relative;
-    z-index: 2; /* Fica acima do fundo */
-    background-color: rgba(255, 183, 201, 0.75); /* Cor rosa com opacidade */
+    z-index: 2;
+    /* Fica acima do fundo */
+    background-color: rgba(255, 183, 201, 0.75);
+    /* Cor rosa com opacidade */
     padding: 15px 0;
     border-bottom: 1px solid rgba(255, 255, 255, 0.2);
 }
@@ -407,12 +492,14 @@ body {
 /* Conteúdo principal do rodapé (logo e colunas) */
 .footer-main {
     position: relative;
-    z-index: 2; /* Fica acima do fundo */
+    z-index: 2;
+    /* Fica acima do fundo */
     padding: 60px 0;
 }
 
 .footer-main .footer-container {
-    align-items: flex-start; /* Alinha as colunas pelo topo */
+    align-items: flex-start;
+    /* Alinha as colunas pelo topo */
     gap: 40px;
 }
 
@@ -455,7 +542,7 @@ body {
 }
 
 .titulos-info {
-    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     color: #F3BDD1;
 }
 
@@ -467,69 +554,89 @@ body {
         align-items: center;
         gap: 40px;
     }
-    .quadro-sobre {
-        background-color: white;
-        margin-left: 120px;
-        margin-right: 120px;
-        padding: 40px;
-        margin-top: -60px;
-        position: relative;
-    }
+
+
 }
 
 @media (max-width: 426px) {
-    .quadro-sobre {
-        background-color: white;
-        margin-left: 60px;
-        margin-right: 60px;
-        padding: 40px;
-        margin-top: -60px;
-        position: relative;
+   .form-sec .input-geral {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 300px;
+        padding-left: 10px;
+        padding-right: 30px;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        font-family: "Ledger", serif;
+        font-weight: 600;
+        font-style: normal;
+        font-size: 13px;
+        border: none;
+        outline: none;
     }
-    .titulo-casamento {
-        font-size: 23px;
+
+    .input-duvida {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 300px;
+        padding-left: 10px;
+        padding-right: 30px;
+        padding-top: 10px;
+        padding-bottom: 40px;
+        font-family: "Ledger", serif;
+        font-weight: 600;
+        font-style: normal;
+        font-size: 13px;
+        border: none;
+        outline: none;
     }
-    .titulo-editado {
-        font-size: 23px;
-    }
-    .texto-casamento {
-        font-size: 19px;
-    }
-    .logo-2 {
-        height: 270px;
-        width: auto;
-        margin-top: -20px;
-    }
+
     header {
         flex-direction: column;
     }
+
     .header-container {
         flex-direction: column;
         align-items: center;
         gap: 15px;
         padding-bottom: 20px;
     }
-     .footer-container {
-    flex-direction: column; /* Coloca os elementos um embaixo do outro */
-    justify-content: center;
-    align-items: center; /* Centraliza horizontalmente */
-    text-align: center; /* Centraliza o texto */
-    gap: 20px; /* Espaçamento entre os itens */
-  }
+
+    .footer-container {
+        flex-direction: column;
+        /* Coloca os elementos um embaixo do outro */
+        justify-content: center;
+        align-items: center;
+        /* Centraliza horizontalmente */
+        text-align: center;
+        /* Centraliza o texto */
+        gap: 20px;
+        /* Espaçamento entre os itens */
+    }
 
     .footer-main .footer-container {
-        align-items: center; /* Centraliza também as colunas */
+        align-items: center;
+        /* Centraliza também as colunas */
     }
 
     .footer-column {
-        flex: unset; /* Remove o "flex: 1" para não esticar */
-        width: 100%; /* Ocupa toda a largura disponível */
-        max-width: 300px; /* Limita para não ficar exagerado */
+        flex: unset;
+        /* Remove o "flex: 1" para não esticar */
+        width: 100%;
+        /* Ocupa toda a largura disponível */
+        max-width: 300px;
+        /* Limita para não ficar exagerado */
     }
 
     .footer-logo img {
-        max-width: 140px; /* Logo menor em telas pequenas */
+        max-width: 140px;
+        /* Logo menor em telas pequenas */
     }
+
     .navbar a {
         text-decoration: none;
         color: #fff;
@@ -538,9 +645,12 @@ body {
         text-transform: uppercase;
         transition: color 0.3s ease;
     }
+
     .hero-section {
-        padding: 180px 6% 50px; /* Padding para o conteúdo não ficar colado nas bordas */
+        padding: 180px 6% 50px;
+        /* Padding para o conteúdo não ficar colado nas bordas */
     }
+
     .hero-title {
         font-family: 'Great Vibes', cursive;
         font-size: 4rem;
@@ -548,9 +658,11 @@ body {
         line-height: 1;
         margin-top: -10px;
     }
+
     .hero-subtitle {
         font-size: 1rem;
     }
+
     .hero-button {
         display: inline-block;
         background-color: rgba(255, 183, 201, 0.75);
@@ -562,12 +674,48 @@ body {
         font-weight: 500;
         font-size: 1rem;
         border-radius: 4px;
-        transition: background-color 0.3s 
-    ease;
+        transition: background-color 0.3s ease;
         font-family: "Old Standard TT", serif;
     }
 }
+
 @media (max-width: 376px) {
+    .form-sec .input-geral {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 250px;
+        padding-left: 10px;
+        padding-right: 30px;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        font-family: "Ledger", serif;
+        font-weight: 600;
+        font-style: normal;
+        font-size: 13px;
+        border: none;
+        outline: none;
+    }
+
+    .input-duvida {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 250px;
+        padding-left: 10px;
+        padding-right: 30px;
+        padding-top: 10px;
+        padding-bottom: 40px;
+        font-family: "Ledger", serif;
+        font-weight: 600;
+        font-style: normal;
+        font-size: 13px;
+        border: none;
+        outline: none;
+    }
+
     .navbar a {
         text-decoration: none;
         color: #fff;
@@ -576,6 +724,7 @@ body {
         text-transform: uppercase;
         transition: color 0.3s ease;
     }
+
     .quadro-sobre {
         background-color: white;
         margin-left: 30px;
@@ -584,12 +733,15 @@ body {
         margin-top: -60px;
         position: relative;
     }
+
     .titulo-casamento {
         font-size: 20px;
     }
+
     .titulo-editado {
         font-size: 20px;
     }
+
     .texto-casamento {
         font-size: 17px;
     }
@@ -604,5 +756,41 @@ body {
         font-weight: 500;
         text-transform: uppercase;
         transition: color 0.3s ease;
+    }
+
+    .form-sec .input-geral {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 200px;
+        padding-left: 10px;
+        padding-right: 30px;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        font-family: "Ledger", serif;
+        font-weight: 600;
+        font-style: normal;
+        font-size: 13px;
+        border: none;
+        outline: none;
+    }
+
+    .input-duvida {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 200px;
+        padding-left: 10px;
+        padding-right: 30px;
+        padding-top: 10px;
+        padding-bottom: 40px;
+        font-family: "Ledger", serif;
+        font-weight: 600;
+        font-style: normal;
+        font-size: 13px;
+        border: none;
+        outline: none;
     }
 }

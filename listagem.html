@@ -125,7 +125,7 @@
         </button>
       </div>
 
-      <!-- Botões de filtro -->
+ 
       <div class="filtros">
         <button class="tipo active" data-cargo="todos" onclick="filtrarPorCargo('todos')">Todos</button>
         <button class="tipo" data-cargo="1" onclick="filtrarPorCargo(1)">Noivos</button>
@@ -133,10 +133,10 @@
         <button class="tipo" data-cargo="3" onclick="filtrarPorCargo(3)">Cerimonialistas</button>
         <button class="tipo" data-cargo="4" onclick="filtrarPorCargo(4)">ADMs</button>
       </div>
-      <!-- aaaaa -->
+
 
       <div class="lista">
-        <!-- Cabeçalho -->
+
         <div class="lista-header">
           <div class="header-usuario">Usuário:</div>
           <div class="header-tipo">Tipo:</div>
@@ -161,7 +161,7 @@
             }
     });
 
-    let todosUsuarios = []; // Armazena todos os usuários
+    let todosUsuarios = []; 
 
     document.addEventListener("DOMContentLoaded", async () => {
         const token = localStorage.getItem('token'); 
@@ -210,7 +210,7 @@
             }
 
             const data = await response.json();
-            todosUsuarios = data.usuarios; // Armazena todos os usuários
+            todosUsuarios = data.usuarios; 
 
             renderizarUsuarios(todosUsuarios);
 

@@ -1,1 +1,1 @@
-const ipPython = "http://10.92.3.178:5000"
+const ipPython = "http://10.92.3.154:5000"

@@ -682,7 +682,7 @@ body {
     /* menos altura pra não parecer vazio */
 }
 
-.exibe_fornecedores {
+.exibe_servicos {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;

@@ -124,8 +124,7 @@ body {
 
 .modal-overlay2 {
     gap: 10px;
-    display: flex; /* Inicia escondido */
-    flex-direction: column;
+    display: none; /* Inicia escondido */
     position: fixed; /* Cobre toda a tela */
     z-index: 1000; /* Fica na frente de tudo */
     left: 0;

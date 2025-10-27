@@ -153,8 +153,8 @@ select:focus {
 }
 
 .botao-editar {
-    width: 100%;
-    max-width: 300px;
+    width: 100px;
+    max-width: 100%;
     height: 50px;
     border: 1px solid var(--preto);
     border-radius: 10px;
@@ -177,6 +177,36 @@ select:focus {
 .botao-editar:active {
     transform: translateY(0);
 }
+.botoes-acoes {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+.botao-servico {
+            width: 300px;
+            max-width: 100%;
+            height: 50px;
+            border: 1px solid var(--preto);
+            border-radius: 10px;
+            background-color: var(--rosa-médio-escuro);
+            color: var(--preto);
+            font-size: 20px;
+            font-weight: 500;
+            cursor: pointer;
+            font-family: 'Ledger', serif;
+            margin-top: 10px;
+        }
+
+.botao-servico {
+    background-color: var(--rosa-escuro);
+    color: var(--black);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+
 
 /* RESPONSIVO */
 @media (max-width: 768px) {

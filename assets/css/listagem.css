@@ -9,17 +9,30 @@
 }
 
 /* ========== FUNDO E MODAL ========== */
+body {
+  position: relative;
+  min-height: 100vh;
+  background: url('assets/img/fundo-alianca.jpg') center/cover no-repeat;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  pointer-events: none;
+  z-index: 0;
+}
+
+
 .overlay {
-    position: fixed;
     inset: 0;
-    background: rgba(0, 0, 0, 0.4);
     display: flex;
     justify-content: center;
     align-items: center;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     min-height: 100vh;
     overflow-y: auto;
-    z-index: 100;
 }
 
 .modal {

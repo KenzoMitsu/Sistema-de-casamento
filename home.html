@@ -79,11 +79,24 @@
             </div>
         </div>
 
+        <div id="fornecedoresModal" class="modal-overlay2">
+            <div class="modal-content">
+                <span class="close-button close-fornecedores">&times;</span>
+                <h2>Catálogo</h2>
+                <a href="catalogo_fornecedores.html">
+                    <button class="bot-heroi">Fornecedores</button>
+                </a>
+                <a href="catalogo_servicos.html">
+                    <button class="bot-heroi">Serviços</button>
+                </a>
+            </div>
+        </div>
+
     <script src="assets/js/main.js"></script>
     <div class="hero-content">
             <p class="hero-subtitle">SEU SONHO</p>
             <h1 class="hero-title">Começa Aqui!</h1>
-            <a href="#" class="hero-button">CERIMONIALISTA</a>
+            <a href="#" class="hero-button" style="display:none;"></a>
         </div>
         
         <div class="search-bar-container">
@@ -298,7 +311,7 @@ document.addEventListener('DOMContentLoaded', () => {
         } 
         else if (cargo === '3') { // Se for CERIMONIALISTA
             botaoHeroi.textContent = 'Fornecedores';
-            botaoHeroi.href = 'catalogo_fornecedores.html';
+            botaoHeroi.removeAttribute('href'); 
             botaoHeroi.style.display = 'inline-block';
         }
         else if (cargo === '4') { // Se for ADM
@@ -436,6 +449,39 @@ document.addEventListener('DOMContentLoaded', () => {
         logoutModal.addEventListener('click', (event) => {
             if (event.target === logoutModal) {
                 closeModal();
+            }
+        });
+    }
+    const botaoHeroi = document.querySelector('.hero-button');
+    const fornecedoresModal = document.getElementById('fornecedoresModal');
+    const closeFornecedoresButton = document.querySelector('.close-fornecedores');
+
+    const openFornecedoresModal = () => {
+        fornecedoresModal.style.display = 'flex';
+    };
+
+    const closeFornecedoresModal = () => {
+        fornecedoresModal.style.display = 'none';
+    };
+
+    if (botaoHeroi) {
+    botaoHeroi.addEventListener('click', (event) => {
+        const cargo = localStorage.getItem('cargo');
+        if (cargo === '3') { // Cerimonialista
+            event.preventDefault();
+            openFornecedoresModal();
+        }
+    });
+    }   
+
+    if (closeFornecedoresButton) {
+        closeFornecedoresButton.addEventListener('click', closeFornecedoresModal);
+    }
+
+    if (fornecedoresModal) {
+        fornecedoresModal.addEventListener('click', (event) => {
+            if (event.target === fornecedoresModal) {
+                closeFornecedoresModal();
             }
         });
     }

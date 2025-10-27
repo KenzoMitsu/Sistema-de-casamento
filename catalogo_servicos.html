@@ -15,7 +15,6 @@
 
     <link rel="stylesheet" href="assets/css/catalogo_servicos.css">
 
-    <!-- SweetAlert baixado -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="api.js"></script>
 </head>
@@ -31,7 +30,7 @@
                 <nav class="navbar">
                     <ul>
                         <li><a href="home.html">Home</a></li> 
-        
+    
                         <li><a href="#">Sobre Nós</a></li>
                         <li><a href="#">Contato</a></li>
                         <li><a id="profileLink" href="#"><img src="assets/img/perfil.png" alt="Ícone de Perfil" class="profile-icon"></a></li>
@@ -40,7 +39,6 @@
             </div>
         </header>
 
-        <!-- Modal de Logout -->
         <div id="logoutModal" class="modal-overlay">
             <div class="modal-content">
                 <span class="close-button">&times;</span>
@@ -50,12 +48,9 @@
             </div>
         </div>
 
-    <!--  -->
     </section>
     <h1 class="titulo-serv">Serviços disponíveis</h1>
-    <div class="div-bot-cadastro">
-        <button class="bot-cadastro">+ Cadastrar serviço</button>
-    </div>
+    
     <div class="exibe_servicos" id="exibe_servicos"></div>
 
     <footer class="footer">
@@ -139,7 +134,9 @@
                     });
                 } else {
                     // Se o usuário está autenticado, atualizamos o botão
-                    atualizarBotaoPrincipal();
+                    // ATENÇÃO: A função atualizarBotaoPrincipal() não está definida neste script.
+                    // Isso causará um erro. Você precisa adicionar essa função se ela for necessária.
+                    // atualizarBotaoPrincipal(); 
                 }
             };
 
@@ -233,7 +230,7 @@
                                             alt="Imagem do Fornecedor"
                                             onerror="this.src='assets/img/placeholder.png'; this.style.objectFit='cover';">
                                     </div>
-                                    <h3 class="titulo-ong descricao">${item.nome}</h3>
+                                    <h3 class="nome-servico descricao">${item.nome}</h3>
                                     <p class="texto-ong categoria">${valorFormatado}</p>
                                     <p class="texto-ong">${item.descricao}</p>
                                 </div>
@@ -258,5 +255,4 @@
     </script>
 
 </body>
-
 </html>

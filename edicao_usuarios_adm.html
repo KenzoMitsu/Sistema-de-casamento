@@ -15,6 +15,7 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
     <script src="api.js"></script>
+
 </head>
 
 <body style="background: url('assets/img/fundo-alianca.jpg')">
@@ -56,12 +57,17 @@
                         <option>Espaço para eventos</option>
                     </select>
                 </div>
-                
-                <button type="submit" class="botao-editar">Editar</button>
+
+                <!-- Botões de ação -->
+                <div class="botoes-acoes">
+                    <button type="submit" class="botao-editar">Editar</button>
+                    <button type="button" class="botao-servico" id="btn-adicionar-servico" style="display: none;">Adicionar Serviço</button>
+                </div>
             </div>
         </div>
     </main>
 </body>
+
 <script>
 $(document).ready(function() {
     // Aplica máscaras
@@ -135,19 +141,25 @@ $(document).ready(function() {
                 // Verifica se é fornecedor (cargo == 2)
                 if (usuario.cargo == 2) {
                     console.log('Usuário é FORNECEDOR - mostrando campos específicos');
-                    // Mostra campos específicos de fornecedor
                     $('#campos-fornecedor').show();
-                    
-                    // Preenche os campos de fornecedor
+
+                    // Mostra o botão "Adicionar Serviço"
+                    $('#btn-adicionar-servico').show();
+
+                    // Define ação do botão
+                    $('#btn-adicionar-servico').off('click').on('click', function() {
+                        window.location.href = `../cadastro_servico_adm.html?id=${idUsuario}`;
+                    });
+
+                    // Preenche campos de fornecedor
                     $('#nome-marca').val(usuario.nome_marca || '');
-                    
                     if (usuario.categoria) {
                         $('#categoria').val(usuario.categoria);
                     }
                 } else {
                     console.log('Usuário NÃO é fornecedor - ocultando campos específicos');
-                    // Oculta campos de fornecedor
                     $('#campos-fornecedor').hide();
+                    $('#btn-adicionar-servico').hide();
                 }
                 
                 console.log('Formulário preenchido com sucesso!');
@@ -210,11 +222,9 @@ $(document).ready(function() {
         formData.append('telefone', $('#telefone').val());
         formData.append('cep', $('#cep').val());
         
-        // Adiciona campos de fornecedor apenas se cargo = 2
         if (cargo == 2) {
             formData.append('nome_marca', $('#nome-marca').val());
             formData.append('categoria', $('#categoria').val());
-            console.log('Enviando dados de fornecedor');
         }
         
         const dataNascimento = $('#data-nascimento').val();
@@ -259,3 +269,4 @@ $(document).ready(function() {
 </script>
 
 </html>
+

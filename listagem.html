@@ -1,16 +1,17 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Listagem de Usuários - Casamento Perfeito</title>
-  <link rel="stylesheet" href="assets/css/listagem.css">
-  <link rel="icon" href="assets/img/iconsite.png" type="image/x-icon">
 
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script src="api.js"></script>
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Listagem de Usuários - Casamento Perfeito</title>
+    <link rel="stylesheet" href="assets/css/listagem.css">
+    <link rel="icon" href="assets/img/iconsite.png" type="image/x-icon">
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="api.js"></script>
 </head>
 
 <body style="background: url('assets/img/fundo-alianca.jpg')">
@@ -82,7 +83,8 @@
                     <div class="form-row">
                         <div class="form-group">
                             <label for="categoria">Categoria</label>
-                            <select name="categoria" id="categoria" class="categoria" name="categoria" class="categoria">
+                            <select name="categoria" id="categoria" class="categoria" name="categoria"
+                                class="categoria">
                                 <option selected disabled style="color: var(--cinza)">Categoria</option>
                                 <option>Buffet</option>
                                 <option>Confeiteiro</option>
@@ -97,7 +99,8 @@
                         </div>
                         <div class="form-group">
                             <label for="nome_marca">Nome da Marca/Empresa</label>
-                            <input type="text" id="nome_marca" name="nome_marca" placeholder="Digite o nome da marca/empresa">
+                            <input type="text" id="nome_marca" name="nome_marca"
+                                placeholder="Digite o nome da marca/empresa">
                         </div>
                     </div>
                 </div>
@@ -107,51 +110,59 @@
         </div>
     </div>
 
-  <div class="overlay">
-    <div class="modal">
+    <div class="overlay">
+        <div class="modal">
 
-      <img src="assets/img/logo-preta.png" alt="Logo Casamento Perfeito" class="logo-canto">
-      
-      <a href="home.html">
-        <p class="close-btn">X</p>
-      </a>
+            <img src="assets/img/logo-preta.png" alt="Logo Casamento Perfeito" class="logo-canto">
 
-      <h2 class="titulo">Listagem de usuários</h2>
+            <a href="home.html">
+                <p class="close-btn">X</p>
+            </a>
 
-      <div class="container-principal">
-        <button id="abrirModalCadastroBtn" class="botao-cadastrar">
-            <img src="https://cdn-icons-png.flaticon.com/512/992/992651.png" alt="Ícone de adicionar">
-            Cadastrar Novo Usuário
-        </button>
-      </div>
+            <h2 class="titulo">Listagem de usuários</h2>
 
- 
-      <div class="filtros">
-        <button class="tipo active" data-cargo="todos" onclick="filtrarPorCargo('todos')">Todos</button>
-        <button class="tipo" data-cargo="1" onclick="filtrarPorCargo(1)">Noivos</button>
-        <button class="tipo" data-cargo="2" onclick="filtrarPorCargo(2)">Fornecedores</button>
-        <button class="tipo" data-cargo="3" onclick="filtrarPorCargo(3)">Cerimonialistas</button>
-        <button class="tipo" data-cargo="4" onclick="filtrarPorCargo(4)">ADMs</button>
-      </div>
+            <div class="container-principal">
+                <button id="abrirModalCadastroBtn" class="botao-cadastrar">
+                    <img src="https://cdn-icons-png.flaticon.com/512/992/992651.png" alt="Ícone de adicionar">
+                    Cadastrar Novo Usuário
+                </button>
+            </div>
+            <div class="search-bar-container">
+                <div class="search-bar">
+                    <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    </svg>
+                    <input type="text" class="search-input" id="searchInput" placeholder="Pesquisar">
+                </div>
+            </div>
 
+            <div class="filtros">
+                <button class="tipo active" data-cargo="todos" onclick="filtrarPorCargo('todos')">Todos</button>
+                <button class="tipo" data-cargo="1" onclick="filtrarPorCargo(1)">Noivos</button>
+                <button class="tipo" data-cargo="2" onclick="filtrarPorCargo(2)">Fornecedores</button>
+                <button class="tipo" data-cargo="3" onclick="filtrarPorCargo(3)">Cerimonialistas</button>
+                <button class="tipo" data-cargo="4" onclick="filtrarPorCargo(4)">ADMs</button>
+            </div>
 
-      <div class="lista">
+            <div class="lista">
 
-        <div class="lista-header">
-          <div class="header-usuario">Usuário:</div>
-          <div class="header-tipo">Tipo:</div>
-          <div class="header-acao"></div>
+                <div class="lista-header">
+                    <div class="header-usuario">Usuário:</div>
+                    <div class="header-tipo">Tipo:</div>
+                    <div class="header-acao"></div>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-  </div>
-  
-  <script>
 
-    $("#toggleSenha").on("click", function () {
+    <script>
+        let cargoSelecionado = 'todos';
+
+        $("#toggleSenha").on("click", function () {
             let senhaInput = $("#senha");
             let icone = $("#toggleSenha");
-
             if (senhaInput.attr("type") === "password") {
                 senhaInput.attr("type", "text");
                 icone.attr("src", "https://cdn-icons-png.flaticon.com/512/2767/2767149.png");
@@ -159,254 +170,227 @@
                 senhaInput.attr("type", "password");
                 icone.attr("src", "https://cdn-icons-png.flaticon.com/512/2767/2767146.png");
             }
-    });
+        });
 
-    let todosUsuarios = []; 
+        let todosUsuarios = [];
 
-    document.addEventListener("DOMContentLoaded", async () => {
-        const token = localStorage.getItem('token'); 
+        document.addEventListener("DOMContentLoaded", async () => {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Acesso Restrito',
+                    text: 'Você precisa estar logado para acessar esta página.',
+                    confirmButtonText: 'Entendi, ir para Login',
+                    allowOutsideClick: false,
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = 'login.html';
+                    }
+                });
+                return;
+            }
+            await carregarUsuarios(token);
+        });
 
-        if (!token) {
-            Swal.fire({
-                icon: 'warning',
-                title: 'Acesso Restrito',
-                text: 'Você precisa estar logado para acessar esta página.',
-                confirmButtonText: 'Entendi, ir para Login',
-                allowOutsideClick: false,
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    window.location.href = 'login.html';
-                }
-            });
-            return; 
+        async function carregarUsuarios(token) {
+            const lista = document.querySelector(".lista");
+            const tiposMap = { 1: "Noivo", 2: "Fornecedor", 3: "Cerimonialista", 4: "ADM" };
+            try {
+                const response = await fetch(`${ipPython}/usuario`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                if (response.status === 401 || response.status === 403) throw new Error("Token inválido ou expirado.");
+                if (!response.ok) throw new Error("Erro HTTP: " + response.status);
+
+                const data = await response.json();
+                todosUsuarios = data.usuarios;
+                renderizarUsuarios(todosUsuarios);
+            } catch (error) {
+                console.error("Erro ao carregar usuários:", error);
+                const header = document.querySelector(".lista-header");
+                lista.innerHTML = "";
+                lista.appendChild(header);
+                const erroMsg = document.createElement("div");
+                erroMsg.textContent = "Erro ao carregar usuários.";
+                erroMsg.style.padding = "20px";
+                erroMsg.style.textAlign = "center";
+                lista.appendChild(erroMsg);
+            }
         }
 
-        await carregarUsuarios(token);
-    });
-
-    async function carregarUsuarios(token) {
-        const lista = document.querySelector(".lista");
-
-        const tiposMap = {
-            1: "Noivo",
-            2: "Fornecedor",
-            3: "Cerimonialista",
-            4: "ADM"
-        };
-
-        try {
-            const response = await fetch(`${ipPython}/usuario`, {
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            });
-
-            if (response.status === 401 || response.status === 403) {
-                throw new Error("Token inválido ou expirado.");
-            }
-            
-            if (!response.ok) {
-                throw new Error("Erro HTTP: " + response.status);
-            }
-
-            const data = await response.json();
-            todosUsuarios = data.usuarios; 
-
-            renderizarUsuarios(todosUsuarios);
-
-        } catch (error) {
-            console.error("Erro ao carregar usuários:", error);
-            
+        function renderizarUsuarios(usuarios) {
+            const lista = document.querySelector(".lista");
+            const tiposMap = { 1: "Noivo", 2: "Fornecedor", 3: "Cerimonialista", 4: "ADM" };
             const header = document.querySelector(".lista-header");
             lista.innerHTML = "";
             lista.appendChild(header);
-            
-            const erroMsg = document.createElement("div");
-            erroMsg.textContent = "Erro ao carregar usuários.";
-            erroMsg.style.padding = "20px";
-            erroMsg.style.textAlign = "center";
-            lista.appendChild(erroMsg);
-        }
-    }
 
-    function renderizarUsuarios(usuarios) {
-        const lista = document.querySelector(".lista");
-        const tiposMap = {
-            1: "Noivo",
-            2: "Fornecedor",
-            3: "Cerimonialista",
-            4: "ADM"
-        };
-
-        const header = document.querySelector(".lista-header");
-        lista.innerHTML = "";
-        lista.appendChild(header);
-
-        if (usuarios.length === 0) {
-            const msgVazia = document.createElement("div");
-            msgVazia.textContent = "Nenhum usuário encontrado.";
-            msgVazia.style.padding = "20px";
-            msgVazia.style.textAlign = "center";
-            msgVazia.style.color = "#666";
-            lista.appendChild(msgVazia);
-            return;
-        }
-
-        usuarios.forEach(u => {
-            const tipoNome = tiposMap[u.cargo] || "Outro"; 
-            const item = document.createElement("div");
-            item.classList.add("item");
-            item.innerHTML = `
-                <a href="mailto:${u.email}">${u.email}</a>
-                <span class="tipo-label">${tipoNome}</span>
-                <button class="editar-btn" onclick="abrirEdicao(${u.id_usuario})">
-                    <img src="https://cdn-icons-png.flaticon.com/512/1159/1159633.png" alt="editar">
-                </button>
-            `;
-            lista.appendChild(item);
-        });
-    }
-
-    function filtrarPorCargo(cargo) {
-        // Remove active de todos os botões
-        document.querySelectorAll('.tipo').forEach(btn => {
-            btn.classList.remove('active');
-        });
-        
-        // Adiciona active no botão clicado
-        const btnClicado = document.querySelector(`[data-cargo="${cargo}"]`);
-        if (btnClicado) {
-            btnClicado.classList.add('active');
-        }
-
-        // Filtra os usuários
-        let usuariosFiltrados;
-        if (cargo === 'todos') {
-            usuariosFiltrados = todosUsuarios;
-        } else {
-            usuariosFiltrados = todosUsuarios.filter(u => u.cargo == cargo);
-        }
-
-        renderizarUsuarios(usuariosFiltrados);
-    }
-
-    function abrirEdicao(idUsuario) {
-        if (idUsuario) {
-            window.location.href = `edicao_usuarios_adm.html?id=${idUsuario}`;
-        } else {
-            console.error('ID do usuário não encontrado');
-        }
-    }
-
-    // Seleciona os elementos da nova modal
-    const abrirModalBtn = document.getElementById('abrirModalCadastroBtn');
-    const fecharModalBtn = document.getElementById('fecharModalCadastroBtn');
-    const modalOverlay = document.getElementById('modalCadastroOverlay');
-    const formCadastro = document.getElementById('formCadastro');
-    const cargoSelect = document.getElementById('cargo');
-    const camposFornecedor = document.getElementById('camposFornecedor');
-
-    // Funções para abrir e fechar a modal
-    const abrirModalCadastro = () => modalOverlay.classList.remove('hidden');
-    const fecharModalCadastro = () => modalOverlay.classList.add('hidden');
-
-    // Eventos para abrir e fechar a modal
-    abrirModalBtn.addEventListener('click', abrirModalCadastro);
-    fecharModalBtn.addEventListener('click', fecharModalCadastro);
-
-    // Fecha a modal se clicar fora dela (no overlay)
-    modalOverlay.addEventListener('click', (e) => {
-        if (e.target === modalOverlay) {
-            fecharModalCadastro();
-        }
-    });
-  
-    // Mostra/oculta campos de fornecedor com base no cargo selecionado
-    cargoSelect.addEventListener('change', () => {
-        // Usamos '2' como string pois o valor do <option> é uma string
-        if (cargoSelect.value === '2') {
-            camposFornecedor.classList.remove('hidden');
-            // Torna os campos de fornecedor obrigatórios
-            document.getElementById('categoria').required = true;
-            document.getElementById('nome_marca').required = true;
-        } else {
-            camposFornecedor.classList.add('hidden');
-            // Remove a obrigatoriedade
-            document.getElementById('categoria').required = false;
-            document.getElementById('nome_marca').required = false;
-        }
-    });
-
-    // Lógica para enviar o formulário de cadastro
-    formCadastro.addEventListener('submit', async (e) => {
-        e.preventDefault(); // Previne o recarregamento da página
-
-        const token = localStorage.getItem('token');
-        if (!token) {
-            Swal.fire('Erro', 'Token de autenticação não encontrado. Faça login novamente.', 'error');
-            return;
-        }
-
-        // Coleta os dados do formulário
-        const formData = new FormData(formCadastro);
-        const data = Object.fromEntries(formData.entries());
-
-        // Formatação da data de nascimento para "dd-mm-aaaa"
-        if (data.data_nascimento) { // Verifica se uma data foi selecionada
-            const parts = data.data_nascimento.split('-'); // Converte "AAAA-MM-DD" para ["AAAA", "MM", "DD"]
-            data.data_nascimento = `${parts[2]}-${parts[1]}-${parts[0]}`; // Remonta como "dd-mm-aaaa"
-        }   
-
-        // Se o cargo não for 'Fornecedor', remove os campos específicos para não enviá-los
-        if (data.cargo !== '2') {
-            delete data.categoria;
-            delete data.nome_marca;
-        }
-        
-        try {
-            const response = await fetch(`${ipPython}/admin/cadastrar-usuario`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
-                },
-                body: JSON.stringify(data)
-            });
-
-            const result = await response.json();
-
-            if (!response.ok) {
-                // Se a resposta não for OK, lança um erro com a mensagem da API
-                throw new Error(result.error || `Erro ${response.status}`);
+            if (usuarios.length === 0) {
+                const msgVazia = document.createElement("div");
+                msgVazia.textContent = "Nenhum usuário encontrado.";
+                msgVazia.style.padding = "20px";
+                msgVazia.style.textAlign = "center";
+                msgVazia.style.color = "#666";
+                lista.appendChild(msgVazia);
+                return;
             }
-
-            // Sucesso!
-            Swal.fire({
-                icon: 'success',
-                title: 'Usuário Cadastrado!',
-                text: result.message || 'O novo usuário foi criado com sucesso.',
-                timer: 2000,
-                showConfirmButton: false
-            });
-            
-
-            fecharModalCadastro(); // Fecha a modal
-            formCadastro.reset(); // Limpa o formulário
-            camposFornecedor.classList.add('hidden'); // Garante que os campos de fornecedor fiquem ocultos
-            
-            await carregarUsuarios(token); // Atualiza a lista de usuários na página
-
-        } catch (error) {
-            console.error('Erro ao cadastrar usuário:', error);
-            Swal.fire({
-                icon: 'error',
-                title: 'Ops... Algo deu errado',
-                text: error.message
+            usuarios.forEach(u => {
+                const tipoNome = tiposMap[u.cargo] || "Outro";
+                const item = document.createElement("div");
+                item.classList.add("item");
+                item.innerHTML = `
+            <a href="mailto:${u.email}">${u.email}</a>
+            <span class="tipo-label">${tipoNome}</span>
+            <button class="editar-btn" onclick="abrirEdicao(${u.id_usuario})">
+                <img src="https://cdn-icons-png.flaticon.com/512/1159/1159633.png" alt="editar">
+            </button>
+        `;
+                lista.appendChild(item);
             });
         }
-    });
 
-  </script>
+        // ALTERADO PARA INTEGRAR O FILTRO DE CARGO NA PESQUISA
+        function filtrarPorCargo(cargo) {
+            cargoSelecionado = cargo; // Atualiza a variável cargo selecionado
+            document.querySelectorAll('.tipo').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            const btnClicado = document.querySelector(`[data-cargo="${cargo}"]`);
+            if (btnClicado) btnClicado.classList.add('active');
+            // Atualiza pesquisa com o texto atual e o cargo
+            pesquisarUsuarios(searchInput.value);
+        }
+
+        function abrirEdicao(idUsuario) {
+            if (idUsuario) {
+                window.location.href = `edicao_usuarios_adm.html?id=${idUsuario}`;
+            } else {
+                console.error('ID do usuário não encontrado');
+            }
+        }
+
+        // Modal/validação/campos específicos permanecem igual...
+
+        const abrirModalBtn = document.getElementById('abrirModalCadastroBtn');
+        const fecharModalBtn = document.getElementById('fecharModalCadastroBtn');
+        const modalOverlay = document.getElementById('modalCadastroOverlay');
+        const formCadastro = document.getElementById('formCadastro');
+        const cargoSelect = document.getElementById('cargo');
+        const camposFornecedor = document.getElementById('camposFornecedor');
+
+        const abrirModalCadastro = () => modalOverlay.classList.remove('hidden');
+        const fecharModalCadastro = () => modalOverlay.classList.add('hidden');
+
+        abrirModalBtn.addEventListener('click', abrirModalCadastro);
+        fecharModalBtn.addEventListener('click', fecharModalCadastro);
+        modalOverlay.addEventListener('click', (e) => {
+            if (e.target === modalOverlay) fecharModalCadastro();
+        });
+
+        cargoSelect.addEventListener('change', () => {
+            if (cargoSelect.value === '2') {
+                camposFornecedor.classList.remove('hidden');
+                document.getElementById('categoria').required = true;
+                document.getElementById('nome_marca').required = true;
+            } else {
+                camposFornecedor.classList.add('hidden');
+                document.getElementById('categoria').required = false;
+                document.getElementById('nome_marca').required = false;
+            }
+        });
+
+        formCadastro.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const token = localStorage.getItem('token');
+            if (!token) {
+                Swal.fire('Erro', 'Token de autenticação não encontrado. Faça login novamente.', 'error');
+                return;
+            }
+            const formData = new FormData(formCadastro);
+            const data = Object.fromEntries(formData.entries());
+            if (data.data_nascimento) {
+                const parts = data.data_nascimento.split('-');
+                data.data_nascimento = `${parts[2]}-${parts[1]}-${parts[0]}`;
+            }
+            if (data.cargo !== '2') {
+                delete data.categoria;
+                delete data.nome_marca;
+            }
+            try {
+                const response = await fetch(`${ipPython}/admin/cadastrar-usuario`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify(data)
+                });
+                const result = await response.json();
+                if (!response.ok) throw new Error(result.error || `Erro ${response.status}`);
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Usuário Cadastrado!',
+                    text: result.message || 'O novo usuário foi criado com sucesso.',
+                    timer: 2000,
+                    showConfirmButton: false
+                });
+                fecharModalCadastro();
+                formCadastro.reset();
+                camposFornecedor.classList.add('hidden');
+                await carregarUsuarios(token);
+            } catch (error) {
+                console.error('Erro ao cadastrar usuário:', error);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Ops... Algo deu errado',
+                    text: error.message
+                });
+            }
+        });
+
+        const searchInput = document.getElementById('searchInput');
+
+        // Função alterada para integrar o filtro de cargo
+        async function pesquisarUsuarios(q) {
+            const token = localStorage.getItem('token');
+            if (!token) return;
+
+            // Se não tem texto e está em "todos", mostra todos
+            if (!q.trim() && cargoSelecionado === 'todos') {
+                renderizarUsuarios(todosUsuarios);
+                return;
+            }
+            // Se não tem texto e está em cargo específico, filtra localmente
+            if (!q.trim() && cargoSelecionado !== 'todos') {
+                renderizarUsuarios(todosUsuarios.filter(u => u.cargo == cargoSelecionado));
+                return;
+            }
+            // Com texto: busca no backend, filtra pelo cargo selecionado
+            try {
+                const response = await fetch(`${ipPython}/pesquisar/usuarios?q=${encodeURIComponent(q)}`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                const data = await response.json();
+                if (response.ok) {
+                    let listaFiltrada = data.usuarios;
+                    if (cargoSelecionado !== 'todos') {
+                        listaFiltrada = listaFiltrada.filter(u => u.cargo == cargoSelecionado);
+                    }
+                    renderizarUsuarios(listaFiltrada);
+                } else {
+                    renderizarUsuarios([]);
+                }
+            } catch (err) {
+                renderizarUsuarios([]);
+            }
+        }
+
+        searchInput.addEventListener('input', (e) => {
+            pesquisarUsuarios(e.target.value);
+        });
+    </script>
 
 </body>
+
 </html>

@@ -17,7 +17,6 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
     <script src="api.js"></script>
-
 </head>
 
 <body style="background: url('assets/img/fundo-alianca.jpg')">
@@ -30,14 +29,18 @@
                     <p class="bot-fechar">X</p>
                 </a>
 
-
-
                 <input type="hidden" id="cargo" name="cargo" value="">
                 <div class="cadastro-sec">
                     <div id="cadastro1" class="cadastro1">
                         <input class="nome" type="text" placeholder="Seu nome" id="nome" name="nome">
                         <input class="email" type="email" placeholder="E-mail" id="email" name="email">
+
+                        <div class="status-usuario">
+                            <button type="button" id="btn-ativar" class="btn-status ativo">Ativar</button>
+                            <button type="button" id="btn-inativar" class="btn-status inativo">Inativar</button>
+                        </div>
                     </div>
+
                     <div id="cadastro2" class="cadastro2">
                         <input class="telefone" type="tel" placeholder="Telefone" id="telefone" name="telefone">
                         <input class="data-nascimento" type="date" placeholder="Data de nascimento" id="data-nascimento"
@@ -46,7 +49,6 @@
                     </div>
                 </div>
 
-                <!-- Campos específicos para fornecedores (cargo = 2) -->
                 <div id="campos-fornecedor" style="display: none;">
                     <input class="nome-marca" type="text" placeholder="Nome da marca *" id="nome-marca"
                         name="nome-marca">
@@ -64,7 +66,6 @@
                     </select>
                 </div>
 
-                <!-- Botões de ação -->
                 <div class="botoes-acoes">
                     <button type="submit" class="botao-editar">Editar</button>
                     <button type="button" class="botao-servico" id="btn-adicionar-servico"
@@ -77,15 +78,10 @@
 
 <script>
     $(document).ready(function () {
-        // Aplica máscaras
         $('#telefone').mask('(00) 00000-0000');
         $('#cep').mask('00000-000');
-
-        // Captura o ID da URL
         const urlParams = new URLSearchParams(window.location.search);
         const idUsuario = urlParams.get('id');
-
-        console.log('ID do usuário capturado:', idUsuario);
 
         if (!idUsuario) {
             Swal.fire({
@@ -98,132 +94,116 @@
             return;
         }
 
-        // Busca os dados do usuário
         carregarDadosUsuario(idUsuario);
 
-        // Função para carregar os dados do usuário
         function carregarDadosUsuario(id) {
             const token = localStorage.getItem('token');
-
-            console.log('Token:', token ? 'Existe' : 'Não encontrado');
-            console.log('URL da requisição:', `${ipPython}/usuario/${id}`);
 
             $.ajax({
                 url: `${ipPython}/usuario/${id}`,
                 type: 'GET',
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                },
+                headers: { 'Authorization': `Bearer ${token}` },
                 success: function (response) {
-                    console.log('Resposta completa da API:', response);
-
                     const usuario = response.usuario;
-                    console.log('Dados do usuário:', usuario);
-                    console.log('Cargo do usuário:', usuario.cargo);
-
-                    // Salva o cargo em campo oculto
                     $('#cargo').val(usuario.cargo);
-
-                    // Preenche os campos básicos
                     $('#nome').val(usuario.nome);
                     $('#email').val(usuario.email);
                     $('#telefone').val(usuario.telefone);
                     $('#cep').val(usuario.cep || '');
 
-                    // Formata e preenche a data de nascimento
                     if (usuario.data_nascimento) {
                         let dataFormatada = usuario.data_nascimento;
-                        console.log('Data recebida:', dataFormatada);
-
                         if (dataFormatada.includes('-')) {
                             const partes = dataFormatada.split('-');
                             if (partes[0].length === 2) {
                                 dataFormatada = `${partes[2]}-${partes[1]}-${partes[0]}`;
                             }
                         }
-                        console.log('Data formatada:', dataFormatada);
                         $('#data-nascimento').val(dataFormatada);
                     }
 
-                    // Verifica se é fornecedor (cargo == 2)
                     if (usuario.cargo == 2) {
-                        console.log('Usuário é FORNECEDOR - mostrando campos específicos');
                         $('#campos-fornecedor').show();
-
-                        // Mostra o botão "Adicionar Serviço"
                         $('#btn-adicionar-servico').show();
-
-                        // Define ação do botão para redirecionar e passar o ID do fornecedor
                         $('#btn-adicionar-servico').off('click').on('click', function () {
                             window.location.href = `../cadastro_servico_adm.html?id=${idUsuario}`;
                         });
-
-                        // Preenche campos de fornecedor
                         $('#nome-marca').val(usuario.nome_marca || '');
-                        if (usuario.categoria) {
-                            $('#categoria').val(usuario.categoria);
-                        }
+                        if (usuario.categoria) $('#categoria').val(usuario.categoria);
                     } else {
-                        console.log('Usuário NÃO é fornecedor - ocultando campos específicos');
                         $('#campos-fornecedor').hide();
                         $('#btn-adicionar-servico').hide();
                     }
-
-                    console.log('Formulário preenchido com sucesso!');
                 },
-                error: function (xhr, status, error) {
-                    console.error('Erro na requisição:', {
-                        status: xhr.status,
-                        statusText: xhr.statusText,
-                        responseText: xhr.responseText,
-                        error: error
-                    });
-
+                error: function (xhr) {
                     Swal.fire({
                         icon: 'error',
                         title: 'Erro ao carregar dados',
-                        text: xhr.responseJSON?.error || `Erro ${xhr.status}: Não foi possível carregar os dados do usuário`
+                        text: xhr.responseJSON?.error || `Erro ${xhr.status}`
                     });
                 }
             });
         }
 
-        // Evento de submit do formulário (atualizar dados)
+
+        $('#btn-ativar').click(function () {
+            alterarStatusUsuario('ativo');
+        });
+        $('#btn-inativar').click(function () {
+            alterarStatusUsuario('inativo');
+        });
+
+        function alterarStatusUsuario(status) {
+            const token = localStorage.getItem('token');
+            Swal.fire({
+                title: `Tem certeza que deseja ${status === 'ativo' ? 'ativar' : 'inativar'} este usuário?`,
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonText: 'Sim',
+                cancelButtonText: 'Cancelar',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: `${ipPython}/usuarios/${idUsuario}/status`,
+                        type: 'PUT',
+                        headers: { 'Authorization': `Bearer ${token}` },
+                        data: JSON.stringify({ status }),
+                        contentType: 'application/json',
+                        success: function () {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Sucesso!',
+                                text: `Usuário ${status === 'ativo' ? 'ativado' : 'inativado'} com sucesso!`
+                            });
+                        },
+                        error: function (xhr) {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Erro!',
+                                text: xhr.responseJSON?.error || 'Falha ao alterar status.'
+                            });
+                        }
+                    });
+                }
+            });
+        }
+
         $('.botao-editar').click(function (e) {
             e.preventDefault();
-
             const cargo = $('#cargo').val();
-            console.log('Cargo no submit:', cargo);
-
-            // Validação específica para fornecedores
             if (cargo == 2) {
-                const categoria = $('#categoria').val();
-                const nomeMarca = $('#nome-marca').val().trim();
-
-                console.log('Validando fornecedor - Categoria:', categoria, 'Nome Marca:', nomeMarca);
-
-                if (!categoria || categoria === '') {
-                    Swal.fire({
-                        icon: 'warning',
-                        title: 'Campo obrigatório',
-                        text: 'Por favor, selecione uma categoria para o fornecedor.'
-                    });
+                if (!$('#categoria').val()) {
+                    Swal.fire({ icon: 'warning', title: 'Selecione uma categoria!' });
                     return;
                 }
-
-                if (!nomeMarca) {
-                    Swal.fire({
-                        icon: 'warning',
-                        title: 'Campo obrigatório',
-                        text: 'Por favor, preencha o nome da marca do fornecedor.'
-                    });
+                if (!$('#nome-marca').val().trim()) {
+                    Swal.fire({ icon: 'warning', title: 'Preencha o nome da marca!' });
                     return;
                 }
             }
 
             const token = localStorage.getItem('token');
             const formData = new FormData();
-
             formData.append('nome', $('#nome').val());
             formData.append('email', $('#email').val());
             formData.append('telefone', $('#telefone').val());
@@ -241,19 +221,14 @@
                 formData.append('data_nascimento', dataFormatada);
             }
 
-            console.log('Enviando atualização para:', `${ipPython}/usuarios/${idUsuario}`);
-
             $.ajax({
                 url: `${ipPython}/usuarios/${idUsuario}`,
                 type: 'PUT',
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                },
+                headers: { 'Authorization': `Bearer ${token}` },
                 data: formData,
                 processData: false,
                 contentType: false,
-                success: function (response) {
-                    console.log('Atualização bem-sucedida:', response);
+                success: function () {
                     Swal.fire({
                         icon: 'success',
                         title: 'Sucesso!',
@@ -263,17 +238,15 @@
                     });
                 },
                 error: function (xhr) {
-                    console.error('Erro ao atualizar:', xhr);
                     Swal.fire({
                         icon: 'error',
                         title: 'Erro ao atualizar',
-                        text: xhr.responseJSON?.error || 'Não foi possível atualizar o usuário'
+                        text: xhr.responseJSON?.error || 'Falha ao atualizar.'
                     });
                 }
             });
         });
     });
-
 </script>
 
 </html>

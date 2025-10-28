@@ -232,17 +232,6 @@ select:focus {
             transition: 0.3s;
         }
 
-.btn-status.ativo {
-            background-color: #FFC9D6;
-        }
-.btn-status.inativo {
-            background-color: #FFC9D6;
-        }
-
-.btn-status:hover {
-            filter: brightness(0.9);
-        }
-
 
 /* RESPONSIVO */
 @media (max-width: 768px) {

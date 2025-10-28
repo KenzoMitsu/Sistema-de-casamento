@@ -34,11 +34,6 @@
                     <div id="cadastro1" class="cadastro1">
                         <input class="nome" type="text" placeholder="Seu nome" id="nome" name="nome">
                         <input class="email" type="email" placeholder="E-mail" id="email" name="email">
-
-                        <div class="status-usuario">
-                            <button type="button" id="btn-ativar" class="btn-status ativo">Ativar</button>
-                            <button type="button" id="btn-inativar" class="btn-status inativo">Inativar</button>
-                        </div>
                     </div>
 
                     <div id="cadastro2" class="cadastro2">
@@ -140,49 +135,6 @@
                         icon: 'error',
                         title: 'Erro ao carregar dados',
                         text: xhr.responseJSON?.error || `Erro ${xhr.status}`
-                    });
-                }
-            });
-        }
-
-
-        $('#btn-ativar').click(function () {
-            alterarStatusUsuario('ativo');
-        });
-        $('#btn-inativar').click(function () {
-            alterarStatusUsuario('inativo');
-        });
-
-        function alterarStatusUsuario(status) {
-            const token = localStorage.getItem('token');
-            Swal.fire({
-                title: `Tem certeza que deseja ${status === 'ativo' ? 'ativar' : 'inativar'} este usuário?`,
-                icon: 'question',
-                showCancelButton: true,
-                confirmButtonText: 'Sim',
-                cancelButtonText: 'Cancelar',
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    $.ajax({
-                        url: `${ipPython}/usuarios/${idUsuario}/status`,
-                        type: 'PUT',
-                        headers: { 'Authorization': `Bearer ${token}` },
-                        data: JSON.stringify({ status }),
-                        contentType: 'application/json',
-                        success: function () {
-                            Swal.fire({
-                                icon: 'success',
-                                title: 'Sucesso!',
-                                text: `Usuário ${status === 'ativo' ? 'ativado' : 'inativado'} com sucesso!`
-                            });
-                        },
-                        error: function (xhr) {
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Erro!',
-                                text: xhr.responseJSON?.error || 'Falha ao alterar status.'
-                            });
-                        }
                     });
                 }
             });

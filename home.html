@@ -289,7 +289,7 @@
 <script>
 document.addEventListener('DOMContentLoaded', () => {
 
-    // Função para ATUALIZAR O BOTÃO PRINCIPAL com base no cargo
+    
     const atualizarBotaoPrincipal = () => {
         const cargo = localStorage.getItem('cargo');
         
@@ -299,29 +299,28 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        // Assumindo: 1 = noivo, 2 = fornecedor, 3 = cerimonialista
+       
         if (cargo === '1') { // Se for NOIVO
             botaoHeroi.textContent = 'Cerimonialistas e Fornecedores';
             botaoHeroi.href = 'pagina-de-busca.html'; 
             botaoHeroi.style.display = 'inline-block';
         } 
-        else if (cargo === '3') { // Se for CERIMONIALISTA
+        else if (cargo === '3') { 
             botaoHeroi.textContent = 'Catálogo';
             botaoHeroi.removeAttribute('href'); 
             botaoHeroi.style.display = 'inline-block';
         }
-        else if (cargo === '4') { // Se for ADM
+        else if (cargo === '4') { 
             botaoHeroi.textContent = 'Gerenciar usuários';
-            botaoHeroi.href = 'listagem.html'; // Pode direcionar para a listagem ou um dashboard
+            botaoHeroi.href = 'listagem.html'; 
             botaoHeroi.style.display = 'inline-block';
         }
         else { 
-            // Para outros cargos (como fornecedor), esconde o botão
             botaoHeroi.style.display = 'none';
         }
     };
 
-    // Verificar a autenticação do usuário
+    
     const checkAuthentication = () => {
         const token = localStorage.getItem('token'); 
 
@@ -349,7 +348,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     checkAuthentication();
 
-    // --- Lógica do Modal ---
+  
 
     const profileLink = document.getElementById('profileLink');
     const logoutModal = document.getElementById('logoutModal');
@@ -371,13 +370,13 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const openModal = () => {
-        // Limpa opções anteriores para evitar duplicatas
+       
         modalOptionsContainer.innerHTML = '';
 
         const cargo = localStorage.getItem('cargo');
 
-        // 1 = noivo, 2 = fornecedor, 3 = cerimonialista, 4 = admin
-        if (cargo === '2') { // Se for FORNECEDOR
+       
+        if (cargo === '2') { 
             // Opção: Editar Perfil
             const editProfileLink = document.createElement('a');
             editProfileLink.href = 'editar_fornecedor.html';
@@ -390,35 +389,28 @@ document.addEventListener('DOMContentLoaded', () => {
             editServiceLink.textContent = 'Cadastrar novo serviço';
             modalOptionsContainer.appendChild(editServiceLink);
 
-        } else if (cargo === '1' || cargo === '3') { // Se for NOIVO ou CERIMONIALISTA
+        } else if (cargo === '1' || cargo === '3') { 
             const editProfileLink = document.createElement('a');
             if (cargo === '1') { // Noivo
                 editProfileLink.href = 'editar_noivo.html';
-            } else { // Cerimonialista
+            } else { 
                 editProfileLink.href = 'editar_cerimonialista.html';
             }
             editProfileLink.textContent = 'Editar perfil';
             modalOptionsContainer.appendChild(editProfileLink);
             
-        // --- INÍCIO DA ALTERAÇÃO ---
-        } else if (cargo === '4') { // Se for ADMIN
+  
+        } else if (cargo === '4') { 
             const listagemLink = document.createElement('a');
-            listagemLink.href = 'listagem.html'; // Redireciona para a página de listagem
+            listagemLink.href = 'listagem.html'; 
             listagemLink.textContent = 'Gerenciar Usuários';
             modalOptionsContainer.appendChild(listagemLink);
-
-            // const cadastrarLink = document.createElement('a');
-            // cadastrarLink.href = 'cadastro_admin.html'; // Redireciona para a página de listagem
-            // cadastrarLink.textContent = 'Cadastrar Usuários';
-            // modalOptionsContainer.appendChild(cadastrarLink);
-        // --- FIM DA ALTERAÇÃO ---
-
         }
 
-        // Opção de Sair da Conta (comum a todos)
+
         const logoutButton = document.createElement('button');
         logoutButton.textContent = 'Sair da conta';
-        logoutButton.className = 'logout-btn'; // Adiciona a classe para estilização
+        logoutButton.className = 'logout-btn'; 
         logoutButton.addEventListener('click', handleLogout); // Adiciona o evento de logout
         modalOptionsContainer.appendChild(logoutButton);
 

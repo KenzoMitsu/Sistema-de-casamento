@@ -786,6 +786,9 @@ body {
     .hero-section {
         padding: 180px 6% 50px; /* Padding para o conteúdo não ficar colado nas bordas */
     }
+    .navbar ul {
+        gap: 21px;
+    }
 }
 @media (max-width: 376px) {
     .navbar a {
@@ -795,6 +798,9 @@ body {
         font-weight: 500;
         text-transform: uppercase;
         transition: color 0.3s ease;
+    }
+    .navbar ul {
+        gap: 21px;
     }
 }
 
@@ -807,5 +813,8 @@ body {
         font-weight: 500;
         text-transform: uppercase;
         transition: color 0.3s ease;
+    }
+    .navbar ul {
+        gap: 21px;
     }
 }

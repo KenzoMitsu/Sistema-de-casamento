@@ -75,6 +75,7 @@
     $(document).ready(function () {
         $('#telefone').mask('(00) 00000-0000');
         $('#cep').mask('00000-000');
+
         const urlParams = new URLSearchParams(window.location.search);
         const idUsuario = urlParams.get('id');
 
@@ -88,6 +89,10 @@
             });
             return;
         }
+
+        // Limitar campo "data-nascimento" para não aceitar datas futuras
+        const hoje = new Date().toISOString().split('T')[0];
+        $('#data-nascimento').attr('max', hoje);
 
         carregarDadosUsuario(idUsuario);
 
@@ -114,6 +119,7 @@
                                 dataFormatada = `${partes[2]}-${partes[1]}-${partes[0]}`;
                             }
                         }
+                        // Pode ser interessante validar aqui se dataFormatada <= hoje
                         $('#data-nascimento').val(dataFormatada);
                     }
 
@@ -199,6 +205,7 @@
             });
         });
     });
+
 </script>
 
 </html>

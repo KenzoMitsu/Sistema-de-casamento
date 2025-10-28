@@ -225,7 +225,7 @@
                             <section class="secao-fornecedores prod" data-id-servico="${item.id_servico}" data-id-usuario="${item.id_usuario}">
                                 <div class="container-fornecedor">
                                     <div class="img-wrapper">
-                                                                                <a href="editar_servico_adm.html">
+                                        <a href="editar_servico_adm.html?id_servico=${item.id_servico}">
                                             <img src="${ipPython}/static/uploads/Servicos/${item.id_servico}.jpeg"
                                                 class="img-logo"
                                                 alt="Imagem do Fornecedor"
@@ -246,7 +246,7 @@
                 "error": function(jqXHR, textStatus, errorThrown) {
                     // Adiciona um tratamento de erro
                     console.error("Erro ao buscar serviços:", textStatus, errorThrown);
-                    document.getElementById("exibe_servicos").innerHTML = "<p class='aviso_vazio' style='text-align: center; width: 100%;'>. Nenhum serviço cadastrado.</p>";
+                    document.getElementById("exibe_servicos").innerHTML = "<p class='aviso_vazio' style='text-align: center; width: 100%;'> Nenhum serviço cadastrado.</p>";
                 }
             };
 

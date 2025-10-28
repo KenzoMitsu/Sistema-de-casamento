@@ -6,12 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="assets/img/iconsite.png" type="image/x-icon">
     <link rel="stylesheet" href="assets/css/cadastro_servico.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Ledger&display=swap" rel="stylesheet">
     <title>Edição de Serviço - Casamento Perfeito</title>
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
     <script src="api.js"></script>
@@ -26,175 +28,184 @@
                 <a href="catalogo_servicos.html">
                     <p class="bot-fechar">X</p>
                 </a>
-                <input type="hidden">
-                    <div class="cadastro-sec">
-                        <div id="cadastro1" class="cadastro1">
-                            <form>
-                                <div class="sec-upload-box">
-                                    <label class="upload-box">
-                                        <img src="assets/img/pasta.png" alt="Ícone pasta" class="foto-pasta">
-                                        <span>Adicionar uma foto</span>
-                                        <input type="file" name="foto" accept="image/*">
-                                    </label>
-                                </div>
-                            </form>
-                        </div>
-                        <div id="cadastro2" class="cadastro2">
-                            <input class="nome_servico" type="text" placeholder="Nome do serviço" id="nome_servico" name="nome_servico">
-                            <input class="valor" type="text" placeholder="Valor" id="valor" name="valor">
-                            <input class="descricao" type="text" placeholder="Descrição" id="descricao" name="descricao">
-                        </div>
+                
+                <div class="cadastro-sec">
+                    <div id="cadastro1" class="cadastro1">
+                        <form id="form-servico">
+                            <div class="sec-upload-box">
+                                <label class="upload-box">
+                                    <img src="assets/img/pasta.png" alt="Ícone pasta" class="foto-pasta">
+                                    <span>Adicionar uma foto</span>
+                                    <input type="file" name="imagem" id="imagem_servico" accept="image/*">
+                                </label>
+                            </div>
+                        </form>
                     </div>
-                        <button type="submit" class="botao-cadastrar">Salvar</button>
+                    <div id="cadastro2" class="cadastro2">
+                        <input class="nome_servico" type="text" placeholder="Nome do serviço" id="nome_servico"
+                            name="nome_servico">
+                        <input class="valor" type="text" placeholder="Valor" id="valor" name="valor">
+                        <input class="descricao" type="text" placeholder="Descrição" id="descricao" name="descricao">
+                    </div>
                 </div>
+                <button type="button" class="botao-cadastrar">Salvar Alterações</button>
+            </div>
         </div>
     </main>
 </body>
-<script>
-    $(document).ready(function () {
 
-        $("#tipo").val(1).trigger("change");
-        $(".tipo[value='1']").addClass("active");
-    });
-
-   $(".tipo").on("click", function (e) {
-    e.preventDefault();
-    var v = $(this).val();
-
-    $(".tipo").removeClass("active");
-    $(this).addClass("active");
-
-    $("#tipo").val(v).trigger("change");
-});
-
-$("#tipo").on("change", function () {
-    var tipo = $("#tipo").val();
-
-
-    $("#cadastro1 input, #cadastro2 input, #cadastro2 select").prop("disabled", false).css("opacity", 1);
-
-    if (tipo == 1) { 
-        $("#cadastro1 .nome-marca").css("opacity", 0).prop("disabled", true);
-        $("#cadastro2 .categoria").css("opacity", 0).prop("disabled", true);
-    } 
-    else if (tipo == 2) { 
-        $("#cadastro1 .parceiro").prop("disabled", true).css("opacity", 0);
-    } 
-    else if (tipo == 3) { 
-        $("#cadastro1 .nome-marca").prop("disabled", true).css("opacity", 0);
-        $("#cadastro2 .categoria").prop("disabled", true).css("opacity", 0);
-        $("#cadastro1 .parceiro").prop("disabled", true).css("opacity", 0);
-    }
-});
-</script>
 <script>
 $(document).ready(function () {
-    $(".tipo").on("click", function () {
-        let valor = $(this).val();
-        $("#tipo").val(valor);
 
-        $(".tipo").removeClass("ativo");
-        $(this).addClass("ativo");
-    });
-
-    $("#toggleSenha").on("click", function () {
-        let senhaInput = $("#senha");
-        let icone = $("#toggleSenha");
-
-        if (senhaInput.attr("type") === "password") {
-            senhaInput.attr("type", "text");
-            icone.attr("src", "https://cdn-icons-png.flaticon.com/512/2767/2767149.png");
-        } else {
-            senhaInput.attr("type", "password");
-            icone.attr("src", "https://cdn-icons-png.flaticon.com/512/2767/2767146.png");
+    // --- Lógica de Preview da Imagem (Bônus) ---
+    // Mostra a imagem selecionada no 'upload-box'
+    $('#imagem_servico').on('change', function (e) {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function (event) {
+                const uploadBox = $('.upload-box');
+                uploadBox.find('img').attr('src', event.target.result);
+                uploadBox.find('span').text(file.name); // Mostra o nome do arquivo
+            }
+            reader.readAsDataURL(file);
         }
     });
 
- 
+    // --- Lógica Principal da Página ---
+
+    // 1. Pegar o id_servico da URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const idServico = urlParams.get('id_servico');
+
+    if (!idServico) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Erro!',
+            text: 'Nenhum serviço foi selecionado.',
+            allowOutsideClick: false,
+        }).then(() => {
+            window.location.href = 'catalogo_servico.html';
+        });
+        return; // Para a execução
+    }
+
+    // 2. Fazer a requisição GET para carregar os dados do serviço
+    $.ajax({
+        url: ipPython + "/servicoid/" + idServico,
+        method: "GET",
+        timeout: 0,
+        headers: { "Content-Type": "application/json" },
+        success: function (response) {
+            if (response && response.servico) {
+                const servico = response.servico;
+
+                // Preenche os campos
+                $('#nome_servico').val(servico.nome);
+                $('#valor').val(servico.valor);
+                $('#descricao').val(servico.descricao);
+
+                // Define a imagem atual
+                const imgUrl = `${ipPython}/static/uploads/Servicos/${servico.id_servico}.jpeg`;
+                const uploadBox = $('.upload-box');
+
+                uploadBox.find('img').attr('src', imgUrl);
+                uploadBox.find('span').text('Alterar foto');
+
+                // Se a imagem não carregar (erro 404), volta para a padrão
+                uploadBox.find('img').on('error', function () {
+                    $(this).attr('src', 'assets/img/pasta.png');
+                    uploadBox.find('span').text('Adicionar uma foto');
+                });
+            } else {
+                Swal.fire('Erro', response.mensagem || 'Serviço não encontrado.', 'error').then(() => {
+                    window.location.href = 'catalogo_servico.html';
+                });
+            }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.error("Erro ao buscar dados do serviço:", textStatus, errorThrown);
+            let errorMsg = jqXHR.responseJSON?.error || "Ocorreu um erro ao buscar os dados.";
+
+            Swal.fire({
+                icon: 'error',
+                title: 'Erro!',
+                text: errorMsg,
+            }).then(() => {
+                window.location.href = 'catalogo_servico.html';
+            });
+        }
+    });
+
+    // 3. Configurar o botão "Salvar" (o ".botao-cadastrar") para o PUT
     $(".botao-cadastrar").on("click", function (e) {
         e.preventDefault();
 
-        
-        let nome = $("#nome").val().trim();
-        let email = $("#email").val().trim();
-        let senha = $("#senha").val().trim();
-        let nomeMarca = $("#nome-marca").val().trim();
-        let telefone = $("#telefone").val().trim();
-        let dataNascimentoRaw = $("#data-nascimento").val(); 
-        let cep = $("#cep").val().trim();
-        let categoria = $("#categoria").val();
-        let tipoValor = $("#tipo").val();
-
-
-        let cargo = tipoValor === "1" ? "1" : tipoValor === "2" ? "2" : "3";
-
-        
-        let emailRegex = /^[^\s@]+@[^\s@]+\.[a-z]{2,}$/;
-        let telefoneRegex = /^[0-9]{10,11}$/;
-        let senhaRegex = /^(?=.*[A-Z])(?=.*[!@#$%^&*()_+{}":;'?/>,.<]).{8,}$/;
-
-   
-        if (!nome || !email || !senha || !telefone || !dataNascimentoRaw || !cep) {
-            return Swal.fire("Erro!", "Todos os campos são obrigatórios!", "error");
-        }
-        if (!emailRegex.test(email)) {
-            return Swal.fire("Erro!", "Digite um e-mail válido!", "error");
-        }
-        if (!senhaRegex.test(senha)) {
-            return Swal.fire("Erro!", "A senha deve ter pelo menos 8 caracteres, incluindo uma letra maiúscula e um caractere especial!", "error");
-        }
-        if (!telefoneRegex.test(telefone)) {
-            return Swal.fire("Erro!", "O telefone deve ter 10 ou 11 dígitos numéricos!", "error");
-        }
-        if (tipoValor === "2" && $("#categoria").prop("selectedIndex") === 0) {
-            return Swal.fire("Erro!", "Selecione uma categoria para fornecedor!", "error");
+        // Pegar o token de autenticação
+        const token = localStorage.getItem('token');
+        if (!token) {
+            return Swal.fire("Erro!", "Você não está autenticado. Faça login novamente.", "error").then(() => {
+                window.location.href = 'login.html';
+            });
         }
 
-        
-        let parts = dataNascimentoRaw.split("-");
-        let dataNascimento = parts[2] + "-" + parts[1] + "-" + parts[0]; 
+        // Criar o FormData
+        let formData = new FormData();
 
-        
-        let dados = {
-            nome: nome,
-            email: email,
-            senha: senha,
-            telefone: telefone,
-            data_nascimento: dataNascimento,  
-            cep: cep,
-            categoria: tipoValor === "2" ? categoria : null,
-            nome_marca: nomeMarca,
-            cargo: cargo
-        };
-        
-        console.log("Dados para envio:", dados);
+        // Pegar os valores dos campos de texto
+        let nome = $("#nome_servico").val().trim();
+        let valor = $("#valor").val().trim();
+        let descricao = $("#descricao").val().trim();
 
+        if (!nome || !valor || !descricao) {
+            return Swal.fire("Erro!", "Preencha todos os campos (Nome, Valor e Descrição).", "error");
+        }
+
+        formData.append('nome', nome);
+        formData.append('valor', valor);
+        formData.append('descricao', descricao);
+
+        // Pegar o arquivo de imagem (se o usuário selecionou um novo)
+        let imagemInput = $('#imagem_servico')[0]; // Pega o elemento DOM
+        if (imagemInput.files.length > 0) {
+            // A rota backend espera 'imagem'
+            formData.append('imagem', imagemInput.files[0]);
+        }
+
+        // 4. Fazer a requisição PUT para atualizar
         $.ajax({
-            method: "POST",
-            url: ipPython + "/usuario",
-            data: JSON.stringify(dados),
-            contentType: "application/json",
+            method: "PUT",
+            url: ipPython + "/servico/" + idServico, // Rota de PUT
+            data: formData,
+            headers: {
+                "Authorization": "Bearer " + token // Envia o token
+            },
+            contentType: false, // Necessário para multipart/form-data com jQuery
+            processData: false, // Necessário para multipart/form-data com jQuery
             success: function (response) {
                 Swal.fire({
-                    title: "Cadastro realizado com sucesso!",
+                    title: "Sucesso!",
+                    text: response.message || "Serviço atualizado com sucesso!",
                     icon: "success"
                 }).then(() => {
-                    window.location.href = "login.html";
+                    // Recarrega a página do catálogo para ver a mudança
+                    window.location.href = "catalogo_servicos.html"; 
                 });
             },
             error: function (xhr) {
+                // Pega a mensagem de erro da API (seja 'error' ou 'mensagem')
+                let errorMsg = xhr.responseJSON?.error || xhr.responseJSON?.mensagem || "Ocorreu um erro, tente novamente.";
+                
                 Swal.fire({
                     title: "Erro!",
-                    text: xhr.responseJSON?.error || "Ocorreu um erro, tente novamente.",
+                    text: errorMsg,
                     icon: "error"
                 });
             }
         });
     });
+
 });
 </script>
-
-
-
 
 </html>

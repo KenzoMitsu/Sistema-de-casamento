@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="pt-br" dir="ltr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="assets/img/iconsite.png" type="image/x-icon">
+    <link rel="stylesheet" href="css/cadastro_servico_adm.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Ledger&display=swap" rel="stylesheet">
+    <title>Cadastro de Serviço - Casamento Perfeito</title>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js">
+    </script>
+    <script src="api.js"></script>
+</head>
+
+<body>
+    <main>
+        <div class="principal">
+            <div class="formulario">
+                <h1 class="titulo">Cadastrar Serviço</h1>
+                <img src="assets/img/logo-preta.png" alt="Logo Casamento Perfeito" class="logo-canto">
+                <a href="home.html">
+                    <p class="bot-fechar">X</p>
+                </a>
+                <input type="hidden">
+                    <div class="cadastro-sec">
+                        <div id="cadastro1" class="cadastro1">
+                            <form>
+                                <div class="sec-upload-box">
+                                    <label class="upload-box">
+                                        <img src="assets/img/pasta.png" alt="Ícone pasta" class="foto-pasta">
+                                        <span>Adicionar uma foto</span>
+                                        <input type="file" name="foto" accept="image/*">
+                                    </label>
+                                </div>
+                            </form>
+                        </div>
+                        <div id="cadastro2" class="cadastro2">
+                            <input class="nome_servico" type="text" placeholder="Nome do serviço" id="nome_servico" name="nome_servico">
+                            <input class="valor" type="number" placeholder="Valor" id="valor" name="valor">
+                            <input class="descricao" type="text" placeholder="Descrição" id="descricao" name="descricao">
+                        </div>
+                    </div>
+                        <button type="submit" class="botao-cadastrar">Cadastrar</button>
+                </div>
+        </div>
+    </main>
+</body>
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+    const botaoCadastrar = document.querySelector(".botao-cadastrar");
+
+    botaoCadastrar.addEventListener("click", async (e) => {
+        e.preventDefault(); 
+
+        const nomeServico = document.getElementById("nome_servico").value.trim();
+        const valor = document.getElementById("valor").value.trim();
+        const descricao = document.getElementById("descricao").value.trim();
+        const fotoInput = document.querySelector('input[name="foto"]');
+
+        if (!nomeServico || !valor || !descricao) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Ops...',
+                text: 'Por favor, preencha todos os campos!'
+            });
+            return;
+        }
+
+        if (!fotoInput.files[0]) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Ops...',
+                text: 'Por favor, adicione uma foto!'
+            });
+            return;
+        }
+
+        const token = localStorage.getItem("token")
+
+        const myHeaders = new Headers();
+        myHeaders.append("Authorization", token);
+
+        const formdata = new FormData();
+        formdata.append("nome", nomeServico);
+        formdata.append("descricao", descricao);
+        formdata.append("valor", valor);
+        formdata.append("imagem", fotoInput.files[0]);
+
+        const requestOptions = {
+            method: "POST",
+            headers: myHeaders,
+            body: formdata,
+            redirect: "follow"
+        };
+
+
+        try {
+            const response = await fetch(ipPython + "/servico", requestOptions);
+
+            const data = await response.json();
+
+            if (response.ok) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Sucesso!',
+                    text: 'Serviço cadastrado com sucesso!'
+                });
+
+        
+                document.getElementById("nome_servico").value = "";
+                document.getElementById("valor").value = "";
+                document.getElementById("descricao").value = "";
+                fotoInput.value = "";
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Erro',
+                    text: data.message || 'Ocorreu um erro ao cadastrar o serviço.'
+                });
+            }
+
+        } catch (error) {
+            console.error(error);
+            Swal.fire({
+                icon: 'error',
+                title: 'Erro',
+                text: 'Não foi possível conectar ao servidor.'
+            });
+        }
+    });
+});
+
+</script>
+
+</html>

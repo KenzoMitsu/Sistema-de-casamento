@@ -763,6 +763,10 @@ body {
     align-items: center;
 }
 
+.aviso_vazio {
+    margin-bottom: 50px;
+}
+
 /* Responsividade */
 @media (max-width: 769px) {
     .features-grid {

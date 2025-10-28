@@ -659,15 +659,11 @@ body {
     color: #F3BDD1;
 }
 
-.secao-fornecedores {
-    padding-bottom: 0px;
-}
-
 .container-fornecedor {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 20px;
+    margin: 5px;
     border-radius: 15px;
     flex: 0 0 33.33%;
     box-sizing: border-box;

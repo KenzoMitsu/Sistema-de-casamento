@@ -677,6 +677,9 @@ body {
         transition: background-color 0.3s ease;
         font-family: "Old Standard TT", serif;
     }
+    .navbar ul {
+        gap: 21px;
+    }
 }
 
 @media (max-width: 376px) {
@@ -745,6 +748,9 @@ body {
     .texto-casamento {
         font-size: 17px;
     }
+    .navbar ul {
+        gap: 21px;
+    }
 }
 
 
@@ -792,5 +798,8 @@ body {
         font-size: 13px;
         border: none;
         outline: none;
+    }
+    .navbar ul {
+        gap: 21px;
     }
 }

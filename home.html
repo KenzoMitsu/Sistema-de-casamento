@@ -95,13 +95,6 @@
             <a href="#" class="hero-button" style="display:none;"></a>
         </div>
         
-        <div class="search-bar-container">
-            <div class="search-bar">
-                <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-                <input type="text" class="search-input" placeholder="Pesquisar">
-                <svg class="filter-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="21" x2="4" y2="14"></line><line x1="4" y1="10" x2="4" y2="3"></line><line x1="12" y1="21" x2="12" y2="12"></line><line x1="12" y1="8" x2="12" y2="3"></line><line x1="20" y1="21" x2="20" y2="16"></line><line x1="20" y1="12" x2="20" y2="3"></line><line x1="1" y1="14" x2="7" y2="14"></line><line x1="9" y1="8" x2="15" y2="8"></line><line x1="17" y1="16" x2="23" y2="16"></line></svg>
-            </div>
-        </div>
     </section>
 
     </section>
@@ -287,201 +280,208 @@
 </body>
 
 <script>
-document.addEventListener('DOMContentLoaded', () => {
+    document.addEventListener('DOMContentLoaded', () => {
 
-    // Função para ATUALIZAR O BOTÃO PRINCIPAL com base no cargo
-    const atualizarBotaoPrincipal = () => {
-        const cargo = localStorage.getItem('cargo');
-        
-        const botaoHeroi = document.querySelector('.hero-button');
-        if (!botaoHeroi) {
-            console.error("Botão principal (.hero-button) não encontrado.");
-            return;
-        }
+        // Função para ATUALIZAR O BOTÃO PRINCIPAL com base no cargo
+        const atualizarBotaoPrincipal = () => {
+            const cargo = localStorage.getItem('cargo');
+            
+            const botaoHeroi = document.querySelector('.hero-button');
+            if (!botaoHeroi) {
+                console.error("Botão principal (.hero-button) não encontrado.");
+                return;
+            }
 
-        // Assumindo: 1 = noivo, 2 = fornecedor, 3 = cerimonialista
-        if (cargo === '1') { // Se for NOIVO
-            botaoHeroi.textContent = 'Cerimonialistas e Fornecedores';
-            botaoHeroi.href = 'pagina-de-busca.html'; 
-            botaoHeroi.style.display = 'inline-block';
-        } 
-        else if (cargo === '3') { // Se for CERIMONIALISTA
-            botaoHeroi.textContent = 'Catálogo';
-            botaoHeroi.removeAttribute('href'); 
-            botaoHeroi.style.display = 'inline-block';
-        }
-        else if (cargo === '4') { // Se for ADM
-            botaoHeroi.textContent = 'Gerenciar usuários';
-            botaoHeroi.href = 'listagem.html'; // Pode direcionar para a listagem ou um dashboard
-            botaoHeroi.style.display = 'inline-block';
-        }
-        else { 
-            // Para outros cargos (como fornecedor), esconde o botão
-            botaoHeroi.style.display = 'none';
-        }
-    };
+            // Assumindo: 1 = noivo, 2 = fornecedor, 3 = cerimonialista
+            if (cargo === '1') { // Se for NOIVO
+                botaoHeroi.textContent = 'Cerimonialistas e Fornecedores';
+                botaoHeroi.href = 'pagina-de-busca.html'; 
+                botaoHeroi.style.display = 'inline-block';
+            } 
+            else if (cargo === '3') { // Se for CERIMONIALISTA
+                botaoHeroi.textContent = 'Catálogo';
+                botaoHeroi.removeAttribute('href'); 
+                botaoHeroi.style.display = 'inline-block';
+            }
+            else if (cargo === '4') { // Se for ADM
+                botaoHeroi.textContent = 'Gerenciar usuários';
+                botaoHeroi.href = 'listagem.html'; // Pode direcionar para a listagem ou um dashboard
+                botaoHeroi.style.display = 'inline-block';
+            }
+            else { 
+                // Para outros cargos (como fornecedor), esconde o botão
+                botaoHeroi.style.display = 'none';
+            }
+        };
 
-    // Verificar a autenticação do usuário
-    const checkAuthentication = () => {
-        const token = localStorage.getItem('token'); 
+        // Verificar a autenticação do usuário
+        const checkAuthentication = () => {
+            const token = localStorage.getItem('token'); 
 
-        if (!token) {
-            const botaoHeroi = document.querySelector('.hero-button');
-            if(botaoHeroi) {
-                botaoHeroi.style.display = 'none';
-            }
+            if (!token) {
+                const botaoHeroi = document.querySelector('.hero-button');
+                if(botaoHeroi) {
+                    botaoHeroi.style.display = 'none';
+                }
 
-            Swal.fire({
-                icon: 'warning',
-                title: 'Acesso Restrito',
-                text: 'Você precisa estar logado para acessar esta página.',
-                confirmButtonText: 'Entendi, ir para Login',
-                allowOutsideClick: false,
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    window.location.href = 'login.html';
-                }
-            });
-        } else {
-            atualizarBotaoPrincipal();
-        }
-    };
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Acesso Restrito',
+                    text: 'Você precisa estar logado para acessar esta página.',
+                    confirmButtonText: 'Entendi, ir para Login',
+                    allowOutsideClick: false,
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = 'login.html';
+                    }
+                });
+            } else {
+                atualizarBotaoPrincipal();
+            }
+        };
 
-    checkAuthentication();
+        checkAuthentication();
 
-    // --- Lógica do Modal ---
+        // --- Lógica do Modal ---
 
-    const profileLink = document.getElementById('profileLink');
-    const logoutModal = document.getElementById('logoutModal');
-    const closeModalButton = document.querySelector('.close-button');
-    const modalOptionsContainer = document.getElementById('modalOptionsContainer');
+        const profileLink = document.getElementById('profileLink');
+        const logoutModal = document.getElementById('logoutModal');
+        const closeModalButton = document.querySelector('.close-button');
+        const modalOptionsContainer = document.getElementById('modalOptionsContainer');
 
-    const handleLogout = () => {
-        localStorage.clear();
-        
-        Swal.fire({
-            title: 'Você saiu!',
-            text: 'Sua sessão foi encerrada.',
-            icon: 'info'
-        }).then(() => {
-            window.location.href = 'login.html'; 
-        });
+        const handleLogout = () => {
+            localStorage.clear();
+            
+            Swal.fire({
+                title: 'Você saiu!',
+                text: 'Sua sessão foi encerrada.',
+                icon: 'info'
+            }).then(() => {
+                window.location.href = 'login.html'; 
+            });
 
-        closeModal();
-    };
+            closeModal();
+        };
 
-    const openModal = () => {
-        // Limpa opções anteriores para evitar duplicatas
-        modalOptionsContainer.innerHTML = '';
+        const openModal = () => {
+            // Limpa opções anteriores para evitar duplicatas
+            modalOptionsContainer.innerHTML = '';
 
-        const cargo = localStorage.getItem('cargo');
+            const cargo = localStorage.getItem('cargo');
 
-        // 1 = noivo, 2 = fornecedor, 3 = cerimonialista, 4 = admin
-        if (cargo === '2') { // Se for FORNECEDOR
-            // Opção: Editar Perfil
-            const editProfileLink = document.createElement('a');
-            editProfileLink.href = 'editar_fornecedor.html';
-            editProfileLink.textContent = 'Editar perfil';
-            modalOptionsContainer.appendChild(editProfileLink);
+            // 1 = noivo, 2 = fornecedor, 3 = cerimonialista, 4 = admin
+            if (cargo === '2') { // Se for FORNECEDOR
+                // Opção: Editar Perfil
+                const editProfileLink = document.createElement('a');
+                editProfileLink.href = 'editar_fornecedor.html';
+                editProfileLink.textContent = 'Editar perfil';
+                modalOptionsContainer.appendChild(editProfileLink);
 
-            // Opção: Cadastrar Serviço
-            const editServiceLink = document.createElement('a');
-            editServiceLink.href = 'cadastro_servico.html';
-            editServiceLink.textContent = 'Cadastrar novo serviço';
-            modalOptionsContainer.appendChild(editServiceLink);
+                // Opção: Cadastrar Serviço
+                const editServiceLink = document.createElement('a');
+                editServiceLink.href = 'cadastro_servico.html';
+                editServiceLink.textContent = 'Cadastrar novo serviço';
+                modalOptionsContainer.appendChild(editServiceLink);
 
-        } else if (cargo === '1' || cargo === '3') { // Se for NOIVO ou CERIMONIALISTA
-            const editProfileLink = document.createElement('a');
-            if (cargo === '1') { // Noivo
-                editProfileLink.href = 'editar_noivo.html';
-            } else { // Cerimonialista
-                editProfileLink.href = 'editar_cerimonialista.html';
-            }
-            editProfileLink.textContent = 'Editar perfil';
-            modalOptionsContainer.appendChild(editProfileLink);
-            
-        // --- INÍCIO DA ALTERAÇÃO ---
-        } else if (cargo === '4') { // Se for ADMIN
-            const listagemLink = document.createElement('a');
-            listagemLink.href = 'listagem.html'; // Redireciona para a página de listagem
-            listagemLink.textContent = 'Gerenciar Usuários';
-            modalOptionsContainer.appendChild(listagemLink);
+            } else if (cargo === '1' || cargo === '3') { // Se for NOIVO ou CERIMONIALISTA
+                const editProfileLink = document.createElement('a');
+                if (cargo === '1') { // Noivo
+                    editProfileLink.href = 'editar_noivo.html';
+                } else { // Cerimonialista
+                    editProfileLink.href = 'editar_cerimonialista.html';
+                }
+                editProfileLink.textContent = 'Editar perfil';
+                modalOptionsContainer.appendChild(editProfileLink);
+                
+            // --- INÍCIO DA ALTERAÇÃO ---
+            } else if (cargo === '4') { // Se for ADMIN
+                // 1. Link para Gerenciar Usuários
+                const listagemLink = document.createElement('a');
+                listagemLink.href = 'listagem.html'; 
+                listagemLink.textContent = 'Gerenciar Usuários';
+                modalOptionsContainer.appendChild(listagemLink);
 
-            // const cadastrarLink = document.createElement('a');
-            // cadastrarLink.href = 'cadastro_admin.html'; // Redireciona para a página de listagem
-            // cadastrarLink.textContent = 'Cadastrar Usuários';
-            // modalOptionsContainer.appendChild(cadastrarLink);
-        // --- FIM DA ALTERAÇÃO ---
+                // 2. Link para Gerenciar Serviços (ADICIONADO)
+                const servicosLink = document.createElement('a');
+                servicosLink.href = 'catalogo_servicos.html'; // Link solicitado
+                servicosLink.textContent = 'Gerenciar Serviços'; // Texto solicitado
+                modalOptionsContainer.appendChild(servicosLink);
 
-        }
+                // const cadastrarLink = document.createElement('a');
+                // cadastrarLink.href = 'cadastro_admin.html'; // Redireciona para a página de listagem
+                // cadastrarLink.textContent = 'Cadastrar Usuários';
+                // modalOptionsContainer.appendChild(cadastrarLink);
+            // --- FIM DA ALTERAÇÃO ---
 
-        // Opção de Sair da Conta (comum a todos)
-        const logoutButton = document.createElement('button');
-        logoutButton.textContent = 'Sair da conta';
-        logoutButton.className = 'logout-btn'; // Adiciona a classe para estilização
-        logoutButton.addEventListener('click', handleLogout); // Adiciona o evento de logout
-        modalOptionsContainer.appendChild(logoutButton);
+            }
 
-        // Exibe o modal
-        logoutModal.style.display = 'flex';
-    };
+            // Opção de Sair da Conta (comum a todos)
+            const logoutButton = document.createElement('button');
+            logoutButton.textContent = 'Sair da conta';
+            logoutButton.className = 'logout-btn'; // Adiciona a classe para estilização
+            logoutButton.addEventListener('click', handleLogout); // Adiciona o evento de logout
+            modalOptionsContainer.appendChild(logoutButton);
 
-    const closeModal = () => {
-        logoutModal.style.display = 'none';
-    };
+            // Exibe o modal
+            logoutModal.style.display = 'flex';
+        };
 
-    if (profileLink) {
-        profileLink.addEventListener('click', (event) => {
-            event.preventDefault();
-            openModal();
-        });
-    }
+        const closeModal = () => {
+            logoutModal.style.display = 'none';
+        };
 
-    if (closeModalButton) {
-        closeModalButton.addEventListener('click', closeModal);
-    }
+        if (profileLink) {
+            profileLink.addEventListener('click', (event) => {
+                event.preventDefault();
+                openModal();
+            });
+        }
 
-    if (logoutModal) {
-        logoutModal.addEventListener('click', (event) => {
-            if (event.target === logoutModal) {
-                closeModal();
-            }
-        });
-    }
-    const botaoHeroi = document.querySelector('.hero-button');
-    const fornecedoresModal = document.getElementById('fornecedoresModal');
-    const closeFornecedoresButton = document.querySelector('.close-fornecedores');
+        if (closeModalButton) {
+            closeModalButton.addEventListener('click', closeModal);
+        }
 
-    const openFornecedoresModal = () => {
-        fornecedoresModal.style.display = 'flex';
-    };
+        if (logoutModal) {
+            logoutModal.addEventListener('click', (event) => {
+                if (event.target === logoutModal) {
+                    closeModal();
+                }
+            });
+        }
+        const botaoHeroi = document.querySelector('.hero-button');
+        const fornecedoresModal = document.getElementById('fornecedoresModal');
+        const closeFornecedoresButton = document.querySelector('.close-fornecedores');
 
-    const closeFornecedoresModal = () => {
-        fornecedoresModal.style.display = 'none';
-    };
+        const openFornecedoresModal = () => {
+            fornecedoresModal.style.display = 'flex';
+        };
 
-    if (botaoHeroi) {
-    botaoHeroi.addEventListener('click', (event) => {
-        const cargo = localStorage.getItem('cargo');
-        if (cargo === '3') { // Cerimonialista
-            event.preventDefault();
-            openFornecedoresModal();
-        }
+        const closeFornecedoresModal = () => {
+            fornecedoresModal.style.display = 'none';
+        };
+
+        if (botaoHeroi) {
+        botaoHeroi.addEventListener('click', (event) => {
+            const cargo = localStorage.getItem('cargo');
+            if (cargo === '3') { // Cerimonialista
+                event.preventDefault();
+                openFornecedoresModal();
+            }
+        });
+        }   
+
+        if (closeFornecedoresButton) {
+            closeFornecedoresButton.addEventListener('click', closeFornecedoresModal);
+        }
+
+        if (fornecedoresModal) {
+            fornecedoresModal.addEventListener('click', (event) => {
+                if (event.target === fornecedoresModal) {
+                    closeFornecedoresModal();
+                }
+            });
+        }
     });
-    }   
-
-    if (closeFornecedoresButton) {
-        closeFornecedoresButton.addEventListener('click', closeFornecedoresModal);
-    }
-
-    if (fornecedoresModal) {
-        fornecedoresModal.addEventListener('click', (event) => {
-            if (event.target === fornecedoresModal) {
-                closeFornecedoresModal();
-            }
-        });
-    }
-});
 </script>
 
 </html>

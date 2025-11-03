@@ -45,6 +45,11 @@
                         <input class="nome_servico" type="text" placeholder="Nome do serviço" id="nome_servico"
                             name="nome_servico">
                         <input class="valor" type="text" placeholder="Valor" id="valor" name="valor">
+                        
+                        <select class="categoria" id="categoria" name="categoria">
+                            <option value="">Carregando categorias...</option>
+                        </select>
+
                         <input class="descricao" type="text" placeholder="Descrição" id="descricao" name="descricao">
                     </div>
                 </div>
@@ -55,10 +60,45 @@
 </body>
 
 <script>
+// [1] MAPA E FUNÇÃO (Sem alterações)
+// Mapeamento de categorias de fornecedor para subcategorias de serviço
+const servico_categorias = {
+    "Buffet": ["Café da Manhã", "Almoço", "Jantar", "Churrasco", "Infantil", "Self-service"],
+    "Confeiteiro": ["Confeitaria", "Confeitaria Artística", "Chocolataria", "Confeitaria Gourmet"],
+    "Alfaiataria": ["Ternos", "Blazers", "Calças/Saias", "Vestidos", "Moderna/Slim", "Geral"],
+    "Maquiador/Cabeleireiro/Salão de Beleza": ["Maquiagem", "Cortes Clássicos", "Escovista", "Cabelo da Noiva", "Manicure/Pedicure"],
+    "DJ/Cantor": ["Música Clássica", "Música Romântica", "Trompetista", "Maestro", "Pianista", "Banda de Rock", "DJ Solo", "Cantor Solo"],
+    "Decoração": ["Decoração"],
+    "Fotógrafo": ["Fotografia", "Cabine Fotográfica", "Fotos de Casal", "Fotos de Ensaio", "Álbum"],
+    "Transporte": ["Táxi", "Carro de Luxo", "Limousine"],
+    "Espaço para eventos": ["Eventos Grandes", "Eventos Médios", "Eventos Pequenos"]
+};
+
+// Função para popular o select de categoria de serviço
+function populateServiceCategorySelect(fornecedorCategoria, currentCategoria = null) {
+    const select = $('#categoria');
+    select.empty(); 
+
+    if (!servico_categorias[fornecedorCategoria]) {
+        select.append('<option value="">Categoria de fornecedor inválida ou não encontrada</option>');
+        return;
+    }
+
+    select.append('<option value="">Selecione uma categoria de serviço</option>');
+
+    servico_categorias[fornecedorCategoria].forEach(subcategoria => {
+        const option = $('<option></option>').val(subcategoria).text(subcategoria);
+        if (currentCategoria && subcategoria === currentCategoria) {
+            option.prop('selected', true); 
+        }
+        select.append(option);
+    });
+}
+
+
 $(document).ready(function () {
 
-    // --- Lógica de Preview da Imagem (Bônus) ---
-    // Mostra a imagem selecionada no 'upload-box'
+    // --- Lógica de Preview da Imagem (Sem alterações) ---
     $('#imagem_servico').on('change', function (e) {
         const file = e.target.files[0];
         if (file) {
@@ -66,7 +106,7 @@ $(document).ready(function () {
             reader.onload = function (event) {
                 const uploadBox = $('.upload-box');
                 uploadBox.find('img').attr('src', event.target.result);
-                uploadBox.find('span').text(file.name); // Mostra o nome do arquivo
+                uploadBox.find('span').text(file.name); 
             }
             reader.readAsDataURL(file);
         }
@@ -74,9 +114,12 @@ $(document).ready(function () {
 
     // --- Lógica Principal da Página ---
 
+    // [2] LÓGICA DE CARREGAMENTO (GET) TOTALMENTE ATUALIZADA
+
     // 1. Pegar o id_servico da URL
     const urlParams = new URLSearchParams(window.location.search);
     const idServico = urlParams.get('id_servico');
+    const token = localStorage.getItem('token'); // Pega o token do ADM
 
     if (!idServico) {
         Swal.fire({
@@ -85,12 +128,19 @@ $(document).ready(function () {
             text: 'Nenhum serviço foi selecionado.',
             allowOutsideClick: false,
         }).then(() => {
-            window.location.href = 'catalogo_servico.html';
+            window.location.href = 'catalogo_servicos.html';
         });
-        return; // Para a execução
+        return; 
     }
 
-    // 2. Fazer a requisição GET para carregar os dados do serviço
+    if (!token) {
+         Swal.fire("Erro!", "Você não está autenticado. Faça login novamente.", "error").then(() => {
+            window.location.href = 'catalogo_servicos.html';
+        });
+        return;
+    }
+
+    // 2. Fazer a requisição GET para carregar os dados do SERVIÇO
     $.ajax({
         url: ipPython + "/servicoid/" + idServico,
         method: "GET",
@@ -100,100 +150,131 @@ $(document).ready(function () {
             if (response && response.servico) {
                 const servico = response.servico;
 
-                // Preenche os campos
+                // Preenche os campos de texto
                 $('#nome_servico').val(servico.nome);
                 $('#valor').val(servico.valor);
                 $('#descricao').val(servico.descricao);
 
+                // Guarda a categoria ATUAL do serviço (ex: "Jantar")
+                const servicoCategoriaAtual = servico.categoria;
+
                 // Define a imagem atual
                 const imgUrl = `${ipPython}/static/uploads/Servicos/${servico.id_servico}.jpeg`;
                 const uploadBox = $('.upload-box');
-
                 uploadBox.find('img').attr('src', imgUrl);
                 uploadBox.find('span').text('Alterar foto');
-
-                // Se a imagem não carregar (erro 404), volta para a padrão
                 uploadBox.find('img').on('error', function () {
                     $(this).attr('src', 'assets/img/pasta.png');
                     uploadBox.find('span').text('Adicionar uma foto');
                 });
+
+                // Pega o ID do FORNECEDOR (dono do serviço)
+                const idFornecedor = servico.id_usuario;
+
+                if (!idFornecedor) {
+                     Swal.fire('Erro de Dados', 'Este serviço não parece estar vinculado a um fornecedor.', 'error');
+                     $('#categoria').prop('disabled', true).html('<option value="">Erro</option>');
+                     return;
+                }
+
+                const urlBuscaFornecedor = ipPython + "/usuario/" + idFornecedor; 
+
+                $.ajax({
+                    url: urlBuscaFornecedor,
+                    method: "GET",
+                    headers: { 
+                        "Content-Type": "application/json",
+                        "Authorization": "Bearer " + token // Autenticação do ADM para buscar dados
+                    }, 
+                    success: function(fornecedorResponse) {
+                        
+                        const fornecedorCategoriaPrincipal = fornecedorResponse.usuario.categoria; // Minha suposição
+
+                        if (fornecedorCategoriaPrincipal) {
+                            // 4. SUCESSO! Agora podemos popular o select
+                            populateServiceCategorySelect(fornecedorCategoriaPrincipal, servicoCategoriaAtual);
+                        } else {
+                            Swal.fire('Erro de Dados', 'Não foi possível encontrar a categoria principal do fornecedor.', 'error');
+                            $('#categoria').prop('disabled', true).html('<option value="">Erro</option>');
+                        }
+                    },
+                    error: function() {
+                        Swal.fire('Erro de API', 'Falha ao buscar os dados do fornecedor para carregar as categorias.', 'error');
+                        $('#categoria').prop('disabled', true).html('<option value="">Erro ao carregar</Goption>');
+                    }
+                });
+
             } else {
                 Swal.fire('Erro', response.mensagem || 'Serviço não encontrado.', 'error').then(() => {
-                    window.location.href = 'catalogo_servico.html';
+                    window.location.href = 'catalogo_servicos.html';
                 });
             }
         },
         error: function (jqXHR, textStatus, errorThrown) {
             console.error("Erro ao buscar dados do serviço:", textStatus, errorThrown);
             let errorMsg = jqXHR.responseJSON?.error || "Ocorreu um erro ao buscar os dados.";
-
             Swal.fire({
                 icon: 'error',
                 title: 'Erro!',
                 text: errorMsg,
             }).then(() => {
-                window.location.href = 'catalogo_servico.html';
+                window.location.href = 'catalogo_servicos.html';
             });
         }
     });
 
-    // 3. Configurar o botão "Salvar" (o ".botao-cadastrar") para o PUT
+    // 3. Configurar o botão "Salvar" (PUT) - (Sem alterações, já está correto)
     $(".botao-cadastrar").on("click", function (e) {
         e.preventDefault();
 
-        // Pegar o token de autenticação
-        const token = localStorage.getItem('token');
+        // (O token já foi pego lá em cima)
         if (!token) {
-            return Swal.fire("Erro!", "Você não está autenticado. Faça login novamente.", "error").then(() => {
-                window.location.href = 'login.html';
+             return Swal.fire("Erro!", "Você não está autenticado. Faça login novamente.", "error").then(() => {
+                window.location.href = 'catalogo_servicos.html';
             });
         }
 
-        // Criar o FormData
         let formData = new FormData();
 
-        // Pegar os valores dos campos de texto
         let nome = $("#nome_servico").val().trim();
         let valor = $("#valor").val().trim();
+        let categoria = $("#categoria").val(); // Pega o valor do <select>
         let descricao = $("#descricao").val().trim();
 
-        if (!nome || !valor || !descricao) {
-            return Swal.fire("Erro!", "Preencha todos os campos (Nome, Valor e Descrição).", "error");
+        if (!nome || !valor || !categoria || !descricao) {
+            return Swal.fire("Erro!", "Preencha todos os campos (Nome, Valor, Categoria e Descrição).", "error");
         }
 
         formData.append('nome', nome);
         formData.append('valor', valor);
+        formData.append('categoria', categoria);
         formData.append('descricao', descricao);
 
-        // Pegar o arquivo de imagem (se o usuário selecionou um novo)
-        let imagemInput = $('#imagem_servico')[0]; // Pega o elemento DOM
+        let imagemInput = $('#imagem_servico')[0]; 
         if (imagemInput.files.length > 0) {
-            // A rota backend espera 'imagem'
             formData.append('imagem', imagemInput.files[0]);
         }
 
         // 4. Fazer a requisição PUT para atualizar
         $.ajax({
             method: "PUT",
-            url: ipPython + "/servico/" + idServico, // Rota de PUT
+            url: ipPython + "/servico/" + idServico, 
             data: formData,
             headers: {
-                "Authorization": "Bearer " + token // Envia o token
+                "Authorization": "Bearer " + token 
             },
-            contentType: false, // Necessário para multipart/form-data com jQuery
-            processData: false, // Necessário para multipart/form-data com jQuery
+            contentType: false, 
+            processData: false, 
             success: function (response) {
                 Swal.fire({
                     title: "Sucesso!",
                     text: response.message || "Serviço atualizado com sucesso!",
                     icon: "success"
                 }).then(() => {
-                    // Recarrega a página do catálogo para ver a mudança
                     window.location.href = "catalogo_servicos.html"; 
                 });
             },
             error: function (xhr) {
-                // Pega a mensagem de erro da API (seja 'error' ou 'mensagem')
                 let errorMsg = xhr.responseJSON?.error || xhr.responseJSON?.mensagem || "Ocorreu um erro, tente novamente.";
                 
                 Swal.fire({

@@ -125,7 +125,6 @@
         </div>
     </footer>
 
-       
     <script>
         document.addEventListener('DOMContentLoaded', () => {
 
@@ -240,22 +239,23 @@
                             }
 
                             // Cria o HTML para cada *serviço*
-                            document.getElementById("exibe_servicos").innerHTML += `
-                            <section class="secao-fornecedores prod" data-id-servico="${item.id_servico}" data-id-usuario="${item.id_usuario}">
-                                <div class="container-fornecedor">
-                                    <div class="img-wrapper">
+                        document.getElementById("exibe_servicos").innerHTML += `
+                            <section class="secao-fornecedores prod" data-id-servico="${item.id_servico}" data-id-usuario="${item.id_usuario}">
+                                <div class="container-fornecedor">
+                                    <div class="img-wrapper">
                                         <a href="editar_servico_adm.html?id_servico=${item.id_servico}">
                                             <img src="${ipPython}/static/uploads/Servicos/${item.id_servico}.jpeg"
-                                                class="img-logo"
-                                                alt="Imagem do Fornecedor"
-                                                onerror="this.src='assets/img/placeholder.png'; this.style.objectFit='cover';">
+                                            class="img-logo"
+                                            alt="Imagem do Fornecedor"
+                                            onerror="this.src='assets/img/placeholder.png'; this.style objectFit='cover';">
                                         </a>
-                                                                            </div>
-                                    <h3 class="nome-servico descricao">${item.nome}</h3>
-                                    <p class="texto-ong categoria">${valorFormatado}</p>
-                                    <p class="texto-ong">${item.descricao}</p>
-                                </div>
-                            </section>`;
+                                    </div>
+
+                                    <h3 class="nome-servico descricao">${item.nome}</h3>
+                                    <p class="texto-ong categoria">${valorFormatado}</p>
+                                    <p class="texto-ong">${item.descricao}</p>
+                                </div>
+                            </section>`;
                         });
                     } else {
                         // Exibe a mensagem da API (ex: "Nenhum serviço encontrado")

@@ -3,16 +3,20 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Editar Festa</title>
+  <title>Editar Festa - Casamento Perfeito</title>
+  <link rel="icon" href="assets/img/iconsite.png" type="image/x-icon">
   <link rel="stylesheet" href="assets/css/editarfesta.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Ledger&display=swap" rel="stylesheet">
 </head>
 <body>
   <div class="container">
     <div class="modal">
       <header>
         <img src="assets/img/logo-preta.png" alt="Casamento Perfeito" class="logo" />
-        <h2>Editar Festa</h2>
-        <span class="fechar">X</span>
+        <h2 class="titulo">Editar Festa</h2>
+        <a href="index.html">
+          <p class="bot-fechar">X</p>
+        </a>
       </header>
 
       <div class="conteudo">
@@ -20,8 +24,10 @@
           <input type="text" placeholder="Nome da festa" required />
           <input type="date" placeholder="Adiar data da festa" required />
           <input type="number" placeholder="Número de convidados" required />
-          <textarea placeholder="Descrição" rows="3"></textarea>
-          <button type="submit">Salvar</button>
+          <textarea class="text-descricao" placeholder="Descrição" rows="3"></textarea>
+          <div class="sec-bot-salvar">
+            <button class="botao-salvar" type="submit">Salvar</button>
+          </div>
         </form>
 
         <div class="imagem">

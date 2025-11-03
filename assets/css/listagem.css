@@ -465,6 +465,7 @@ button.tipo:active {
 }
 
 @media (max-width: 321px) {
+    ca
     .modal {
         width: 90%;
         padding: 10px;

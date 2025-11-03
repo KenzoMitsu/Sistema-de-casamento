@@ -208,9 +208,9 @@ select:focus {
             margin-top: 10px;
         }
 
-.botao-servico {
+.botao-servico:hover {
     background-color: var(--rosa-escuro);
-    color: var(--black);
+    color: var(--branco);
     transform: translateY(-2px);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
@@ -260,6 +260,9 @@ select:focus {
 }
 
 @media (max-width: 576px) {
+    .cadastro2 {
+        margin-top: 20px;
+    }
     .principal {
         padding: 15px;
     }
@@ -318,7 +321,22 @@ select:focus {
     }
 }
 
-@media (max-width: 375px) {
+@media (max-width: 426px) {
+    .cadastro2 {
+        margin-top: 20px;
+    }
+    .botoes-acoes {
+        flex-direction: column;
+        gap: 10px;
+        justify-content: center;
+        align-items: center;
+    }
+}
+
+@media (max-width: 376px) {
+    .cadastro2 {
+        margin-top: 20px;
+    }
     .formulario {
         padding: 65px 20px 25px;
     }
@@ -350,7 +368,10 @@ select:focus {
     }
 }
 
-@media (max-width: 320px) {
+@media (max-width: 321px) {
+    .cadastro2 {
+        margin-top: 20px;
+    }
     .formulario {
         padding: 60px 15px 20px;
     }
@@ -361,5 +382,14 @@ select:focus {
 
     .titulo {
         font-size: 20px;
+    }
+    .botao-editar {
+        font-size: 14px;
+        height: 40px;
+    }
+    .botao-servico {
+        font-size: 14px;
+        height: 40px;
+        width: 170px;
     }
 }

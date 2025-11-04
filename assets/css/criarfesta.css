@@ -18,6 +18,42 @@ body {
 }
 
 
+:root {
+    --rosa-claro: #FFEDF1;
+    --rosa-médio: #FFDBE4;
+    --rosa-médio-escuro: #FFC9D6;
+    --rosa-escuro: #FFB7C9;
+    --branco: white;
+    --preto: black;
+    --bege-claro: #F4F2EE;
+    --bege-médio: #EEECE1;
+    --bege-escuro: #F2EFE5;
+}
+
+.bot-fechar {
+    font-size: 20px;
+    text-decoration: none;
+    color: black;
+    position: absolute;
+    margin-left: -10px;
+    margin-top: -30px;
+}
+
+.titulo {
+    font-family: "Ledger", serif;
+    font-weight: 400;
+    font-size: 28px;
+    color: var(--preto);
+    padding-top: 10px;
+    text-align: center;
+    margin-left: -105px;
+}
+
+.logo {
+  width: 120px;
+  margin-top: -30px;
+}
+
 .container {
   width: 100%;
   height: 100%;
@@ -43,9 +79,7 @@ header {
   margin-bottom: 30px;
 }
 
-.logo {
-  height: 35px;
-}
+
 
 header h2 {
   font-size: 1.5rem;
@@ -70,6 +104,7 @@ form {
   display: flex;
   justify-content: center;
   width: 100%;
+  gap: 20px;
 }
 
 .coluna {
@@ -79,7 +114,36 @@ form {
   width: 45%;
 }
 
-input,
+.botao-criar {
+    width: 60%;
+    height: 50px;
+    border: 1px solid var(--preto);
+    border-radius: 10px;
+    background-color: var(--rosa-médio-escuro);
+    color: var(--branco);
+    font-size: 16px;
+    cursor: pointer;
+    font-family: "Ledger", serif;
+    font-weight: 400;
+    font-size: 20px;
+    margin-top: 10px;
+}
+
+input, select {
+    width: 100%;
+    height: 50px;
+    border: 1px solid black;
+    border-radius: 3px;
+    padding-left: 10px;
+    font-size: 10px;
+    font-family: "Ledger", serif;
+    margin: 0;
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+}
+
+/* input,
 select {
   padding: 10px 15px;
   border: 1px solid #ccc;
@@ -93,7 +157,7 @@ input:focus,
 select:focus {
   border-color: #ffb6c1;
   box-shadow: 0 0 5px rgba(255, 182, 193, 0.5);
-}
+} */
 
 .linha-divisoria {
   width: 1px;
@@ -104,9 +168,10 @@ select:focus {
 .botao {
   text-align: center;
   margin-top: 30px;
+  padding-bottom: 10px;
 }
 
-.botao button {
+/* .botao button {
   background: #ffb6c1;
   border: none;
   color: white;
@@ -119,4 +184,87 @@ select:focus {
 
 .botao button:hover {
   background: #ff8fa3;
+} */
+
+
+
+/* RESPONSIVO */
+@media (max-width: 768px) {
+
+}
+
+@media (max-width: 426px) {
+    .titulo {
+        font-family: "Ledger", serif;
+        font-weight: 400;
+        font-size: 28px;
+        color: var(--preto);
+        padding-top: 20px;
+        text-align: center;
+        margin-left: -85px;
+    }
+    .logo {
+      width: 100px;
+      margin-top: -40px;
+      margin-left: -20px;
+    }
+    .modal {
+      background: rgba(255, 255, 255, 0.98);
+      border-radius: 10px;
+      width: 380px;
+      padding: 30px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+      display: flex;
+      flex-direction: column;
+      max-height: 95vh; /* mantém dentro da tela */
+      overflow-y: auto;
+    }
+    form {
+      flex-direction: column;
+      gap: 15px;
+    }
+    .coluna {
+      width: 100%;
+    }
+}
+
+@media (max-width: 376px) {
+    .modal {
+      background: rgba(255, 255, 255, 0.98);
+      border-radius: 10px;
+      width: 330px;
+      padding: 30px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+      display: flex;
+      flex-direction: column;
+    }
+    .logo {
+      width: 85px;
+      margin-top: -40px;
+      margin-left: -20px;
+    }
+}
+
+@media (max-width: 321px) {
+      .modal {
+      background: rgba(255, 255, 255, 0.98);
+      border-radius: 10px;
+      width: 300px;
+      padding: 30px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+      display: flex;
+      flex-direction: column;
+    }
+    input {
+      font-size: 16px;
+    }
+    .titulo {
+        font-family: "Ledger", serif;
+        font-weight: 400;
+        font-size: 23px;
+        color: var(--preto);
+        padding-top: 20px;
+        text-align: center;
+        margin-left: -85px;
+    }
 }

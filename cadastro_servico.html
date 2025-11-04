@@ -82,9 +82,6 @@
             }
         });
 
-        // ========================================================
-        // == ⬇️ LÓGICA DE CATEGORIA DO FORNECEDOR LOGADO ⬇️ ==
-        // ========================================================
 
         // Mapeamento de categorias de fornecedor para subcategorias de serviço
         const servico_categorias = {
@@ -178,16 +175,6 @@
 
         // Chama a função para carregar as categorias do fornecedor logado
         loadCurrentSupplierCategory();
-
-        // ========================================================
-        // == ⬆️ FIM DA LÓGICA DE CATEGORIA ⬆️ ==
-        // ========================================================
-
-
-        // === LÓGICA DA URL REMOVIDA ===
-        // Não precisamos mais do idFornecedor da URL.
-        // O backend pegará o ID do fornecedor logado diretamente do token.
-
 
         // === Cadastro do serviço (MODIFICADO PARA O FORNECEDOR) ===
         botaoCadastrar.addEventListener("click", async (e) => {

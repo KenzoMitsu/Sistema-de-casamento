@@ -57,9 +57,14 @@
                             </select>
                         </div>
                     </div>
+
                     <div class="sec-upload-box">
                         <label class="upload-box">
-                            <span>Adicionar uma foto</span>
+                            
+                            <img src="assets/img/pasta.png" alt="Pré-visualização" id="image-preview" >
+
+                            <span id="upload-span">Adicionar uma foto</span>
+                            
                             <input type="file" id="imagem" name="imagem" accept="image/*">
                         </label>
                     </div>
@@ -74,6 +79,24 @@
                 $('#telefone').mask('(00) 00000-0000');
                 $('#cep').mask('00000-000');
 
+
+                // Lógica para pré-visualização da imagem ao selecionar
+                $('#imagem').on('change', function(e) {
+                    const file = e.target.files[0];
+                    if (file) {
+                        const reader = new FileReader();
+                        
+                        reader.onload = function(event) {
+                            // Atualiza o 'src' da imagem de preview
+                            $('#image-preview').attr('src', event.target.result);
+                            // Atualiza o texto do span com o nome do arquivo
+                            $('#upload-span').text(file.name);
+                        }
+                        
+                        // Lê o arquivo como Data URL (Base64)
+                        reader.readAsDataURL(file);
+                    }
+                });
                 const idUsuario = localStorage.getItem('id_usuario');
                 const token = localStorage.getItem('token');
 
@@ -110,6 +133,20 @@
                                 $('#categoria').val(fornecedor.categoria);
                                 $('#cep').val(fornecedor.cep);
                                 
+
+                                // Carrega a imagem de perfil existente
+                                const imgUrl = `${ipPython}/static/uploads/Usuarios/${fornecedor.id_usuario}.jpeg`;
+                                const $preview = $('#image-preview');
+                                const $span = $('#upload-span');
+
+                                $preview.attr('src', imgUrl); // Tenta carregar a imagem
+                                $span.text('Alterar foto de perfil'); // Atualiza o texto
+
+                                // Adiciona um 'onerror' para o caso de a imagem não existir ou dar erro
+                                $preview.on('error', function() {
+                                    $(this).attr('src', 'assets/img/pasta.png'); // Imagem placeholder
+                                    $span.text('Adicionar uma foto');
+                                });
                                 // A data vem como string, precisa ser formatada para o input type="date"
                                 if (fornecedor.data_nascimento) {
                                     // Assume que o formato da API é 'Wed, 24 Jan 1990 00:00:00 GMT' ou similar
@@ -162,8 +199,8 @@
                                 title: 'Sucesso!',
                                 text: response.message || 'Perfil atualizado com sucesso!'
                             }).then(() => {
-                                // Opcional: redirecionar para a página de perfil
-                                window.location.href = 'editar_fornecedor.html';
+                                // Opcional: recarregar a página para ver as mudanças
+                                window.location.reload();
                             });
                         },
                         error: function (xhr) {

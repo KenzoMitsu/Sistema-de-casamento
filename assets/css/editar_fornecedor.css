@@ -194,7 +194,9 @@ input {
       border: 2px dashed #ccc;
       border-radius: 8px;
       width: 450px;
-      height: 50px;
+      height: 150px;
+      margin-top: 10px;
+      margin-bottom: 10px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -225,7 +227,9 @@ input {
 
 /* RESPONSIVO */
 @media (max-width: 768px) {
-
+    .upload-box {
+        height: 130px;
+    }
 }
 
 @media (max-width: 426px) {
@@ -302,6 +306,7 @@ input {
         align-items: center;
         justify-content: center;
         flex-direction: column;
+        height: 150px;
     }
 }
 
@@ -331,6 +336,13 @@ input {
     }
     .titulo {
         font-size: 24px;
+    }
+    .upload-box {
+        width: 250px;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        height: 150px;
     }
 }
 

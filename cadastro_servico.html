@@ -46,7 +46,7 @@
                             <input class="valor" type="number" placeholder="Valor" id="valor" name="valor">
                             
                             <select class="categoria" id="categoria" name="categoria" required>
-                                <option value="">Carregando suas categorias...</option>
+                                <option value="">Categorias disponíveis</option>
                             </select>
                             <textarea class="descricao" type="text" placeholder="Descrição" id="descricao" name="descricao"></textarea>
                         </div>
@@ -64,7 +64,7 @@
         const fotoPreview = document.querySelector('.foto-pasta');
         const labelText = document.querySelector('.upload-box span');
 
-        // === Pré-visualização da imagem antes de enviar ===
+        // Aqui é feita a pré-visualização da imagem antes de enviar
         fotoInput.addEventListener('change', (event) => {
             const file = event.target.files[0];
             if (file) {
@@ -82,9 +82,6 @@
             }
         });
 
-        // ========================================================
-        // == ⬇️ LÓGICA DE CATEGORIA DO FORNECEDOR LOGADO ⬇️ ==
-        // ========================================================
 
         // Mapeamento de categorias de fornecedor para subcategorias de serviço
         const servico_categorias = {

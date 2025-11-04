@@ -19,6 +19,24 @@
 
     <link rel="stylesheet" href="assets/css/catalogo_servicos.css">
 
+    <style>
+        .btn-excluir-servico {
+            background-color: #dc3545; /* Vermelho */
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 500;
+            transition: background-color 0.3s ease;
+        }
+        .btn-excluir-servico:hover {
+            background-color: #c82333; /* Vermelho mais escuro */
+        }
+    </style>
+
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="/js/api.js"></script>
 </head>
@@ -239,23 +257,25 @@
                             }
 
                             // Cria o HTML para cada *serviço*
-                        document.getElementById("exibe_servicos").innerHTML += `
-                            <section class="secao-fornecedores prod" data-id-servico="${item.id_servico}" data-id-usuario="${item.id_usuario}">
-                                <div class="container-fornecedor">
-                                    <div class="img-wrapper">
-                                        <a href="editar_servico_adm.html?id_servico=${item.id_servico}">
-                                            <img src="${ipPython}/static/uploads/Servicos/${item.id_servico}.jpeg"
-                                            class="img-logo"
-                                            alt="Imagem do Fornecedor"
-                                            onerror="this.src='assets/img/placeholder.png'; this.style objectFit='cover';">
-                                        </a>
-                                    </div>
+                            document.getElementById("exibe_servicos").innerHTML += `
+                                <section class="secao-fornecedores prod" data-id-servico="${item.id_servico}" data-id-usuario="${item.id_usuario}">
+                                    <div class="container-fornecedor">
+                                        <div class="img-wrapper">
+                                            <a href="editar_servico_adm.html?id_servico=${item.id_servico}">
+                                                <img src="${ipPython}/static/uploads/Servicos/${item.id_servico}.jpeg"
+                                                class="img-logo"
+                                                alt="Imagem do Fornecedor"
+                                                onerror="this.src='assets/img/placeholder.png'; this.style objectFit='cover';">
+                                            </a>
+                                        </div>
 
-                                    <h3 class="nome-servico descricao">${item.nome}</h3>
-                                    <p class="texto-ong categoria">${valorFormatado}</p>
-                                    <p class="texto-ong">${item.descricao}</p>
-                                </div>
-                            </section>`;
+                                        <h3 class="nome-servico descricao">${item.nome}</h3>
+                                        <p class="texto-ong categoria">${valorFormatado}</p>
+                                        <p class="texto-ong">${item.descricao}</p>
+
+                                        <button class="btn-excluir-servico">Excluir Serviço</button>
+                                    </div>
+                                </section>`;
                         });
                     } else {
                         // Exibe a mensagem da API (ex: "Nenhum serviço encontrado")
@@ -273,7 +293,95 @@
                 // Traz a resposta da API aqui (extremamente importante ok gente?)
                 console.log("Resposta da API:", response);
             });
-        });
+
+
+            // =======================================================
+            // == ⬇️ NOVO CÓDIGO PARA EXCLUSÃO ADICIONADO AQUI ⬇️ ==
+            // =======================================================
+
+            // Delegação de eventos para os botões de excluir
+            // Isso funciona mesmo para botões criados dinamicamente via AJAX
+            $('#exibe_servicos').on('click', '.btn-excluir-servico', function() {
+                
+                const $button = $(this);
+                // Encontra o card "pai" do serviço
+                const $servicoCard = $button.closest('.secao-fornecedores');
+                // Pega o ID do serviço guardado no data attribute
+                const idServico = $servicoCard.data('id-servico');
+                
+                if (!idServico) {
+                    console.error('Não foi possível encontrar o ID do serviço.');
+                    Swal.fire('Erro', 'Não foi possível encontrar o ID do serviço.', 'error');
+                    return;
+                }
+
+                // Pega o token de autenticação do localStorage
+                const token = localStorage.getItem('token');
+                
+                if (!token) {
+                    Swal.fire('Erro de Autenticação', 'Token não encontrado. Faça login novamente.', 'error');
+                    return;
+                }
+
+                // Pergunta ao usuário se ele tem certeza (SweetAlert2)
+                Swal.fire({
+                    title: 'Você tem certeza?',
+                    text: "Deseja realmente excluir este serviço? Esta ação não pode ser revertida.",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33', // Botão de excluir vermelho
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: 'Sim, excluir!',
+                    cancelButtonText: 'Cancelar'
+                }).then((result) => {
+                    
+                    // Se o usuário clicar em "Sim, excluir!"
+                    if (result.isConfirmed) {
+                        
+                        // Faz a requisição AJAX para a rota DELETE
+                        $.ajax({
+                            url: `${ipPython}/servico/${idServico}`, // Rota de delete com o ID
+                            method: "DELETE",
+                            headers: {
+                                // A rota Python espera um "Bearer token"
+                                'Authorization': 'Bearer ' + token
+                            },
+                            success: function(response) {
+                                // Deu certo!
+                                Swal.fire(
+                                    'Excluído!',
+                                    'O serviço foi excluído com sucesso.',
+                                    'success'
+                                );
+                                
+                                // Remove o card do serviço da tela com uma animação
+                                $servicoCard.fadeOut(400, function() {
+                                    $(this).remove();
+                                });
+                            },
+                            error: function(jqXHR, textStatus, errorThrown) {
+                                console.error("Erro ao excluir:", jqXHR.responseText);
+                                
+                                // Tenta pegar a mensagem de erro específica do backend
+                                let erroMsg = 'Ocorreu um erro ao tentar excluir o serviço.';
+                                if (jqXHR.responseJSON && (jqXHR.responseJSON.error || jqXHR.responseJSON.mensagem)) {
+                                    // Usa a mensagem de erro vinda da API (ex: "Permissão negada")
+                                    erroMsg = jqXHR.responseJSON.error || jqXHR.responseJSON.mensagem;
+                                }
+
+                                Swal.fire(
+                                    'Erro!',
+                                    erroMsg,
+                                    'error'
+                                );
+                            }
+                        });
+                    }
+                }); // Fim do .then() do SweetAlert
+            }); // Fim do event listener .on('click')
+        }); // Fim do $(document).ready
+
+
         // Função para exibir os serviços na página
         function exibirServicos(servicos) {
             const container = document.getElementById("exibe_servicos");
@@ -294,22 +402,24 @@
                 }
 
                 container.innerHTML += `
-            <section class="secao-fornecedores prod" data-id-servico="${item.id_servico}" data-id-usuario="${item.id_usuario}">
-                <div class="container-fornecedor">
-                    <div class="img-wrapper">
-                        <a href="editar_servico_adm.html?id_servico=${item.id_servico}">
-                            <img src="${ipPython}/static/uploads/Servicos/${item.id_servico}.jpeg"
-                                class="img-logo"
-                                alt="Imagem do Fornecedor"
-                                onerror="this.src='assets/img/placeholder.png'; this.style.objectFit='cover';">
-                        </a>
-                    </div>
-                    <h3 class="nome-servico descricao">${item.nome_servico}</h3>
-                    <p class="texto-ong categoria">${valorFormatado}</p>
-                    <p class="texto-ong">${item.descricao}</p>
-                </div>
-            </section>
-        `;
+                    <section class="secao-fornecedores prod" data-id-servico="${item.id_servico}" data-id-usuario="${item.id_usuario}">
+                        <div class="container-fornecedor">
+                            <div class="img-wrapper">
+                                <a href="editar_servico_adm.html?id_servico=${item.id_servico}">
+                                    <img src="${ipPython}/static/uploads/Servicos/${item.id_servico}.jpeg"
+                                        class="img-logo"
+                                        alt="Imagem do Fornecedor"
+                                        onerror="this.src='assets/img/placeholder.png'; this.style.objectFit='cover';">
+                                </a>
+                            </div>
+                            <h3 class="nome-servico descricao">${item.nome_servico}</h3>
+                            <p class="texto-ong categoria">${valorFormatado}</p>
+                            <p class="texto-ong">${item.descricao}</p>
+
+                            <button class="btn-excluir-servico">Excluir Serviço</button>
+                        </div>
+                    </section>
+                `;
             });
         }
 
@@ -339,7 +449,6 @@
                 buscarServicos(event.target.value);
             });
         }
-
     </script>
 
 </body>

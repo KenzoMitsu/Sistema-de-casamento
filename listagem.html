@@ -156,6 +156,7 @@
             </div>
         </div>
     </div>
+    
 
     <script>
         let cargoSelecionado = 'todos';
@@ -300,54 +301,76 @@
             }
         });
 
-        formCadastro.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const token = localStorage.getItem('token');
-            if (!token) {
-                Swal.fire('Erro', 'Token de autenticação não encontrado. Faça login novamente.', 'error');
+            formCadastro.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const token = localStorage.getItem('token');
+        if (!token) {
+            Swal.fire('Erro', 'Token de autenticação não encontrado. Faça login novamente.', 'error');
+            return;
+        }
+
+        const formData = new FormData(formCadastro);
+        const data = Object.fromEntries(formData.entries()); // data.data_nascimento vem como "yyyy-mm-dd" ou undefined
+
+        // Validação: impedir datas futuras (compara no formato yyyy-mm-dd)
+        if (data.data_nascimento) {
+            const hoje = new Date().toISOString().split('T')[0]; // "yyyy-mm-dd"
+            if (data.data_nascimento > hoje) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Data inválida',
+                    text: 'A data de nascimento não pode ser no futuro.'
+                });
                 return;
             }
-            const formData = new FormData(formCadastro);
-            const data = Object.fromEntries(formData.entries());
-            if (data.data_nascimento) {
-                const parts = data.data_nascimento.split('-');
-                data.data_nascimento = `${parts[2]}-${parts[1]}-${parts[0]}`;
-            }
-            if (data.cargo !== '2') {
-                delete data.categoria;
-                delete data.nome_marca;
-            }
-            try {
-                const response = await fetch(`${ipPython}/admin/cadastrar-usuario`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`
-                    },
-                    body: JSON.stringify(data)
-                });
-                const result = await response.json();
-                if (!response.ok) throw new Error(result.error || `Erro ${response.status}`);
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Usuário Cadastrado!',
-                    text: result.message || 'O novo usuário foi criado com sucesso.',
-                    timer: 2000,
-                    showConfirmButton: false
-                });
-                fecharModalCadastro();
-                formCadastro.reset();
-                camposFornecedor.classList.add('hidden');
-                await carregarUsuarios(token);
-            } catch (error) {
-                console.error('Erro ao cadastrar usuário:', error);
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Ops... Algo deu errado',
-                    text: error.message
-                });
-            }
-        });
+            // Se passou na validação, converte para dd-mm-aaaa (formato que seu backend espera)
+            const parts = data.data_nascimento.split('-'); // [yyyy, mm, dd]
+            data.data_nascimento = `${parts[2]}-${parts[1]}-${parts[0]}`; // dd-mm-aaaa
+        } else {
+            // Remove campo se vazio para não enviar valor inválido
+            delete data.data_nascimento;
+        }
+
+        // Se não for fornecedor, remove campos específicos
+        if (data.cargo !== '2') {
+            delete data.categoria;
+            delete data.nome_marca;
+        }
+
+        try {
+            const response = await fetch(`${ipPython}/admin/cadastrar-usuario`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify(data)
+            });
+            const result = await response.json();
+            if (!response.ok) throw new Error(result.error || `Erro ${response.status}`);
+
+            Swal.fire({
+                icon: 'success',
+                title: 'Usuário Cadastrado!',
+                text: result.message || 'O novo usuário foi criado com sucesso.',
+                timer: 2000,
+                showConfirmButton: false
+            });
+            fecharModalCadastro();
+            formCadastro.reset();
+            camposFornecedor.classList.add('hidden');
+            await carregarUsuarios(token);
+        } catch (error) {
+            console.error('Erro ao cadastrar usuário:', error);
+            Swal.fire({
+                icon: 'error',
+                title: 'Ops... Algo deu errado',
+                text: error.message
+            });
+        }
+    });
+
+
 
         const searchInput = document.getElementById('searchInput');
 

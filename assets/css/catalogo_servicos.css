@@ -694,6 +694,7 @@ main {
     flex-wrap: wrap;
     gap: 20px; 
     margin-bottom: 0;
+    justify-content: center;
 }
 
 .img-logo {
@@ -723,6 +724,10 @@ main {
     color: #BB9245;
     margin-top: 5px;
     text-align: center;
+    word-break: break-word;      
+    overflow-wrap: break-word;   
+    white-space: normal;      
+    max-width: 220px;  
 }
 
 .btn-slide {

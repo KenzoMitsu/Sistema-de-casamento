@@ -18,6 +18,7 @@
         rel="stylesheet">
 
     <link rel="stylesheet" href="assets/css/agendamento_festa_noiv.css">
+    <script src="/js/modal_perfil.js"></script>
 
     <!-- SweetAlert baixado -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -39,8 +40,7 @@
 
                         <li><a href="sobre_nos.html">Sobre Nós</a></li>
                         <li><a href="contato.html">Contato</a></li>
-                        <li><a id="profileLink" href="#"><img src="assets/img/perfil.png" alt="Ícone de Perfil"
-                                    class="profile-icon"></a></li>
+                        <li><a id="profileLink" href="#"><img src="assets/img/perfil.png" alt="Ícone de Perfil" class="profile-icon"></a></li>
                     </ul>
                 </nav>
             </div>
@@ -51,8 +51,8 @@
             <div class="modal-content">
                 <span class="close-button">&times;</span>
                 <h2>Opções da Conta</h2>
-                <p>Deseja sair da sua conta?</p>
-                <button id="logoutButton" class="logout-btn">Sair</button>
+                <div id="modalOptionsContainer" class="modal-options-container">
+                </div>
             </div>
         </div>
 

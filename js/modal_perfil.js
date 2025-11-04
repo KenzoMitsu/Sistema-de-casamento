@@ -65,6 +65,11 @@ document.addEventListener('DOMContentLoaded', () => {
             myServicesLink.textContent = 'Meus Serviços';
             modalOptionsContainer.appendChild(myServicesLink);
 
+            const myPartyLink = document.createElement('a');
+            myPartyLink.href = 'agendamento_festa_noiv.html'; // Redireciona para a página solicitada
+            myPartyLink.textContent = 'Minhas Festas';
+            modalOptionsContainer.appendChild(myPartyLink);
+
         } else if (cargo === '1' || cargo === '3') { // Se for NOIVO ou CERIMONIALISTA
             const editProfileLink = document.createElement('a');
             if (cargo === '1') { // Noivo
@@ -85,6 +90,11 @@ document.addEventListener('DOMContentLoaded', () => {
             servicosLink.href = 'catalogo_servicos.html'; 
             servicosLink.textContent = 'Gerenciar Serviços';
             modalOptionsContainer.appendChild(servicosLink);
+
+            const myPartyLink = document.createElement('a');
+            myPartyLink.href = 'agendamento_festa_noiv.html'; // Redireciona para a página solicitada
+            myPartyLink.textContent = 'Minhas Festas';
+            modalOptionsContainer.appendChild(myPartyLink);
         }
 
         // Botão de Logout (comum a todos os cargos logados)

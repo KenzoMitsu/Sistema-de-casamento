@@ -44,7 +44,11 @@
                         <div id="cadastro2" class="cadastro2">
                             <input class="nome_servico" type="text" placeholder="Nome do serviço" id="nome_servico" name="nome_servico">
                             <input class="valor" type="number" placeholder="Valor" id="valor" name="valor">
-                            <input class="descricao" type="text" placeholder="Descrição" id="descricao" name="descricao">
+                            
+                            <select class="categoria" id="categoria" name="categoria" required>
+                                <option value="">Carregando suas categorias...</option>
+                            </select>
+                            <textarea class="descricao" type="text" placeholder="Descrição" id="descricao" name="descricao"></textarea>
                         </div>
                     </div>
                         <button type="submit" class="botao-cadastrar">Cadastrar</button>
@@ -52,92 +56,219 @@
         </div>
     </main>
 </body>
+
 <script>
     document.addEventListener("DOMContentLoaded", () => {
-    const botaoCadastrar = document.querySelector(".botao-cadastrar");
-
-    botaoCadastrar.addEventListener("click", async (e) => {
-        e.preventDefault(); 
-
-        const nomeServico = document.getElementById("nome_servico").value.trim();
-        const valor = document.getElementById("valor").value.trim();
-        const descricao = document.getElementById("descricao").value.trim();
+        const botaoCadastrar = document.querySelector(".botao-cadastrar");
         const fotoInput = document.querySelector('input[name="foto"]');
+        const fotoPreview = document.querySelector('.foto-pasta');
+        const labelText = document.querySelector('.upload-box span');
 
-        if (!nomeServico || !valor || !descricao) {
-            Swal.fire({
-                icon: 'error',
-                title: 'Ops...',
-                text: 'Por favor, preencha todos os campos!'
-            });
-            return;
-        }
+        // === Pré-visualização da imagem antes de enviar ===
+        fotoInput.addEventListener('change', (event) => {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    fotoPreview.src = e.target.result;
+                    labelText.textContent = "Alterar foto";
+                    fotoPreview.style.border = "1px solid #ccc";
+                };
+                reader.readAsDataURL(file);
+            } else {
+                fotoPreview.src = "assets/img/pasta.png";
+                labelText.textContent = "Adicionar uma foto";
+                fotoPreview.style.border = "none";
+            }
+        });
 
-        if (!fotoInput.files[0]) {
-            Swal.fire({
-                icon: 'error',
-                title: 'Ops...',
-                text: 'Por favor, adicione uma foto!'
-            });
-            return;
-        }
+        // ========================================================
+        // == ⬇️ LÓGICA DE CATEGORIA DO FORNECEDOR LOGADO ⬇️ ==
+        // ========================================================
 
-
-        const token = localStorage.getItem("token")
-
-        const myHeaders = new Headers();
-        myHeaders.append("Authorization", token);
-
-        const formdata = new FormData();
-        formdata.append("nome", nomeServico);
-        formdata.append("descricao", descricao);
-        formdata.append("valor", valor);
-        formdata.append("imagem", fotoInput.files[0]);
-
-        const requestOptions = {
-            method: "POST",
-            headers: myHeaders,
-            body: formdata,
-            redirect: "follow"
+        // Mapeamento de categorias de fornecedor para subcategorias de serviço
+        const servico_categorias = {
+            "Buffet": ["Café da Manhã", "Almoço", "Jantar", "Churrasco", "Infantil", "Self-service"],
+            "Confeiteiro": ["Confeitaria", "Confeitaria Artística", "Chocolataria", "Confeitaria Gourmet"],
+            "Alfaiataria": ["Ternos", "Blazers", "Calças/Saias", "Vestidos", "Moderna/Slim", "Geral"],
+            "Maquiador/Cabeleireiro/Salão de Beleza": ["Maquiagem", "Cortes Clássicos", "Escovista", "Cabelo da Noiva", "Manicure/Pedicure"],
+            "DJ/Cantor": ["Música Clássica", "Música Romântica", "Trompetista", "Maestro", "Pianista", "Banda de Rock", "DJ Solo", "Cantor Solo"],
+            "Decoração": ["Decoração"],
+            "Fotógrafo": ["Fotografia", "Cabine Fotográfica", "Fotos de Casal", "Fotos de Ensaio", "Álbum"],
+            "Transporte": ["Táxi", "Carro de Luxo", "Limousine"],
+            "Espaço para eventos": ["Eventos Grandes", "Eventos Médios", "Eventos Pequenos"]
         };
 
+        // Função para popular o select de categoria de serviço (usa jQuery)
+        function populateServiceCategorySelect(fornecedorCategoria, currentCategoria = null) {
+            const select = $('#categoria'); // Alvo é o <select> que adicionamos
+            select.empty(); // Limpa opções existentes (ex: "Carregando...")
 
-        try {
-            const response = await fetch(ipPython + "/servico", requestOptions);
+            if (!servico_categorias[fornecedorCategoria]) {
+                select.append('<option value="">Sua conta não possui uma categoria de fornecedor válida</option>');
+                return;
+            }
 
-            const data = await response.json();
+            select.append('<option value="">Selecione uma categoria de serviço</option>');
 
-            if (response.ok) {
+            servico_categorias[fornecedorCategoria].forEach(subcategoria => {
+                const option = $('<option></option>').val(subcategoria).text(subcategoria);
+                if (currentCategoria && subcategoria === currentCategoria) {
+                    option.prop('selected', true);
+                }
+                select.append(option);
+            });
+        }
+
+        /**
+         * Busca a categoria principal do fornecedor logado.
+         * Primeiro, tenta pegar do localStorage (ideal, deve ser salvo no login).
+         * Se não achar, busca na API usando o ID do usuário (que também deve estar no localStorage).
+         */
+        async function loadCurrentSupplierCategory() {
+            const token = localStorage.getItem("token");
+            if (!token) {
+                 Swal.fire('Erro', 'Token não encontrado. Faça login.', 'error');
+                 $('#categoria').empty().append('<option value="">Erro de autenticação</option>');
+                 return;
+            }
+
+            // 1. Tenta pegar a categoria principal direto do localStorage (forma mais rápida)
+            //    (Seu script de login deve salvar a 'categoria' do usuário no localStorage)
+            const mainCategory = localStorage.getItem("categoria_usuario"); // Ex: "Buffet"
+
+            if (mainCategory) {
+                populateServiceCategorySelect(mainCategory);
+                return; // Sucesso!
+            }
+
+            // 2. Se não estiver no localStorage, temos que buscar na API.
+            //    Precisamos do ID do usuário logado (também deve ser salvo no login).
+            const id_usuario_logado = localStorage.getItem("id_usuario"); 
+
+            if (!id_usuario_logado) {
+                 Swal.fire('Erro', 'Sua sessão é inválida (ID não encontrado). Faça login novamente.', 'error');
+                 $('#categoria').empty().append('<option value="">Erro na sessão</option>');
+                 return;
+            }
+
+            // 3. Busca as informações do usuário na API
+            try {
+                const myHeaders = new Headers();
+                myHeaders.append("Authorization", token);
+                const requestOptions = { method: "GET", headers: myHeaders, redirect: "follow" };
+
+                // Rota que busca dados de um usuário (assumindo que existe a rota /usuario/<id>)
+                const response = await fetch(`${ipPython}/usuario/${id_usuario_logado}`, requestOptions);
+                const data = await response.json();
+
+                if (response.ok && data.usuario && data.usuario.categoria) {
+                    // Sucesso! Popula o select
+                    populateServiceCategorySelect(data.usuario.categoria);
+                    // Opcional: Salva no localStorage para não buscar de novo
+                    localStorage.setItem("categoria_usuario", data.usuario.categoria);
+                } else {
+                    $('#categoria').empty().append('<option value="">Sua conta não tem categoria</option>');
+                }
+            } catch (error) {
+                console.error("Erro de rede ao buscar usuário:", error);
+                $('#categoria').empty().append('<option value="">Erro de rede</option>');
+            }
+        }
+
+        // Chama a função para carregar as categorias do fornecedor logado
+        loadCurrentSupplierCategory();
+
+        // ========================================================
+        // == ⬆️ FIM DA LÓGICA DE CATEGORIA ⬆️ ==
+        // ========================================================
+
+
+        // === LÓGICA DA URL REMOVIDA ===
+        // Não precisamos mais do idFornecedor da URL.
+        // O backend pegará o ID do fornecedor logado diretamente do token.
+
+
+        // === Cadastro do serviço (MODIFICADO PARA O FORNECEDOR) ===
+        botaoCadastrar.addEventListener("click", async (e) => {
+            e.preventDefault();
+
+            const nomeServico = document.getElementById("nome_servico").value.trim();
+            const valor = document.getElementById("valor").value.trim();
+            const descricao = document.getElementById("descricao").value.trim();
+            const categoria = document.getElementById("categoria").value.trim(); // <-- CAMPO NOVO
+
+            // Validação atualizada para incluir categoria
+            if (!nomeServico || !valor || !descricao || !categoria) {
                 Swal.fire({
-                    icon: 'success',
-                    title: 'Sucesso!',
-                    text: 'Serviço cadastrado com sucesso!'
+                    icon: 'error',
+                    title: 'Ops...',
+                    text: 'Por favor, preencha todos os campos, incluindo a categoria!'
                 });
+                return;
+            }
 
-        
-                document.getElementById("nome_servico").value = "";
-                document.getElementById("valor").value = "";
-                document.getElementById("descricao").value = "";
-                fotoInput.value = "";
-            } else {
+            if (!fotoInput.files[0]) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Ops...',
+                    text: 'Por favor, adicione uma foto!'
+                });
+                return;
+            }
+
+            const token = localStorage.getItem("token");
+            const myHeaders = new Headers();
+            myHeaders.append("Authorization", token);
+
+            const formdata = new FormData();
+            // NÃO ENVIAMOS O ID_USUARIO, o backend pega do token
+            formdata.append("nome", nomeServico);
+            formdata.append("descricao", descricao);
+            formdata.append("valor", valor);
+            formdata.append("categoria", categoria); // <-- VALOR NOVO ADICIONADO
+            formdata.append("imagem", fotoInput.files[0]);
+
+            const requestOptions = {
+                method: "POST",
+                headers: myHeaders,
+                body: formdata,
+                redirect: "follow"
+            };
+
+            try {
+                // *** URL ALTERADA PARA A ROTA DO FORNECEDOR ***
+                const response = await fetch(ipPython + "/servico", requestOptions);
+                const data = await response.json();
+
+                if (response.ok) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Sucesso!',
+                        text: 'Serviço cadastrado com sucesso!',
+                        showConfirmButton: false,
+                        timer: 1500
+                    }).then(() => {
+                        window.location.href = "home.html"; // Redireciona para a home
+                    });
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Erro',
+                        text: data.error || data.mensagem || 'Ocorreu um erro ao cadastrar o serviço.'
+                    });
+                }
+
+            } catch (error) {
+                console.error(error);
                 Swal.fire({
                     icon: 'error',
                     title: 'Erro',
-                    text: data.message || 'Ocorreu um erro ao cadastrar o serviço.'
+                    text: 'Não foi possível conectar ao servidor.'
                 });
             }
-
-        } catch (error) {
-            console.error(error);
-            Swal.fire({
-                icon: 'error',
-                title: 'Erro',
-                text: 'Não foi possível conectar ao servidor.'
-            });
-        }
+        });
     });
-});
-
 </script>
 
 </html>

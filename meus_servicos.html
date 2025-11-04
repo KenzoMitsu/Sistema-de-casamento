@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meus Serviços - Casamento Perfeito</title>
+    <link rel="icon" href="assets/img/iconsite.png" type="image/x-icon">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@400;500;700&display=swap"
+        rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Luxurious+Script&family=Old+Standard+TT:ital,wght@0,400;0,700;1,400&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="assets/css/catalogo_servicos.css">
+
+    <style>
+        .btn-excluir-servico {
+            background-color: #dc3545; /* Vermelho */
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 500;
+            transition: background-color 0.3s ease;
+        }
+        .btn-excluir-servico:hover {
+            background-color: #c82333; /* Vermelho mais escuro */
+        }
+        
+        /* Estilo para a categoria exibida no card */
+        .categoria-servico {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 500;
+            font-size: 0.9rem;
+            color: #555;
+            margin-top: 5px;
+            background-color: #f4f4f4;
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 4px;
+        }
+    </style>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="/js/api.js"></script>
+</head>
+
+<body>
+
+    <section class="hero-section">
+        <header class="header">
+            <div class="header-container">
+                <a href="home.html" class="logo">
+                    <img src="assets/img/logo-branca.png" alt="Casamento Perfeito Logo" class="logo-img">
+                </a>
+                <nav class="navbar">
+                    <ul>
+                        <li><a href="home.html">Home</a></li>
+                        <li><a href="sobre_nos.html">Sobre Nós</a></li>
+                        <li><a href="contato.html">Contato</a></li>
+                        <li><a id="profileLink" href="#"><img src="assets/img/perfil.png" alt="Ícone de Perfil"
+                                    class="profile-icon"></a></li>
+                    </ul>
+                </nav>
+            </div>
+        </header>
+
+        <div id="logoutModal" class="modal-overlay">
+            <div class="modal-content">
+                <span class="close-button">&times;</span>
+                <h2>Opções da Conta</h2>
+                <p>Deseja sair da sua conta?</p>
+                <button id="logoutButton" class="logout-btn">Sair</button>
+            </div>
+        </div>
+
+    </section>
+
+    <div class="search-bar-container" style="max-width: 600px; margin: 20px auto;">
+        <div class="search-bar">
+            <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+            <input type="text" class="search-input" id="searchInput" placeholder="Pesquisar em meus serviços...">
+        </div>
+    </div>
+
+    <h1 class="titulo-serv">Meus Serviços Cadastrados</h1>
+
+    <div class="exibe_servicos" id="exibe_servicos"></div>
+
+    <footer class="footer">
+        </footer>
+
+    <script>
+        // Bloco 1: Lógica de autenticação e logout (Permanece o mesmo)
+        document.addEventListener('DOMContentLoaded', () => {
+
+            // Verificar a autenticação do usuário
+            const checkAuthentication = () => {
+                const token = localStorage.getItem('token');
+
+                if (!token) {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Acesso Restrito',
+                        text: 'Você precisa estar logado para acessar esta página.',
+                        confirmButtonText: 'Entendi, ir para Login',
+                        allowOutsideClick: false,
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            window.location.href = 'login.html';
+                        }
+                    });
+                }
+            };
+
+            // Chama a função de verificação assim que a página carrega
+            checkAuthentication();
+
+            // Lógica do Modal de Logout (permanece idêntica)
+            const profileLink = document.getElementById('profileLink');
+            const logoutModal = document.getElementById('logoutModal');
+            const closeModalButton = document.querySelector('.close-button');
+            const logoutButton = document.getElementById('logoutButton');
+            const openModal = () => { logoutModal.style.display = 'flex'; };
+            const closeModal = () => { logoutModal.style.display = 'none'; };
+            const handleLogout = () => {
+                localStorage.clear();
+                Swal.fire({
+                    title: 'Você saiu!',
+                    text: 'Sua sessão foi encerrada.',
+                    icon: 'info'
+                }).then(() => { window.location.href = 'login.html'; });
+                closeModal();
+            };
+            if (profileLink) profileLink.addEventListener('click', (event) => { event.preventDefault(); openModal(); });
+            if (logoutButton) logoutButton.addEventListener('click', handleLogout);
+            if (closeModalButton) closeModalButton.addEventListener('click', closeModal);
+            if (logoutModal) {
+                logoutModal.addEventListener('click', (event) => {
+                    if (event.target === logoutModal) { closeModal(); }
+                });
+            }
+        });
+
+        // Bloco 2: Lógica de carregamento e exclusão (jQuery)
+        $(document).ready(function () {
+
+            // Pega o token do localStorage para enviar na requisição
+            const token = localStorage.getItem('token');
+
+            if (!token) {
+                // Se não houver token, o checkAuthentication acima já deve ter tratado,
+                // mas paramos a execução aqui para evitar erros de API.
+                return;
+            }
+
+            // =======================================================
+            // == ⬇️ CHAMADA AJAX MODIFICADA PARA /meus-servicos ⬇️ ==
+            // =======================================================
+            var settings = {
+                "url": ipPython + "/meus-servicos", // <-- ROTA ATUALIZADA
+                "method": "GET",
+                "timeout": 0,
+                "headers": {
+                    // "Content-Type": "application/json", // Não é necessário para GET
+                    "Authorization": "Bearer " + token // <-- HEADER DE AUTENTICAÇÃO ADICIONADO
+                },
+                "success": function (retorno) {
+                    console.log("Resposta da API /meus-servicos:", retorno); 
+
+                    if (retorno && retorno.servicos && retorno.servicos.length > 0) {
+                        document.getElementById("exibe_servicos").innerHTML = "";
+                        var servicos = retorno.servicos; 
+
+                        servicos.forEach((item) => {
+                            let valorFormatado = "Valor não informado";
+                            if (item.valor) {
+                                valorFormatado = parseFloat(item.valor).toLocaleString('pt-BR', {
+                                    style: 'currency',
+                                    currency: 'BRL'
+                                });
+                            }
+                            
+                            // Define a categoria (com um fallback caso seja nula)
+                            let categoriaTexto = item.categoria || 'Não definida';
+
+                            // Cria o HTML para cada *serviço*
+                            document.getElementById("exibe_servicos").innerHTML += `
+                                <section class="secao-fornecedores prod" data-id-servico="${item.id_servico}" data-id-usuario="${item.id_usuario}">
+                                    <div class="container-fornecedor">
+                                        <div class="img-wrapper">
+                                            <a href="editar_servico.html?id_servico=${item.id_servico}">
+                                                <img src="${ipPython}/static/uploads/Servicos/${item.id_servico}.jpeg"
+                                                class="img-logo"
+                                                alt="Imagem do Serviço"
+                                                onerror="this.src='assets/img/placeholder.png'; this.style objectFit='cover';">
+                                            </a>
+                                        </div>
+
+                                        <h3 class="nome-servico descricao">${item.nome}</h3>
+                                        <p class="texto-ong categoria-preco">${valorFormatado}</p>
+                                        <p class="categoria-servico">${categoriaTexto}</p>
+                                        <p class="texto-ong" style="margin-top: 10px;">${item.descricao}</p>
+                                        
+                                        <button class="btn-excluir-servico">Excluir Serviço</button>
+                                    </div>
+                                </section>`;
+                        });
+                    } else {
+                        // Mensagem de "vazio" específica para o fornecedor
+                        document.getElementById("exibe_servicos").innerHTML = `<p style="text-align: center; width: 100%;">${retorno.mensagem || 'Você ainda não cadastrou nenhum serviço.'}</p>`;
+                    }
+                },
+                "error": function (jqXHR, textStatus, errorThrown) {
+                    console.error("Erro ao buscar serviços:", textStatus, errorThrown);
+                    
+                    let erroMsg = "Ocorreu um erro ao carregar seus serviços.";
+                    // Captura mensagens de erro da API (ex: Token expirado)
+                    if (jqXHR.responseJSON && jqXHR.responseJSON.mensagem) {
+                        erroMsg = jqXHR.responseJSON.mensagem;
+                        if (erroMsg === 'Token expirado' || erroMsg === 'Token inválido') {
+                            // Força o logout se o token for inválido
+                            handleLogout();
+                        }
+                    }
+                    
+                    document.getElementById("exibe_servicos").innerHTML = `<p class='aviso_vazio' style='text-align: center; width: 100%;'>${erroMsg}</p>`;
+                }
+            };
+
+            // Executa a chamada AJAX para buscar os serviços
+            $.ajax(settings);
+
+            // =======================================================
+            // == ⬇️ LÓGICA DE EXCLUSÃO (PERMANECE A MESMA) ⬇️ ==
+            // =======================================================
+            // A rota DELETE /servico/<id> já valida se o usuário é o dono (pelo token)
+            $('#exibe_servicos').on('click', '.btn-excluir-servico', function() {
+                
+                const $button = $(this);
+                const $servicoCard = $button.closest('.secao-fornecedores');
+                const idServico = $servicoCard.data('id-servico');
+                
+                if (!idServico) {
+                    Swal.fire('Erro', 'Não foi possível encontrar o ID do serviço.', 'error');
+                    return;
+                }
+
+                // O token já foi pego no início do $(document).ready()
+                if (!token) {
+                    Swal.fire('Erro de Autenticação', 'Token não encontrado. Faça login novamente.', 'error');
+                    return;
+                }
+
+                Swal.fire({
+                    title: 'Você tem certeza?',
+                    text: "Deseja realmente excluir este serviço? Esta ação não pode ser revertida.",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: 'Sim, excluir!',
+                    cancelButtonText: 'Cancelar'
+                }).then((result) => {
+                    
+                    if (result.isConfirmed) {
+                        
+                        $.ajax({
+                            url: `${ipPython}/servico/${idServico}`, // Rota de delete
+                            method: "DELETE",
+                            headers: {
+                                'Authorization': 'Bearer ' + token
+                            },
+                            success: function(response) {
+                                Swal.fire(
+                                    'Excluído!',
+                                    'O serviço foi excluído com sucesso.',
+                                    'success'
+                                );
+                                
+                                $servicoCard.fadeOut(400, function() {
+                                    $(this).remove();
+                                });
+                            },
+                            error: function(jqXHR, textStatus, errorThrown) {
+                                console.error("Erro ao excluir:", jqXHR.responseText);
+                                let erroMsg = 'Ocorreu um erro ao tentar excluir o serviço.';
+                                if (jqXHR.responseJSON && (jqXHR.responseJSON.error || jqXHR.responseJSON.mensagem)) {
+                                    erroMsg = jqXHR.responseJSON.error || jqXHR.responseJSON.mensagem;
+                                }
+                                Swal.fire('Erro!', erroMsg, 'error');
+                            }
+                        }); // Fim do $.ajax DELETE
+                    }
+                }); // Fim do .then() do SweetAlert
+            }); // Fim do event listener .on('click')
+
+
+            // =======================================================
+            // == ⬇️ LÓGICA DE PESQUISA (FILTRO LOCAL) ⬇️ ==
+            // =======================================================
+
+            // Esta função irá filtrar os cards já exibidos na tela,
+            // em vez de fazer uma nova chamada à API.
+            function filtrarServicosLocais(termo) {
+                const termoBusca = termo.toLowerCase().trim();
+
+                // Itera sobre cada card de serviço
+                $('#exibe_servicos .secao-fornecedores.prod').each(function() {
+                    const $card = $(this);
+                    
+                    // Pega o nome, descrição e categoria para a busca
+                    const nomeServico = $card.find('.nome-servico').text().toLowerCase();
+                    const descricaoServico = $card.find('.texto-ong').text().toLowerCase();
+                    const categoriaServico = $card.find('.categoria-servico').text().toLowerCase();
+                    const precoServico = $card.find('.categoria-preco').text().toLowerCase();
+                    
+                    const textoCompleto = nomeServico + " " + descricaoServico + " " + categoriaServico + " " + precoServico;
+                    
+                    // Se o texto do card incluir o termo de busca, mostra; senão, esconde.
+                    if (textoCompleto.includes(termoBusca)) {
+                        $card.show();
+                    } else {
+                        $card.hide();
+                    }
+                });
+            }
+
+            // Captura o evento da barra de pesquisa e chama a função de filtro local
+            const inputPesquisa = document.getElementById('searchInput');
+            if (inputPesquisa) {
+                inputPesquisa.addEventListener('input', (event) => {
+                    filtrarServicosLocais(event.target.value);
+                });
+            }
+
+        }); // Fim do $(document).ready()
+        
+    </script>
+
+</body>
+
+</html>

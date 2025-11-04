@@ -21,6 +21,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
     <script src="/js/api.js"></script>
 </head>
+
 <body style="background: url('assets/img/fundo-alianca.jpg')">
 
     <main>
@@ -60,6 +61,8 @@
             </div>
         </div>
     </main>
+
+</body>
 
     <script>
         document.addEventListener("DOMContentLoaded", () => {
@@ -111,7 +114,7 @@
                 }
 
                 // Adiciona uma opção padrão
-                select.append('<option value="">Selecione uma categoria de serviço</option>');
+                select.append('<option value="">Selecione uma categoria</option>');
 
                 // Adiciona as opções baseadas na categoria do fornecedor
                 servico_categorias[fornecedorCategoria].forEach(subcategoria => {
@@ -269,5 +272,5 @@
             });
         });
     </script>
-</body>
+
 </html>

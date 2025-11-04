@@ -60,6 +60,11 @@ document.addEventListener('DOMContentLoaded', () => {
             editServiceLink.textContent = 'Cadastrar novo serviço';
             modalOptionsContainer.appendChild(editServiceLink);
 
+            const myServicesLink = document.createElement('a');
+            myServicesLink.href = 'meus_servicos.html'; // Redireciona para a página solicitada
+            myServicesLink.textContent = 'Meus Serviços';
+            modalOptionsContainer.appendChild(myServicesLink);
+
         } else if (cargo === '1' || cargo === '3') { // Se for NOIVO ou CERIMONIALISTA
             const editProfileLink = document.createElement('a');
             if (cargo === '1') { // Noivo

@@ -23,7 +23,9 @@
             <div class="formulario">
                 <h1 class="titulo">Edição de Usuários</h1>
                 <img src="assets/img/logo-preta.png" alt="Logo Casamento Perfeito" class="logo-canto">
-                <a href="listagem.html"><p class="bot-fechar">X</p></a>
+                <a href="listagem.html">
+                    <p class="bot-fechar">X</p>
+                </a>
 
                 <input type="hidden" id="cargo" name="cargo" value="">
 
@@ -31,18 +33,26 @@
                     <div id="cadastro1" class="cadastro1">
                         <input class="nome" type="text" placeholder="Seu nome" id="nome" name="nome">
                         <input class="email" type="email" placeholder="E-mail" id="email" name="email">
+                        <div>
+                            <select id="status-usuario" class="form-select">
+                                <option value="1">Ativo</option>
+                                <option value="0">Inativo</option>
+                            </select>
+                        </div>
                     </div>
 
                     <div id="cadastro2" class="cadastro2">
                         <input class="telefone" type="tel" placeholder="Telefone" id="telefone" name="telefone">
-                        <input class="data-nascimento" type="date" placeholder="Data de nascimento" id="data-nascimento" name="data-nascimento">
+                        <input class="data-nascimento" type="date" placeholder="Data de nascimento" id="data-nascimento"
+                            name="data-nascimento">
                         <input class="cep" type="text" placeholder="CEP" id="cep" name="cep">
                     </div>
                 </div>
 
-                <!-- CAMPOS FORNECEDOR -->
+
                 <div id="campos-fornecedor" style="display: none;">
-                    <input class="nome-marca" type="text" placeholder="Nome da marca *" id="nome-marca" name="nome-marca">
+                    <input class="nome-marca" type="text" placeholder="Nome da marca *" id="nome-marca"
+                        name="nome-marca">
                     <select name="categoria" id="categoria" class="categoria">
                         <option value="" selected disabled>Categoria *</option>
                         <option>Buffet</option>
@@ -57,18 +67,10 @@
                     </select>
                 </div>
 
-                <!-- NOVO: STATUS DO USUÁRIO -->
-                <div style="margin-top: 15px;">
-                    <label for="status-usuario" style="font-weight: bold;">Status do Usuário</label>
-                    <select id="status-usuario" class="form-select" style="max-width: 200px;">
-                        <option value="1">Ativo</option>
-                        <option value="0">Inativo</option>
-                    </select>
-                </div>
-
                 <div class="botoes-acoes" style="margin-top: 20px;">
                     <button type="submit" class="botao-editar">Editar</button>
-                    <button type="button" class="botao-servico" id="btn-adicionar-servico" style="display: none;">Adicionar Serviço</button>
+                    <button type="button" class="botao-servico" id="btn-adicionar-servico"
+                        style="display: none;">Adicionar Serviço</button>
                 </div>
             </div>
         </div>
@@ -76,112 +78,116 @@
 </body>
 
 <script>
-$(document).ready(function () {
-    $('#telefone').mask('(00) 00000-0000');
-    $('#cep').mask('00000-000');
+    $(document).ready(function () {
+        $('#telefone').mask('(00) 00000-0000');
+        $('#cep').mask('00000-000');
 
-    const urlParams = new URLSearchParams(window.location.search);
-    const idUsuario = urlParams.get('id');
+        const urlParams = new URLSearchParams(window.location.search);
+        const idUsuario = urlParams.get('id');
 
-    if (!idUsuario) {
-        Swal.fire({icon: 'error', title: 'Erro', text: 'ID do usuário não encontrado!'})
-        .then(() => window.location.href = 'listagem.html');
-        return;
-    }
-
-    const hoje = new Date().toISOString().split('T')[0];
-    $('#data-nascimento').attr('max', hoje);
-
-    carregarDadosUsuario(idUsuario);
-
-    function carregarDadosUsuario(id) {
-        const token = localStorage.getItem('token');
-        $.ajax({
-            url: `${ipPython}/usuario/${id}`,   // ✅ CORRIGIDO
-            type: 'GET',
-            headers: { 'Authorization': `Bearer ${token}` },
-            success: function (response) {
-                const usuario = response.usuario;
-                $('#cargo').val(usuario.cargo);
-                $('#nome').val(usuario.nome);
-                $('#email').val(usuario.email);
-                $('#telefone').val(usuario.telefone);
-                $('#cep').val(usuario.cep || '');
-                $('#status-usuario').val(usuario.ativo ? "1" : "0");
-
-                if (usuario.data_nascimento) {
-                    let data = usuario.data_nascimento;
-                    if (data.includes('-')) {
-                        const partes = data.split('-');
-                        if (partes[0].length === 2) {
-                            data = `${partes[2]}-${partes[1]}-${partes[0]}`;
-                        }
-                    }
-                    $('#data-nascimento').val(data);
-                }
-
-                if (usuario.cargo == 2) {
-                    $('#campos-fornecedor').show();
-                    $('#btn-adicionar-servico').show()
-                        .off('click')
-                        .on('click', function () {
-                            window.location.href = `../cadastro_servico_adm.html?id=${idUsuario}`;
-                        });
-                    $('#nome-marca').val(usuario.nome_marca || '');
-                    $('#categoria').val(usuario.categoria);
-                }
-            },
-            error: function (xhr) {
-                Swal.fire({icon: 'error', title: 'Erro ao carregar dados', text: xhr.responseJSON?.error || `Erro ${xhr.status}`});
-            }
-        });
-    }
-
-    $('.botao-editar').click(function (e) {
-        e.preventDefault();
-        const cargo = $('#cargo').val();
-
-        if (cargo == 2) {
-            if (!$('#categoria').val()) return Swal.fire({icon: 'warning', title: 'Selecione uma categoria!'});
-            if (!$('#nome-marca').val().trim()) return Swal.fire({icon: 'warning', title: 'Preencha o nome da marca!'});
-        }
-
-        const token = localStorage.getItem('token');
-        const formData = new FormData();
-        formData.append('nome', $('#nome').val());
-        formData.append('email', $('#email').val());
-        formData.append('telefone', $('#telefone').val());
-        formData.append('cep', $('#cep').val());
-        formData.append('ativo', $('#status-usuario').val());
-
-        if (cargo == 2) {
-            formData.append('nome_marca', $('#nome-marca').val());
-            formData.append('categoria', $('#categoria').val());
-        }
-
-        const dataNasc = $('#data-nascimento').val();
-        if (dataNasc) {
-            const partes = dataNasc.split('-');
-            formData.append('data_nascimento', `${partes[2]}-${partes[1]}-${partes[0]}`);
-        }
-
-        $.ajax({
-            url: `${ipPython}/usuarios/${idUsuario}`,  // ✅ CORRIGIDO
-            type: 'PUT',
-            headers: { 'Authorization': `Bearer ${token}` },
-            data: formData,
-            processData: false,
-            contentType: false,
-            success: function () {
-                Swal.fire({icon: 'success', title: 'Sucesso!', text: 'Usuário atualizado com sucesso!'})
+        if (!idUsuario) {
+            Swal.fire({ icon: 'error', title: 'Erro', text: 'ID do usuário não encontrado!' })
                 .then(() => window.location.href = 'listagem.html');
-            },
-            error: function (xhr) {
-                Swal.fire({icon: 'error', title: 'Erro ao atualizar', text: xhr.responseJSON?.error || 'Falha ao atualizar.'});
+            return;
+        }
+
+        const hoje = new Date().toISOString().split('T')[0];
+        $('#data-nascimento').attr('max', hoje);
+
+        carregarDadosUsuario(idUsuario);
+
+        function carregarDadosUsuario(id) {
+            const token = localStorage.getItem('token');
+            $.ajax({
+                url: `${ipPython}/usuario/${id}`,
+                type: 'GET',
+                headers: { 'Authorization': `Bearer ${token}` },
+                success: function (response) {
+                    const usuario = response.usuario;
+                    $('#cargo').val(usuario.cargo);
+                    $('#nome').val(usuario.nome);
+                    $('#email').val(usuario.email);
+                    $('#telefone').val(usuario.telefone);
+                    $('#cep').val(usuario.cep || '');
+                    const statusUser = usuario.status || usuario.ativo;
+                    $('#status-usuario').val(
+                        statusUser == "A" || statusUser == 1 || statusUser == "1" || statusUser === true ? "1" : "0"
+                    );
+
+
+                    if (usuario.data_nascimento) {
+                        let data = usuario.data_nascimento;
+                        if (data.includes('-')) {
+                            const partes = data.split('-');
+                            if (partes[0].length === 2) {
+                                data = `${partes[2]}-${partes[1]}-${partes[0]}`;
+                            }
+                        }
+                        $('#data-nascimento').val(data);
+                    }
+
+                    if (usuario.cargo == 2) {
+                        $('#campos-fornecedor').show();
+                        $('#btn-adicionar-servico').show()
+                            .off('click')
+                            .on('click', function () {
+                                window.location.href = `../cadastro_servico_adm.html?id=${idUsuario}`;
+                            });
+                        $('#nome-marca').val(usuario.nome_marca || '');
+                        $('#categoria').val(usuario.categoria);
+                    }
+                },
+                error: function (xhr) {
+                    Swal.fire({ icon: 'error', title: 'Erro ao carregar dados', text: xhr.responseJSON?.error || `Erro ${xhr.status}` });
+                }
+            });
+        }
+
+        $('.botao-editar').click(function (e) {
+            e.preventDefault();
+            const cargo = $('#cargo').val();
+
+            if (cargo == 2) {
+                if (!$('#categoria').val()) return Swal.fire({ icon: 'warning', title: 'Selecione uma categoria!' });
+                if (!$('#nome-marca').val().trim()) return Swal.fire({ icon: 'warning', title: 'Preencha o nome da marca!' });
             }
+
+            const token = localStorage.getItem('token');
+            const formData = new FormData();
+            formData.append('nome', $('#nome').val());
+            formData.append('email', $('#email').val());
+            formData.append('telefone', $('#telefone').val());
+            formData.append('cep', $('#cep').val());
+            formData.append('ativo', $('#status-usuario').val());
+
+            if (cargo == 2) {
+                formData.append('nome_marca', $('#nome-marca').val());
+                formData.append('categoria', $('#categoria').val());
+            }
+
+            const dataNasc = $('#data-nascimento').val();
+            if (dataNasc) {
+                const partes = dataNasc.split('-');
+                formData.append('data_nascimento', `${partes[2]}-${partes[1]}-${partes[0]}`);
+            }
+
+            $.ajax({
+                url: `${ipPython}/usuarios/${idUsuario}`,
+                type: 'PUT',
+                headers: { 'Authorization': `Bearer ${token}` },
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function () {
+                    Swal.fire({ icon: 'success', title: 'Sucesso!', text: 'Usuário atualizado com sucesso!' })
+                        .then(() => window.location.href = 'listagem.html');
+                },
+                error: function (xhr) {
+                    Swal.fire({ icon: 'error', title: 'Erro ao atualizar', text: xhr.responseJSON?.error || 'Falha ao atualizar.' });
+                }
+            });
         });
     });
-});
 </script>
 
 </html>

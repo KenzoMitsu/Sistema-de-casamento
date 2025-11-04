@@ -322,6 +322,9 @@ body {
 
 .body-sec {
     background-image: url('../img/fundo-contato.png');
+    background-size: cover; 
+    background-position: center; 
+    background-repeat: no-repeat; 
 }
 
 .sec-principal {

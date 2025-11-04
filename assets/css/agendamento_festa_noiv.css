@@ -46,9 +46,6 @@
 body {
     font-family: 'Poppins', sans-serif;
     background-color: #F3F2EE;
-    margin: 0;
-    padding: 0;
-    height: 100%;
 }
 
 .hero-section {
@@ -61,7 +58,7 @@ body {
     flex-direction: column;
     justify-content: space-between; /* Para empurrar a barra de pesquisa para baixo */
     align-items: center; /* Centraliza o conteúdo (inclusive a barra de pesquisa) */
-    padding: 130px 6% 0px; /* Padding para o conteúdo não ficar colado nas bordas */
+    padding: 130px 6% 50px; /* Padding para o conteúdo não ficar colado nas bordas */
 }
 
 /* Estilos do conteúdo do Hero */
@@ -103,10 +100,6 @@ body {
 }
 
 /* --- CABEÇALHO (HEADER) --- */
-main {
-    flex: 1; 
-}
-
 .header {
     position: absolute;
     top: 0;
@@ -480,7 +473,6 @@ main {
     display: flex;
     flex-direction: column;
     align-items: flex-end;
-    margin-bottom: 0;
 }
 
 .journey-header {
@@ -551,8 +543,6 @@ main {
     background-color: #333; /* Cor de fallback caso a imagem não carregue */
     color: #ffffff;
     width: 100%;
-    flex-shrink: 0;
-    overflow: hidden;
 }
 
 /* Pseudo-elemento para o fundo com imagem e sobreposição escura */
@@ -669,11 +659,15 @@ main {
     color: #F3BDD1;
 }
 
+.secao-fornecedores {
+    padding-bottom: 0px;
+}
+
 .container-fornecedor {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin: 5px;
+    padding: 20px;
     border-radius: 15px;
     flex: 0 0 33.33%;
     box-sizing: border-box;
@@ -688,13 +682,11 @@ main {
     /* menos altura pra não parecer vazio */
 }
 
-.exibe_servicos {
+.exibe_fornecedores {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    gap: 20px; 
-    margin-bottom: 0;
-    justify-content: center;
+    justify-content: space-around;
 }
 
 .img-logo {
@@ -708,7 +700,7 @@ main {
     transform: translate(-50%, -50%);
 }
 
-.nome-servico {
+.titulo-ong {
     font-family: "Ledger", serif;
     font-weight: 400;
     font-size: 26px;
@@ -724,10 +716,6 @@ main {
     color: #BB9245;
     margin-top: 5px;
     text-align: center;
-    word-break: break-word;      
-    overflow-wrap: break-word;   
-    white-space: normal;      
-    max-width: 220px;  
 }
 
 .btn-slide {
@@ -746,37 +734,6 @@ main {
     background-color: var(--rosa-médio);
     border-color: var(--rosa-médio);
     color: var(--branco);
-}
-
-.titulo-serv {
-    font-family: 'Ledger';
-    font-size: 37px;
-    font-weight: 300;
-    color: #BB9245;
-    text-align: center;
-    margin: 40px 0 20px;
-}
-
-.bot-cadastro {
-    border: 5px solid #793C3C;
-    border-radius: 10px;
-    padding: 15px 55px;
-    font-family: 'Ledger';
-    font-size: 25px;
-    color: var(--branco);
-    background: #793C3C;
-}
-
-.div-bot-cadastro {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 40px;
-    margin-top: 40px;
-    align-items: center;
-}
-
-.aviso_vazio {
-    margin-bottom: 50px;
 }
 
 /* Responsividade */

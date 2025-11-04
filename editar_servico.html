@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="pt-br" dir="ltr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="assets/img/iconsite.png" type="image/x-icon">
+    <link rel="stylesheet" href="assets/css/cadastro_servico.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Ledger&display=swap" rel="stylesheet">
+    <title>Edição de Serviço - Casamento Perfeito</title>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
+    <script src="/js/api.js"></script>
+</head>
+
+<body>
+    <main>
+        <div class="principal">
+            <div class="formulario">
+                <h1 class="titulo">Editar Serviço</h1>
+                <img src="assets/img/logo-preta.png" alt="Logo Casamento Perfeito" class="logo-canto">
+                <a href="meus_servicos.html">
+                    <p class="bot-fechar">X</p>
+                </a>
+                
+                <div class="cadastro-sec">
+                    <div id="cadastro1" class="cadastro1">
+                        <form id="form-servico">
+                            <div class="sec-upload-box">
+                                <label class="upload-box">
+                                    <img src="assets/img/pasta.png" alt="Ícone pasta" class="foto-pasta">
+                                    <span>Adicionar uma foto</span>
+                                    <input type="file" name="imagem" id="imagem_servico" accept="image/*">
+                                </label>
+                            </div>
+                        </form>
+                    </div>
+                    <div id="cadastro2" class="cadastro2">
+                        <input class="nome_servico" type="text" placeholder="Nome do serviço" id="nome_servico"
+                            name="nome_servico">
+                        <input class="valor" type="text" placeholder="Valor" id="valor" name="valor">
+                        
+                        <select class="categoria" id="categoria" name="categoria">
+                            <option value="">Carregando categorias...</option>
+                        </select>
+
+                        <textarea class="descricao" type="text" placeholder="Descrição" id="descricao" name="descricao"></textarea>
+                    </div>
+                </div>
+                <button type="button" class="botao-cadastrar">Salvar Alterações</button>
+            </div>
+        </div>
+    </main>
+</body>
+
+<script>
+// [1] MAPA E FUNÇÃO (Sem alterações)
+// Mapeamento de categorias de fornecedor para subcategorias de serviço
+const servico_categorias = {
+    "Buffet": ["Café da Manhã", "Almoço", "Jantar", "Churrasco", "Infantil", "Self-service"],
+    "Confeiteiro": ["Confeitaria", "Confeitaria Artística", "Chocolataria", "Confeitaria Gourmet"],
+    "Alfaiataria": ["Ternos", "Blazers", "Calças/Saias", "Vestidos", "Moderna/Slim", "Geral"],
+    "Maquiador/Cabeleireiro/Salão de Beleza": ["Maquiagem", "Cortes Clássicos", "Escovista", "Cabelo da Noiva", "Manicure/Pedicure"],
+    "DJ/Cantor": ["Música Clássica", "Música Romântica", "Trompetista", "Maestro", "Pianista", "Banda de Rock", "DJ Solo", "Cantor Solo"],
+    "Decoração": ["Decoração"],
+    "Fotógrafo": ["Fotografia", "Cabine Fotográfica", "Fotos de Casal", "Fotos de Ensaio", "Álbum"],
+    "Transporte": ["Táxi", "Carro de Luxo", "Limousine"],
+    "Espaço para eventos": ["Eventos Grandes", "Eventos Médios", "Eventos Pequenos"]
+};
+
+// Função para popular o select de categoria de serviço
+function populateServiceCategorySelect(fornecedorCategoria, currentCategoria = null) {
+    const select = $('#categoria');
+    select.empty(); 
+
+    if (!servico_categorias[fornecedorCategoria]) {
+        select.append('<option value="">Categoria de fornecedor inválida ou não encontrada</option>');
+        return;
+    }
+
+    select.append('<option value="">Selecione uma categoria de serviço</option>');
+
+    servico_categorias[fornecedorCategoria].forEach(subcategoria => {
+        const option = $('<option></option>').val(subcategoria).text(subcategoria);
+        if (currentCategoria && subcategoria === currentCategoria) {
+            option.prop('selected', true); 
+        }
+        select.append(option);
+    });
+}
+
+
+$(document).ready(function () {
+
+    // --- Lógica de Preview da Imagem (Sem alterações) ---
+    $('#imagem_servico').on('change', function (e) {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function (event) {
+                const uploadBox = $('.upload-box');
+                uploadBox.find('img').attr('src', event.target.result);
+                uploadBox.find('span').text(file.name); 
+            }
+            reader.readAsDataURL(file);
+        }
+    });
+
+    // --- Lógica Principal da Página ---
+
+    // [2] LÓGICA DE CARREGAMENTO (GET) TOTALMENTE ATUALIZADA
+
+    // 1. Pegar o id_servico da URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const idServico = urlParams.get('id_servico');
+    const token = localStorage.getItem('token'); // Pega o token do ADM
+
+    if (!idServico) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Erro!',
+            text: 'Nenhum serviço foi selecionado.',
+            allowOutsideClick: false,
+        }).then(() => {
+            window.location.href = 'meus_servicos.html';
+        });
+        return; 
+    }
+
+    if (!token) {
+         Swal.fire("Erro!", "Você não está autenticado. Faça login novamente.", "error").then(() => {
+            window.location.href = 'meus_servicos.html';
+        });
+        return;
+    }
+
+    // 2. Fazer a requisição GET para carregar os dados do SERVIÇO
+    $.ajax({
+        url: ipPython + "/servicoid/" + idServico,
+        method: "GET",
+        timeout: 0,
+        headers: { "Content-Type": "application/json" },
+        success: function (response) {
+            if (response && response.servico) {
+                const servico = response.servico;
+
+                // Preenche os campos de texto
+                $('#nome_servico').val(servico.nome);
+                $('#valor').val(servico.valor);
+                $('#descricao').val(servico.descricao);
+
+                // Guarda a categoria ATUAL do serviço (ex: "Jantar")
+                const servicoCategoriaAtual = servico.categoria;
+
+                // Define a imagem atual
+                const imgUrl = `${ipPython}/static/uploads/Servicos/${servico.id_servico}.jpeg`;
+                const uploadBox = $('.upload-box');
+                uploadBox.find('img').attr('src', imgUrl);
+                uploadBox.find('span').text('Alterar foto');
+                uploadBox.find('img').on('error', function () {
+                    $(this).attr('src', 'assets/img/pasta.png');
+                    uploadBox.find('span').text('Adicionar uma foto');
+                });
+
+                // Pega o ID do FORNECEDOR (dono do serviço)
+                const idFornecedor = servico.id_usuario;
+
+                if (!idFornecedor) {
+                     Swal.fire('Erro de Dados', 'Este serviço não parece estar vinculado a um fornecedor.', 'error');
+                     $('#categoria').prop('disabled', true).html('<option value="">Erro</option>');
+                     return;
+                }
+
+                const urlBuscaFornecedor = ipPython + "/usuario/" + idFornecedor; 
+
+                $.ajax({
+                    url: urlBuscaFornecedor,
+                    method: "GET",
+                    headers: { 
+                        "Content-Type": "application/json",
+                        "Authorization": "Bearer " + token // Autenticação do ADM para buscar dados
+                    }, 
+                    success: function(fornecedorResponse) {
+                        
+                        const fornecedorCategoriaPrincipal = fornecedorResponse.usuario.categoria; // Minha suposição
+
+                        if (fornecedorCategoriaPrincipal) {
+                            // 4. SUCESSO! Agora podemos popular o select
+                            populateServiceCategorySelect(fornecedorCategoriaPrincipal, servicoCategoriaAtual);
+                        } else {
+                            Swal.fire('Erro de Dados', 'Não foi possível encontrar a categoria principal do fornecedor.', 'error');
+                            $('#categoria').prop('disabled', true).html('<option value="">Erro</option>');
+                        }
+                    },
+                    error: function() {
+                        Swal.fire('Erro de API', 'Falha ao buscar os dados do fornecedor para carregar as categorias.', 'error');
+                        $('#categoria').prop('disabled', true).html('<option value="">Erro ao carregar</Goption>');
+                    }
+                });
+
+            } else {
+                Swal.fire('Erro', response.mensagem || 'Serviço não encontrado.', 'error').then(() => {
+                    window.location.href = 'meus_servicos.html';
+                });
+            }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.error("Erro ao buscar dados do serviço:", textStatus, errorThrown);
+            let errorMsg = jqXHR.responseJSON?.error || "Ocorreu um erro ao buscar os dados.";
+            Swal.fire({
+                icon: 'error',
+                title: 'Erro!',
+                text: errorMsg,
+            }).then(() => {
+                window.location.href = 'meus_servicos.html';
+            });
+        }
+    });
+
+    // 3. Configurar o botão "Salvar" (PUT) - (Sem alterações, já está correto)
+    $(".botao-cadastrar").on("click", function (e) {
+        e.preventDefault();
+
+        // (O token já foi pego lá em cima)
+        if (!token) {
+             return Swal.fire("Erro!", "Você não está autenticado. Faça login novamente.", "error").then(() => {
+                window.location.href = 'meus_servicos.html';
+            });
+        }
+
+        let formData = new FormData();
+
+        let nome = $("#nome_servico").val().trim();
+        let valor = $("#valor").val().trim();
+        let categoria = $("#categoria").val(); // Pega o valor do <select>
+        let descricao = $("#descricao").val().trim();
+
+        if (!nome || !valor || !categoria || !descricao) {
+            return Swal.fire("Erro!", "Preencha todos os campos (Nome, Valor, Categoria e Descrição).", "error");
+        }
+
+        formData.append('nome', nome);
+        formData.append('valor', valor);
+        formData.append('categoria', categoria);
+        formData.append('descricao', descricao);
+
+        let imagemInput = $('#imagem_servico')[0]; 
+        if (imagemInput.files.length > 0) {
+            formData.append('imagem', imagemInput.files[0]);
+        }
+
+        // 4. Fazer a requisição PUT para atualizar
+        $.ajax({
+            method: "PUT",
+            url: ipPython + "/servico/" + idServico, 
+            data: formData,
+            headers: {
+                "Authorization": "Bearer " + token 
+            },
+            contentType: false, 
+            processData: false, 
+            success: function (response) {
+                Swal.fire({
+                    title: "Sucesso!",
+                    text: response.message || "Serviço atualizado com sucesso!",
+                    icon: "success"
+                }).then(() => {
+                    window.location.href = "meus_servicos.html"; 
+                });
+            },
+            error: function (xhr) {
+                let errorMsg = xhr.responseJSON?.error || xhr.responseJSON?.mensagem || "Ocorreu um erro, tente novamente.";
+                
+                Swal.fire({
+                    title: "Erro!",
+                    text: errorMsg,
+                    icon: "error"
+                });
+            }
+        });
+    });
+
+});
+</script>
+
+</html>

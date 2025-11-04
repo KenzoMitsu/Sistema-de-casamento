@@ -118,7 +118,6 @@ body::before {
     margin-top: 0;
 }
 
-/* Padronização de todos os inputs e selects */
 input,
 select {
     width: 100%;
@@ -138,7 +137,6 @@ select:focus {
     box-shadow: 0 0 0 2px rgba(255, 183, 201, 0.2);
 }
 
-/* Campos específicos de fornecedor */
 #campos-fornecedor {
     display: flex;
     flex-direction: column;
@@ -233,7 +231,6 @@ select:focus {
         }
 
 
-/* RESPONSIVO */
 @media (max-width: 768px) {
     .formulario {
         max-width: 500px;

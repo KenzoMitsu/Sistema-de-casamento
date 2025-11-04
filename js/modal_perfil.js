@@ -63,7 +63,7 @@ document.addEventListener('DOMContentLoaded', () => {
         } else if (cargo === '1' || cargo === '3') { // Se for NOIVO ou CERIMONIALISTA
             const editProfileLink = document.createElement('a');
             if (cargo === '1') { // Noivo
-                editProfileLink.href = 'editar_noivo.html';
+                editProfileLink.href = 'editar_usuarios.html';
             } else { // Cerimonialista
                 editProfileLink.href = 'editar_cerimonialista.html';
             }

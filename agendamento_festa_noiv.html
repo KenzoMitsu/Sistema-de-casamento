@@ -18,10 +18,42 @@
         rel="stylesheet">
 
     <link rel="stylesheet" href="assets/css/agendamento_festa_noiv.css">
+    <script src="/js/modal_perfil.js"></script>
 
     <!-- SweetAlert baixado -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="/js/api.js"></script>
+
+        <style>
+        .modal-options-container a, .modal-options-container button {
+            display: block;
+            padding: 12px 20px;
+            margin: 10px 0;
+            border-radius: 5px;
+            text-decoration: none;
+            text-align: center;
+            width: 100%;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+            font-size: 16px;
+            cursor: pointer;
+            border: 1px solid #ddd;
+            background-color: #f9f9f9;
+            color: #333;
+            transition: background-color 0.3s;
+        }
+        .modal-options-container a:hover {
+            background-color: #eee;
+        }
+        .modal-options-container .logout-btn {
+            background-color: #f44336;
+            color: white;
+            border: none;
+        }
+        .modal-options-container .logout-btn:hover {
+            background-color: #d32f2f;
+        }
+    </style>
 </head>
 
 <body>
@@ -39,8 +71,7 @@
 
                         <li><a href="sobre_nos.html">Sobre Nós</a></li>
                         <li><a href="contato.html">Contato</a></li>
-                        <li><a id="profileLink" href="#"><img src="assets/img/perfil.png" alt="Ícone de Perfil"
-                                    class="profile-icon"></a></li>
+                        <li><a id="profileLink" href="#"><img src="assets/img/perfil.png" alt="Ícone de Perfil" class="profile-icon"></a></li>
                     </ul>
                 </nav>
             </div>
@@ -51,8 +82,8 @@
             <div class="modal-content">
                 <span class="close-button">&times;</span>
                 <h2>Opções da Conta</h2>
-                <p>Deseja sair da sua conta?</p>
-                <button id="logoutButton" class="logout-btn">Sair</button>
+                <div id="modalOptionsContainer" class="modal-options-container">
+                </div>
             </div>
         </div>
 

@@ -50,8 +50,39 @@
         }
     </style>
 
+    <style>
+         .modal-options-container a, .modal-options-container button {
+            display: block;
+            padding: 12px 20px;
+            margin: 10px 0;
+            border-radius: 5px;
+            text-decoration: none;
+            text-align: center;
+            width: 100%;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+            font-size: 16px;
+            cursor: pointer;
+            border: 1px solid #ddd;
+            background-color: #f9f9f9;
+            color: #333;
+            transition: background-color 0.3s;
+        }
+        .modal-options-container a:hover {
+            background-color: #eee;
+        }
+        .modal-options-container .logout-btn {
+            background-color: #f44336;
+            color: white;
+            border: none;
+        }
+        .modal-options-container .logout-btn:hover {
+            background-color: #d32f2f;
+        }
+    </style>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="/js/api.js"></script>
+    <script src="/js/modal_perfil.js"></script>
 </head>
 
 <body>
@@ -78,12 +109,11 @@
             <div class="modal-content">
                 <span class="close-button">&times;</span>
                 <h2>Opções da Conta</h2>
-                <p>Deseja sair da sua conta?</p>
-                <button id="logoutButton" class="logout-btn">Sair</button>
+                <div id="modalOptionsContainer" class="modal-options-container">
+                    </div>
             </div>
         </div>
-
-    </section>
+        </section>
 
     <div class="search-bar-container" style="max-width: 600px; margin: 20px auto;">
         <div class="search-bar">
@@ -155,7 +185,7 @@
     </footer>
 
     <script>
-        // Bloco 1: Lógica de autenticação e logout (Permanece o mesmo)
+        // Bloco 1: Lógica de autenticação (Permanece o mesmo)
         document.addEventListener('DOMContentLoaded', () => {
 
             // Verificar a autenticação do usuário
@@ -179,31 +209,6 @@
 
             // Chama a função de verificação assim que a página carrega
             checkAuthentication();
-
-            // Lógica do Modal de Logout (permanece idêntica)
-            const profileLink = document.getElementById('profileLink');
-            const logoutModal = document.getElementById('logoutModal');
-            const closeModalButton = document.querySelector('.close-button');
-            const logoutButton = document.getElementById('logoutButton');
-            const openModal = () => { logoutModal.style.display = 'flex'; };
-            const closeModal = () => { logoutModal.style.display = 'none'; };
-            const handleLogout = () => {
-                localStorage.clear();
-                Swal.fire({
-                    title: 'Você saiu!',
-                    text: 'Sua sessão foi encerrada.',
-                    icon: 'info'
-                }).then(() => { window.location.href = 'login.html'; });
-                closeModal();
-            };
-            if (profileLink) profileLink.addEventListener('click', (event) => { event.preventDefault(); openModal(); });
-            if (logoutButton) logoutButton.addEventListener('click', handleLogout);
-            if (closeModalButton) closeModalButton.addEventListener('click', closeModal);
-            if (logoutModal) {
-                logoutModal.addEventListener('click', (event) => {
-                    if (event.target === logoutModal) { closeModal(); }
-                });
-            }
         });
 
         // Bloco 2: Lógica de carregamento e exclusão (jQuery)
@@ -218,9 +223,6 @@
                 return;
             }
 
-            // =======================================================
-            // == ⬇️ CHAMADA AJAX MODIFICADA PARA /meus-servicos ⬇️ ==
-            // =======================================================
             var settings = {
                 "url": ipPython + "/meus-servicos", // <-- ROTA ATUALIZADA
                 "method": "GET",
@@ -275,50 +277,50 @@
                         document.getElementById("exibe_servicos").innerHTML = `<p style="text-align: center; width: 100%;">${retorno.mensagem || 'Você ainda não cadastrou nenhum serviço.'}</p>`;
                     }
                 },
-                "error": function (jqXHR, textStatus, errorThrown) {
-                    console.error("Erro ao buscar serviços:", textStatus, errorThrown);
-                    
-                    let erroMsg = "Ocorreu um erro ao carregar seus serviços.";
-                    // Captura mensagens de erro da API (ex: Token expirado)
-                    if (jqXHR.responseJSON && jqXHR.responseJSON.mensagem) {
-                        erroMsg = jqXHR.responseJSON.mensagem;
-                        if (erroMsg === 'Token expirado' || erroMsg === 'Token inválido') {
-                            // Força o logout se o token for inválido
-                            handleLogout();
-                        }
+                "error": function (xhr, status, error) {
+                    console.error("Erro ao buscar serviços:", error);
+                    console.error("Status:", status);
+                    console.error("Resposta do servidor:", xhr.responseText);
+
+                    let mensagemErro = "Ocorreu um erro ao carregar seus serviços. Tente novamente mais tarde.";
+                    if (xhr.status === 401) {
+                        mensagemErro = "Sua sessão expirou. Por favor, faça login novamente.";
+                        // Redirecionar para o login após o SweetAlert
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Sessão Expirada',
+                            text: mensagemErro,
+                            confirmButtonText: 'OK'
+                        }).then(() => {
+                            localStorage.clear();
+                            window.location.href = 'login.html';
+                        });
+                        return; // Impede que o outro SweetAlert seja exibido
+                    } else if (xhr.responseJSON && xhr.responseJSON.mensagem) {
+                        mensagemErro = xhr.responseJSON.mensagem;
                     }
-                    
-                    document.getElementById("exibe_servicos").innerHTML = `<p class='aviso_vazio' style='text-align: center; width: 100%;'>${erroMsg}</p>`;
+
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Erro',
+                        text: mensagemErro,
+                        confirmButtonText: 'OK'
+                    });
+
+                    document.getElementById("exibe_servicos").innerHTML = `<p style="text-align: center; width: 100%; color: red;">${mensagemErro}</p>`;
                 }
             };
 
-            // Executa a chamada AJAX para buscar os serviços
             $.ajax(settings);
 
-            // =======================================================
-            // == ⬇️ LÓGICA DE EXCLUSÃO (PERMANECE A MESMA) ⬇️ ==
-            // =======================================================
-            // A rota DELETE /servico/<id> já valida se o usuário é o dono (pelo token)
-            $('#exibe_servicos').on('click', '.btn-excluir-servico', function() {
-                
+            $('#exibe_servicos').on('click', '.btn-excluir-servico', function () {
                 const $button = $(this);
-                const $servicoCard = $button.closest('.secao-fornecedores');
-                const idServico = $servicoCard.data('id-servico');
-                
-                if (!idServico) {
-                    Swal.fire('Erro', 'Não foi possível encontrar o ID do serviço.', 'error');
-                    return;
-                }
-
-                // O token já foi pego no início do $(document).ready()
-                if (!token) {
-                    Swal.fire('Erro de Autenticação', 'Token não encontrado. Faça login novamente.', 'error');
-                    return;
-                }
+                const $section = $button.closest('.secao-fornecedores');
+                const idServico = $section.data('id-servico');
 
                 Swal.fire({
                     title: 'Você tem certeza?',
-                    text: "Deseja realmente excluir este serviço? Esta ação não pode ser revertida.",
+                    text: "Esta ação não pode ser revertida!",
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#d33',
@@ -326,82 +328,87 @@
                     confirmButtonText: 'Sim, excluir!',
                     cancelButtonText: 'Cancelar'
                 }).then((result) => {
-                    
                     if (result.isConfirmed) {
-                        
+                        // Se o usuário confirmar, faz a requisição DELETE
                         $.ajax({
-                            url: `${ipPython}/servico/${idServico}`, // Rota de delete
-                            method: "DELETE",
+                            url: `${ipPython}/servicos/${idServico}`, // Rota para excluir o serviço
+                            method: 'DELETE',
                             headers: {
-                                'Authorization': 'Bearer ' + token
+                                "Authorization": "Bearer " + token
                             },
-                            success: function(response) {
+                            success: function (response) {
                                 Swal.fire(
                                     'Excluído!',
-                                    'O serviço foi excluído com sucesso.',
+                                    response.mensagem || 'Seu serviço foi excluído.',
                                     'success'
                                 );
-                                
-                                $servicoCard.fadeOut(400, function() {
+                                // Remove o card da tela
+                                $section.fadeOut(500, function () {
                                     $(this).remove();
+                                    // Verifica se ainda existem cards
+                                    if ($('#exibe_servicos .secao-fornecedores').length === 0) {
+                                        $('#exibe_servicos').html('<p style="text-align: center; width: 100%;">Você ainda não cadastrou nenhum serviço.</p>');
+                                    }
                                 });
                             },
-                            error: function(jqXHR, textStatus, errorThrown) {
-                                console.error("Erro ao excluir:", jqXHR.responseText);
-                                let erroMsg = 'Ocorreu um erro ao tentar excluir o serviço.';
-                                if (jqXHR.responseJSON && (jqXHR.responseJSON.error || jqXHR.responseJSON.mensagem)) {
-                                    erroMsg = jqXHR.responseJSON.error || jqXHR.responseJSON.mensagem;
+                            error: function (xhr, status, error) {
+                                console.error("Erro ao excluir serviço:", error);
+                                let mensagemErro = "Não foi possível excluir o serviço.";
+                                if (xhr.responseJSON && xhr.responseJSON.mensagem) {
+                                    mensagemErro = xhr.responseJSON.mensagem;
                                 }
-                                Swal.fire('Erro!', erroMsg, 'error');
+                                Swal.fire(
+                                    'Erro!',
+                                    mensagemErro,
+                                    'error'
+                                );
                             }
-                        }); // Fim do $.ajax DELETE
+                        });
                     }
-                }); // Fim do .then() do SweetAlert
-            }); // Fim do event listener .on('click')
+                });
+            });
 
+            $('#searchInput').on('keyup', function () {
+                var searchText = $(this).val().toLowerCase();
+                var $cards = $('#exibe_servicos .secao-fornecedores');
+                var $nenhumResultado = $('#nenhumResultado'); // Busca por uma msg de erro
 
-            // =======================================================
-            // == ⬇️ LÓGICA DE PESQUISA (FILTRO LOCAL) ⬇️ ==
-            // =======================================================
+                if ($nenhumResultado.length === 0) {
+                    // Cria a msg de erro se não existir
+                    $nenhumResultado = $('<p id="nenhumResultado" style="text-align: center; width: 100%; display: none;">Nenhum serviço encontrado com esse nome.</p>');
+                    $('#exibe_servicos').append($nenhumResultado);
+                }
 
-            // Esta função irá filtrar os cards já exibidos na tela,
-            // em vez de fazer uma nova chamada à API.
-            function filtrarServicosLocais(termo) {
-                const termoBusca = termo.toLowerCase().trim();
+                var found = false;
+                $cards.each(function () {
+                    var card = $(this);
+                    // Busca pelo nome, descrição e categoria
+                    var cardText = (card.find('.nome-servico').text() +
+                        card.find('.texto-ong').text() + // Descrição
+                        card.find('.categoria-servico').text()).toLowerCase(); // Categoria
 
-                // Itera sobre cada card de serviço
-                $('#exibe_servicos .secao-fornecedores.prod').each(function() {
-                    const $card = $(this);
-                    
-                    // Pega o nome, descrição e categoria para a busca
-                    const nomeServico = $card.find('.nome-servico').text().toLowerCase();
-                    const descricaoServico = $card.find('.texto-ong').text().toLowerCase();
-                    const categoriaServico = $card.find('.categoria-servico').text().toLowerCase();
-                    const precoServico = $card.find('.categoria-preco').text().toLowerCase();
-                    
-                    const textoCompleto = nomeServico + " " + descricaoServico + " " + categoriaServico + " " + precoServico;
-                    
-                    // Se o texto do card incluir o termo de busca, mostra; senão, esconde.
-                    if (textoCompleto.includes(termoBusca)) {
-                        $card.show();
+                    if (cardText.includes(searchText)) {
+                        card.show();
+                        found = true;
                     } else {
-                        $card.hide();
+                        card.hide();
                     }
                 });
-            }
 
-            // Captura o evento da barra de pesquisa e chama a função de filtro local
-            const inputPesquisa = document.getElementById('searchInput');
-            if (inputPesquisa) {
-                inputPesquisa.addEventListener('input', (event) => {
-                    filtrarServicosLocais(event.target.value);
-                });
-            }
+                // Mostra ou esconde a mensagem "Nenhum resultado"
+                if (!found && $cards.length > 0) { // Só mostra se houver cards para filtrar
+                    $nenhumResultado.show();
+                } else {
+                    $nenhumResultado.hide();
+                }
 
-        }); // Fim do $(document).ready()
-        
+                // Se o campo de busca estiver vazio, mostra todos e esconde a msg
+                if (searchText === "") {
+                    $cards.show();
+                    $nenhumResultado.hide();
+                }
+            });
+        });
     </script>
-
 </body>
-
 </html>

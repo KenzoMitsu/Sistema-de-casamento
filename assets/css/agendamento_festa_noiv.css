@@ -162,55 +162,14 @@ body {
     color:#fff;
 }
 
-/* --- NOVOS ESTILOS PARA A BARRA DE PESQUISA --- */
-.search-bar-container {
-    width: 100%;
-    display: flex;
-    justify-content: center; /* Centraliza a barra de pesquisa horizontalmente */
+.titulo {
+    font-family: 'Ledger';
+    font-size: 37px;
+    font-weight: 300;
+    color: #BB9245;
+    text-align: center;
+    margin: 40px 0 20px;
 }
-
-.search-bar {
-    display: flex;
-    align-items: center;
-    background-color: #ffffff;
-    padding: 12px 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    width: 100%;
-    max-width: 700px; /* Largura máxima da barra */
-}
-
-.search-input {
-    border: none;
-    outline: none;
-    width: 100%; /* Ocupa todo o espaço disponível */
-    font-size: 1rem;
-    color: #555;
-    background-color: transparent;
-    margin: 0 15px; /* Espaçamento entre o input e os ícones */
-}
-
-.search-input::placeholder {
-    color: #aaa;
-}
-
-.search-icon,
-.filter-icon {
-    width: 24px;
-    height: 24px;
-    stroke: #777; /* Cor dos ícones */
-    flex-shrink: 0; /* Impede que os ícones encolham */
-}
-
-.filter-icon {
-    cursor: pointer;
-    transition: stroke 0.3s ease;
-}
-
-.filter-icon:hover {
-    stroke: #FF87A5; /* Muda a cor ao passar o mouse */
-}
-
 /* --- ESTILOS DA MODAL DE LOGOUT --- */
 
 /* O fundo escuro que cobre a página */

@@ -217,7 +217,6 @@ select:focus {
       display: flex;
       flex-direction: column;
       max-height: 95vh; /* mantém dentro da tela */
-      overflow-y: auto;
     }
     form {
       flex-direction: column;
@@ -226,6 +225,20 @@ select:focus {
     .coluna {
       width: 100%;
     }
+    .botao {
+      text-align: center;
+      margin-top: 10px;
+      padding-bottom: 10px;
+  }
+    .container {
+      width: 100%;
+      height: 100%;
+      backdrop-filter: blur(2px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow-y: auto;
+  }
 }
 
 @media (max-width: 376px) {

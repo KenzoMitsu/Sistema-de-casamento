@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -11,8 +12,9 @@
     integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
-    <script src="/js/api.js"></script>
+  <script src="/js/api.js"></script>
 </head>
+
 <body>
   <div class="container">
     <div class="modal">
@@ -53,4 +55,70 @@
     </div>
   </div>
 </body>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const botaoCriar = document.querySelector('.botao-criar');
+
+    botaoCriar.addEventListener('click', async (e) => {
+      e.preventDefault();
+
+      // Pega os valores do formulário
+      const nome = document.querySelector('input[placeholder="Nome da festa"]').value.trim();
+      const categoriaSelect = document.querySelector('select');
+      const categoria = categoriaSelect.options[categoriaSelect.selectedIndex].value;
+      const convidados = document.querySelector('input[placeholder="Número de convidados"]').value.trim();
+      const data_festa = document.querySelector('input[type="date"]').value;
+      const valor = document.querySelector('input[placeholder="Estimativa de valor"]').value.trim();
+      const descricao = document.querySelector('input[placeholder="Descrição"]').value.trim();
+
+      // Validações básicas
+      if (!nome || !categoria || !convidados || !data_festa || !valor || !descricao) {
+        Swal.fire('Erro', 'Por favor, preencha todos os campos obrigatórios.', 'error');
+        return;
+      }
+
+      // Token JWT armazenado (supondo que já esteja)
+      const token = localStorage.getItem('token');
+      if (!token) {
+        Swal.fire('Erro', 'Usuário não autenticado. Faça login.', 'error');
+        return;
+      }
+
+      // Monta o payload JSON
+      const payload = {
+        nome,
+        categoria,
+        convidados,
+        data_festa,
+        valor,
+        descricao
+      };
+
+      try {
+        // Enviar dados para o backend
+        const response = await fetch(ipPython + '/festa', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          },
+          body: JSON.stringify(payload)
+        });
+
+        const data = await response.json();
+        if (response.ok) {
+          Swal.fire('Sucesso', 'Festa criada com sucesso!', 'success');
+          // Limpar campos do formulário após sucesso
+          document.querySelector('form').reset();
+        } else {
+          Swal.fire('Erro', data.error || 'Erro ao criar festa', 'error');
+        }
+      } catch (err) {
+        Swal.fire('Erro', 'Erro ao conectar com o servidor', 'error');
+        console.error(err);
+      }
+    });
+  });
+</script>
+
 </html>

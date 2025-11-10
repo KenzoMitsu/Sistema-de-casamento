@@ -33,46 +33,46 @@
                 </div>
 
                 <input type="hidden" id="tipo" name="tipo" value="1">
-                    <div class="cadastro-sec">
-                        <div id="cadastro1" class="cadastro1">
-                            <input class="nome" type="text" placeholder="Seu nome" id="nome" name="nome">
-                            <input class="email" type="email" placeholder="E-mail" id="email" name="email">
-                            <div class="senha-container">
-                                <input class="senha" type="password" placeholder="Senha" id="senha" name="senha">
-                                <img id="toggleSenha" src="https://cdn-icons-png.flaticon.com/512/2767/2767146.png" alt="Mostrar senha">
-                            </div>
-                            <input class="nome-marca" type="text" placeholder="Nome da marca (Opcional)" id="nome-marca" name="nome-marca">
+                <div class="cadastro-sec">
+                    <div id="cadastro1" class="cadastro1">
+                        <input class="nome" type="text" placeholder="Seu nome" id="nome" name="nome">
+                        <input class="email" type="email" placeholder="E-mail" id="email" name="email">
+                        <div class="senha-container">
+                            <input class="senha" type="password" placeholder="Senha" id="senha" name="senha">
+                            <img id="toggleSenha" src="https://cdn-icons-png.flaticon.com/512/2767/2767146.png" alt="Mostrar senha">
                         </div>
-                        <div id="cadastro2" class="cadastro2">
-                            <input class="telefone" type="tel" placeholder="Telefone" id="telefone" name="telefone">
-                            <input class="data-nascimento" type="date" placeholder="Data de nascimento" id="data-nascimento" name="data-nascimento">
-                            <input class="cep" type="text" placeholder="CEP" id="cep" name="cep">
-                            <select name="categoria" id="categoria" class="categoria" name="categoria" class="categoria">
-                                <option selected disabled style="color: var(--cinza)">Categoria</option>
-                                <option>Buffet</option>
-                                <option>Confeiteiro</option>
-                                <option>Alfaiataria</option>
-                                <option>Maquiador/Cabeleireiro/Salão de Beleza</option>
-                                <option>DJ/Cantor</option>
-                                <option>Decoração</option>
-                                <option>Fotógrafo</option>
-                                <option>Transporte</option>
-                                <option>Espaço para eventos</option>
-                            </select>
-                        </div>
+                        <input class="nome-marca" type="text" placeholder="Nome da marca (Opcional)" id="nome-marca" name="nome-marca">
                     </div>
-                        <button type="submit" class="botao-cadastrar">Cadastrar</button>
-                        <p class="login">Já possui uma conta? <a class="login" href="login.html">Login</a></p>
+                    <div id="cadastro2" class="cadastro2">
+                        <input class="telefone" type="tel" placeholder="Telefone" id="telefone" name="telefone">
+                        <input class="data-nascimento" type="date" placeholder="Data de nascimento" id="data-nascimento" name="data-nascimento">
+                        <input class="cep" type="text" placeholder="CEP" id="cep" name="cep">
+                        <select name="categoria" id="categoria" class="categoria" name="categoria" class="categoria">
+                            <option selected disabled style="color: var(--cinza)">Categoria</option>
+                            <option>Buffet</option>
+                            <option>Confeiteiro</option>
+                            <option>Alfaiataria</option>
+                            <option>Maquiador/Cabeleireiro/Salão de Beleza</option>
+                            <option>DJ/Cantor</option>
+                            <option>Decoração</option>
+                            <option>Fotógrafo</option>
+                            <option>Transporte</option>
+                            <option>Espaço para eventos</option>
+                        </select>
+                    </div>
                 </div>
+                <button type="submit" class="botao-cadastrar">Cadastrar</button>
+                <p class="login">Já possui uma conta? <a class="login" href="login.html">Login</a></p>
+            </div>
         </div>
     </main>
 </body>
 <script>
     $(document).ready(function () {
 
-            $("#tipo").val(1).trigger("change");
-            $(".tipo[value='1']").addClass("active");
-        });
+        $("#tipo").val(1).trigger("change");
+        $(".tipo[value='1']").addClass("active");
+    });
 
     $(".tipo").on("click", function (e) {
         e.preventDefault();
@@ -98,8 +98,13 @@
             $("#cadastro1 .parceiro").prop("disabled", true).css("opacity", 0);
         } 
         else if (tipo == 3) { 
+            // // Esconde "Nome da marca"
             $("#cadastro1 .nome-marca").prop("disabled", true).css("opacity", 0);
+            
+            // Esconde "categoria" também
             $("#cadastro2 .categoria").prop("disabled", true).css("opacity", 0);
+
+            // Mantém a lógica original para ".parceiro"
             $("#cadastro1 .parceiro").prop("disabled", true).css("opacity", 0);
         }
     });
@@ -131,7 +136,6 @@
     
         $(".botao-cadastrar").on("click", function (e) {
             e.preventDefault();
-
             
             let nome = $("#nome").val().trim();
             let email = $("#email").val().trim();
@@ -140,7 +144,7 @@
             let telefone = $("#telefone").val().trim();
             let dataNascimentoRaw = $("#data-nascimento").val(); 
             let cep = $("#cep").val().trim();
-            let categoria = $("#categoria").val();
+            let categoria = $("#categoria").val(); // Pega o valor do select (se for fornecedor)
             let tipoValor = $("#tipo").val();
 
 
@@ -164,6 +168,8 @@
             if (!telefoneRegex.test(telefone)) {
                 return Swal.fire("Erro!", "O telefone deve ter 10 ou 11 dígitos numéricos!", "error");
             }
+            
+            // // Valida a categoria APENAS para tipo 2 (Fornecedor)
             if (tipoValor === "2" && $("#categoria").prop("selectedIndex") === 0) {
                 return Swal.fire("Erro!", "Selecione uma categoria para fornecedor!", "error");
             }
@@ -178,9 +184,12 @@
                 email: email,
                 senha: senha,
                 telefone: telefone,
-                data_nascimento: dataNascimento,  
+                data_nascimento: dataNascimento, 
                 cep: cep,
-                categoria: tipoValor === "2" ? categoria : null,
+                // // Se tipo=2, usa a categoria do select.
+                // Se tipo=3, usa a string "Cerimonialista".
+                // Se não, é null.
+                categoria: tipoValor === "2" ? categoria : (tipoValor === "3" ? "Cerimonialista" : null),
                 nome_marca: nomeMarca,
                 cargo: cargo
             };
@@ -211,8 +220,5 @@
         });
     });
 </script>
-
-
-
 
 </html>

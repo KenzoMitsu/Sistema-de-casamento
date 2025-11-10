@@ -49,7 +49,7 @@ body {
     /* Para empurrar a barra de pesquisa para baixo */
     align-items: center;
     /* Centraliza o conteúdo (inclusive a barra de pesquisa) */
-    padding: 150px 1% 0px;
+    padding: 110px 1% 0px;
     /* Padding para o conteúdo não ficar colado nas bordas */
     border-bottom-left-radius: 7px;
     border-bottom-right-radius: 7px;
@@ -371,7 +371,7 @@ body {
     font-size: 33px;
     color: white;
     text-align: center;
-    padding-bottom: 40px;
+    padding-bottom: 35px;
 }
 
 .form-sec label {
@@ -451,7 +451,7 @@ body {
     position: relative;
     z-index: 2;
     /* Fica acima do fundo */
-    background-color: rgba(255, 183, 201, 0.75);
+    background-color: rgb(255, 183, 201);
     /* Cor rosa com opacidade */
     padding: 15px 0;
     border-bottom: 1px solid rgba(255, 255, 255, 0.2);
@@ -650,7 +650,7 @@ body {
     }
 
     .hero-section {
-        padding: 180px 6% 50px;
+        padding: 150px 6% 50px;
         /* Padding para o conteúdo não ficar colado nas bordas */
     }
 

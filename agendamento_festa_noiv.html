@@ -212,12 +212,41 @@
                     bloco.className = 'card-festa';
 
                     bloco.innerHTML = `
-                <h3 class="titulo-festa">${festa.nome}</h3>
-                <p class="info-festa"><strong>Categoria:</strong> ${festa.categoria}</p>
-                <p class="info-festa"><strong>Valor:</strong> R$ ${festa.valor}</p>
-                <p class="info-festa"><strong>Convidados:</strong> ${festa.convidados}</p>
-                <p class="info-festa"><strong>Data da Festa:</strong> ${festa.data_festa}</p>
-                <p class="info-festa"><strong>Descrição:</strong><br>${festa.descricao}</p>
+                    <section class="section-geral-festa">
+                        <div class="festa-section">
+                            <img src="assets/img/icone-bolo.png" alt="Imagem da Festa" class="festa-imagem">
+                            <h3 class="titulo-festa">${festa.nome}</h3>
+                            <p class="categoria-text"> ${festa.categoria}</p>
+                            <div class="col-festa1">
+                                <div class="descricao-festa">
+                                    <img src="assets/img/descricao-icon.png" alt="Ícone de Data de Festa" class="icone-descricao">
+                                    <h4>DESCRIÇÃO:</h4>
+                                    <p class="info-festa"> ${festa.descricao}</p>
+                                </div>
+                                <div class="valor-festa">
+                                    <img src="assets/img/pagamento.png" alt="Ícone de Valor" class="icone-valor">
+                                    <h4>VALOR:</h4>
+                                    <p class="info-festa"> R$ ${festa.valor}</p>
+                                </div>
+                            </div>
+                            <div class="col-festa2">
+                                <div class="convidados-festa">
+                                    <img src="assets/img/cliente.png" alt="Ícone de Convidados" class="icone-convidado">
+                                    <h4>CONVIDADOS:</h4>
+                                    <p class="info-festa"> ${festa.convidados}</p>
+                                </div>
+                                <div class="data-festa">
+                                    <img src="assets/img/horarioss.png" alt="Ícone de Data de Festa" class="icone-data">
+                                    <h4>DATA DA FESTA:</h4>
+                                    <p class="info-festa"> ${festa.data_festa}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="botoes-festa">
+                            <button type="submit" class="botao-editar">Editar Festa</button>
+                            <button type="submit" class="botao-gerenciar">Gerenciar Agendamentos</button>
+                        </div>
+                    </section>
             `;
                     festasContainer.appendChild(bloco);
                 });

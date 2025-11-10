@@ -60,7 +60,7 @@
 </body>
 
 <script>
-// [1] MAPA E FUNÇÃO (Sem alterações)
+// MAPA E FUNÇÃO (Sem alterações)
 // Mapeamento de categorias de fornecedor para subcategorias de serviço
 const servico_categorias = {
     "Buffet": ["Café da Manhã", "Almoço", "Jantar", "Churrasco", "Infantil", "Self-service"],
@@ -95,10 +95,9 @@ function populateServiceCategorySelect(fornecedorCategoria, currentCategoria = n
     });
 }
 
-
 $(document).ready(function () {
 
-    // --- Lógica de Preview da Imagem (Sem alterações) ---
+    // Lógica de Preview da Imagem (Sem alterações)
     $('#imagem_servico').on('change', function (e) {
         const file = e.target.files[0];
         if (file) {
@@ -112,7 +111,7 @@ $(document).ready(function () {
         }
     });
 
-    // --- Lógica Principal da Página ---
+    // Lógica Principal da Página
 
     // LÓGICA DE CARREGAMENTO (GET) TOTALMENTE ATUALIZADA
 

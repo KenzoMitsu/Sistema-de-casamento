@@ -131,7 +131,7 @@
             });
         }
 
-        // === Captura o ID do fornecedor da URL ===
+        // === Captura o ID do fornecedor da URL
         const urlParams = new URLSearchParams(window.location.search);
         const idFornecedor = urlParams.get('id');
 
@@ -144,7 +144,7 @@
             return;
         }
 
-        // === Busca dados do fornecedor para popular o select ===
+        // === Busca dados do fornecedor para popular o select
         async function loadFornecedorInfo(id) {
             const token = localStorage.getItem("token");
             if (!token) {

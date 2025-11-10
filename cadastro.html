@@ -169,7 +169,7 @@
                 return Swal.fire("Erro!", "O telefone deve ter 10 ou 11 dígitos numéricos!", "error");
             }
             
-            // // Valida a categoria APENAS para tipo 2 (Fornecedor)
+            // Valida a categoria APENAS para tipo 2 (Fornecedor)
             if (tipoValor === "2" && $("#categoria").prop("selectedIndex") === 0) {
                 return Swal.fire("Erro!", "Selecione uma categoria para fornecedor!", "error");
             }
@@ -186,7 +186,7 @@
                 telefone: telefone,
                 data_nascimento: dataNascimento, 
                 cep: cep,
-                // // Se tipo=2, usa a categoria do select.
+                // Se tipo=2, usa a categoria do select.
                 // Se tipo=3, usa a string "Cerimonialista".
                 // Se não, é null.
                 categoria: tipoValor === "2" ? categoria : (tipoValor === "3" ? "Cerimonialista" : null),

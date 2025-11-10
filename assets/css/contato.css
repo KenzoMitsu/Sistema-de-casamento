@@ -335,15 +335,15 @@ body {
 }
 
 .quadro-contato {
-    padding-bottom: 40px;
+    padding-bottom: 50px;
 }
 
 .form-sec {
     background-color: #FFC9D6;
-    padding: 40px;
+    padding: 35px;
     border: 1px solid #FFC9D6;
     border-radius: 16px;
-    padding-bottom: 20px;
+    padding-bottom: 18px;
 }
 
 .form-sec .input-geral {
@@ -371,7 +371,7 @@ body {
     font-size: 33px;
     color: white;
     text-align: center;
-    padding-bottom: 35px;
+    padding-bottom: 30px;
 }
 
 .form-sec label {

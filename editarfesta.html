@@ -6,12 +6,13 @@
   <title>Editar Festa - Casamento Perfeito</title>
   <link rel="icon" href="assets/img/iconsite.png" type="image/x-icon">
   <link rel="stylesheet" href="assets/css/editarfesta.css" />
+  <link rel="icon" href="assets/img/iconsite.png" type="image/x-icon">
   <link href="https://fonts.googleapis.com/css2?family=Ledger&display=swap" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"
     integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
-    <script src="/js/api.js"></script>
+  <script src="/js/api.js"></script>
 </head>
 <body>
   <div class="container">
@@ -19,19 +20,20 @@
       <header>
         <img src="assets/img/logo-preta.png" alt="Casamento Perfeito" class="logo" />
         <h2 class="titulo">Editar Festa</h2>
-        <a href="index.html">
+        <a href="agendamento_festa_noiv.html">
           <p class="bot-fechar">X</p>
         </a>
       </header>
 
       <div class="conteudo">
-        <form>
-          <input type="text" placeholder="Nome da festa" required />
-          <input type="date" placeholder="Adiar data da festa" required />
-          <input type="number" placeholder="Número de convidados" required />
-          <textarea class="text-descricao" placeholder="Descrição" rows="3"></textarea>
+        <form id="formEdicaoFesta">
+          <input id="nome" name="nome" type="text" placeholder="Nome da festa" required />
+          <input id="data_festa" name="data_festa" type="date" placeholder="Adiar data da festa" required />
+          <input id="convidados" name="convidados" type="number" placeholder="Número de convidados" required />
+          <input id="valor" name="valor" type="number" step="0.01" placeholder="Orçamento da festa" required />
+          <textarea id="descricao" name="descricao" class="text-descricao" placeholder="Descrição" rows="3"></textarea>
           <div class="sec-bot-salvar">
-            <button class="botao-salvar" type="submit">Salvar</button>
+            <button id="botao-salvar" class="botao-salvar" type="submit">Salvar</button>
           </div>
         </form>
 
@@ -41,5 +43,71 @@
       </div>
     </div>
   </div>
+
+  <script>
+
+        const params = new URLSearchParams(window.location.search);
+        const id_festa = params.get('id_festa');
+        const nome = params.get("nome");
+        const descricao = params.get("descricao");
+        const valor = params.get("valor");
+        const convidados = params.get("convidados");
+        const data_festa = params.get("data_festa");
+
+        let data = data_festa;
+        if (data.includes("/")) {
+          const partes = data.split("/"); // dd/mm/yyyy
+          data = `${partes[2]}-${partes[1]}-${partes[0]}`; // yyyy-mm-dd
+        }
+        document.getElementById("data_festa").value = data;
+
+
+        document.getElementById("descricao").value = descricao
+        document.getElementById("nome").value = nome
+        document.getElementById("valor").value = valor
+        document.getElementById("convidados").value = convidados
+
+
+        const botSalvar = document.getElementById("botao-salvar");
+
+        $("#formEdicaoFesta").on("submit", function (e) {
+            e.preventDefault();
+
+            const params = new URLSearchParams(window.location.search);
+            const id = params.get('id_festa');
+
+            let dados = new FormData(this); // Já tem descricao, etc.
+
+            $.ajax({
+                method: "PUT",
+                url: ipPython + "/festa/" + id,
+                data: dados,
+                processData: false, // NÃO converte em string
+                contentType: false, // NÃO define Content-Type, o browser faz isso
+                headers: {
+                    Authorization: "Bearer " + localStorage.getItem("token") // 🔹 <-- ISSO É O QUE FALTA
+                },
+                success: function (retorno) {
+                    Swal.fire({
+                        title: "Sucesso!",
+                        text: "Suas informações foram atualizadas com sucesso!",
+                        icon: "success"
+                    }).then(function () {
+                        window.location.href = "agendamento_festa_noiv.html";
+                    });
+                    console.log(retorno);
+                },
+                error: function (retorno) {
+                    Swal.fire({
+                        title: "Opa...",
+                        text: retorno.responseJSON?.error || "Erro desconhecido",
+                        icon: "error"
+                    });
+                    console.log(retorno);
+                }
+            });
+        });
+
+    </script>
 </body>
 </html>

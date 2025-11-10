@@ -49,7 +49,7 @@
                     <div id="cadastro2" class="cadastro2">
                         <input class="nome_servico" type="text" placeholder="Nome do serviço" id="nome_servico" name="nome_servico">
                         
-                        <!-- Campo valor atualizado -->
+                        
                         <input class="valor" 
                                type="number" 
                                placeholder="Valor" 
@@ -79,7 +79,7 @@
         const fotoPreview = document.querySelector('.foto-pasta');
         const labelText = document.querySelector('.upload-box span');
 
-        // === Pré-visualização da imagem antes de enviar ===
+        // Pré-visualização da imagem antes de enviar
         fotoInput.addEventListener('change', (event) => {
             const file = event.target.files[0];
             if (file) {
@@ -131,7 +131,7 @@
             });
         }
 
-        // === Captura o ID do fornecedor da URL ===
+        // Captura o ID do fornecedor da URL
         const urlParams = new URLSearchParams(window.location.search);
         const idFornecedor = urlParams.get('id');
 
@@ -144,7 +144,7 @@
             return;
         }
 
-        // === Busca dados do fornecedor para popular o select ===
+        // Busca dados do fornecedor para popular o select
         async function loadFornecedorInfo(id) {
             const token = localStorage.getItem("token");
             if (!token) {
@@ -185,7 +185,7 @@
 
         loadFornecedorInfo(idFornecedor);
 
-        // === Cadastro do serviço ===
+        // Cadastro do serviço 
         botaoCadastrar.addEventListener("click", async (e) => {
             e.preventDefault();
 

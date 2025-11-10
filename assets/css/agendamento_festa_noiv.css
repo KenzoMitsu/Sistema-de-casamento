@@ -496,6 +496,152 @@ body {
     letter-spacing: 1px;
 }
 
+.festa-imagem {
+    width: 120px;
+    height: 120px;
+    margin-top: -90px;
+    margin-bottom: 20px;
+    position: absolute;
+}
+
+.festa-section {
+    /* background-color: #DA8599;
+    margin-left: 500px;
+    margin-right: 500px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    margin-bottom: 80px; */
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* border: 1px solid #DA8599;
+    border-radius: 25px; */
+}
+
+.card-festa {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #DA8599;
+    border-radius: 20px;
+    padding: 20px;
+    width: 400px;
+    color: white;
+    text-align: center;
+}
+
+.botao-editar, .botao-gerenciar {
+    width: 60%;
+    height: 50px;
+    border: 1px solid #793C3C;
+    border-radius: 10px;
+    background-color: #793C3C;
+    color: var(--branco);
+    font-size: 16px;
+    cursor: pointer;
+    font-family: "Ledger", serif;
+    font-weight: 400;
+    font-size: 20px;
+    margin-top: 10px;
+}
+
+.botoes-festa {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.festas-lista {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap; 
+    justify-content: center;
+    gap: 80px; 
+    margin: 50px auto;
+    max-width: 1200px;
+}
+
+
+.titulo-festa {
+    font-family: "Luxurious Script", cursive;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 53px;
+    color: white;
+    text-align: center;
+    margin: 40px 0 20px;
+}
+
+/* .icone-categoria {
+    width: 100px;
+    height: 85px;
+    margin-bottom: 10px;
+} */
+
+.categoria-text {
+    font-family: 'Poppins', sans-serif;
+    font-size: 16px;
+    color: white;
+    margin-bottom: 20px;
+    margin-top: -20px;
+}
+
+.icone-convidado {
+    width: 85px;
+    height: 85px;
+    margin-bottom: 10px;
+}
+
+.icone-data {
+    width: 85px;
+    height: 85px;
+    margin-bottom: 10px;
+}
+
+.icone-valor {
+    width: 85px;
+    height: 85px;
+    margin-bottom: 10px;
+}
+
+.icone-descricao {
+    width: 85px;
+    height: 85px;
+    margin-bottom: 10px;
+}
+
+.col-festa1 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 16px;
+    color: white;
+    margin: 0 40px;
+    line-height: 1.5;
+    display: flex;
+    flex-direction: row;
+    gap: 90px;
+    justify-content: center;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.col-festa2, .col-festa3 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 16px;
+    color: white;
+    margin: 0 40px;
+    line-height: 1.5;
+    display: flex;
+    flex-direction: row;
+    gap: 90px;
+    justify-content: center;
+    text-align: center;
+    margin-bottom: 50px;
+}
+
 /* --- RODAPÉ --- */
 .footer {
     position: relative;
@@ -705,6 +851,18 @@ body {
 }
 
 @media (max-width: 426px) {
+    .card-festa {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
+        background-color: #DA8599;
+        border-radius: 30px;
+        padding: 20px;
+        width: 410px;
+        color: white;
+        text-align: center;
+    }
     header {
         flex-direction: column;
     }
@@ -750,6 +908,45 @@ body {
     }
 }
 @media (max-width: 376px) {
+    .col-festa1 {
+        font-family: 'Poppins', sans-serif;
+        font-size: 14px;
+        color: white;
+        margin: 0 40px;
+        line-height: 1.5;
+        display: flex;
+        flex-direction: row;
+        gap: 90px;
+        justify-content: center;
+        text-align: center;
+        margin-bottom: 50px;
+    }
+
+    .col-festa2, .col-festa3 {
+        font-family: 'Poppins', sans-serif;
+        font-size: 14px;
+        color: white;
+        margin: 0 40px;
+        line-height: 1.5;
+        display: flex;
+        flex-direction: row;
+        gap: 90px;
+        justify-content: center;
+        text-align: center;
+        margin-bottom: 50px;
+    }
+    .card-festa {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
+        background-color: #DA8599;
+        border-radius: 20px;
+        padding: 20px;
+        width: 320px;
+        color: white;
+        text-align: center;
+    }
     .navbar a {
         text-decoration: none;
         color: #fff;
@@ -765,14 +962,72 @@ body {
 
 
 @media (max-width: 321px) {
+    .titulo {
+        font-family: 'Ledger';
+        font-size: 30px;
+        font-weight: 300;
+        color: #BB9245;
+        text-align: center;
+        margin: 40px 0 20px;
+    }
+
+    .titulo-festa {
+        font-family: "Luxurious Script", cursive;
+        font-weight: 400;
+        font-style: normal;
+        font-size: 45px;
+        color: white;
+        text-align: center;
+        margin: 40px 0 20px;
+    }
+    .col-festa1 {
+        font-family: 'Poppins', sans-serif;
+        font-size: 12px;
+        color: white;
+        margin: 0 40px;
+        line-height: 1.5;
+        display: flex;
+        flex-direction: row;
+        gap: 50px;
+        justify-content: center;
+        text-align: center;
+        margin-bottom: 50px;
+    }
+
+    .col-festa2, .col-festa3 {
+        font-family: 'Poppins', sans-serif;
+        font-size: 12px;
+        color: white;
+        margin: 0 40px;
+        line-height: 1.5;
+        display: flex;
+        flex-direction: row;
+        gap: 50px;
+        justify-content: center;
+        text-align: center;
+        margin-bottom: 50px;
+    }
+    .card-festa {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
+        background-color: #DA8599;
+        border-radius: 20px;
+        padding: 20px;
+        width: 270px;
+        color: white;
+        text-align: center;
+    }
     .navbar a {
         text-decoration: none;
         color: #fff;
-        font-size: 13px;
+        font-size: 10px;
         font-weight: 500;
         text-transform: uppercase;
         transition: color 0.3s ease;
     }
+   
     .navbar ul {
         gap: 21px;
     }

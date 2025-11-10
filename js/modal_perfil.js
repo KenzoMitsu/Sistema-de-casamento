@@ -71,6 +71,8 @@ document.addEventListener('DOMContentLoaded', () => {
             modalOptionsContainer.appendChild(myPartyLink);
 
         } else if (cargo === '1' || cargo === '3') { // Se for NOIVO ou CERIMONIALISTA
+            
+            // Link de edição de perfil
             const editProfileLink = document.createElement('a');
             if (cargo === '1') { // Noivo
                 editProfileLink.href = 'editar_usuarios.html';
@@ -79,7 +81,22 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             editProfileLink.textContent = 'Editar perfil';
             modalOptionsContainer.appendChild(editProfileLink);
-    
+            
+            // 🚨 ADIÇÃO: Permite que o Cerimonialista (cargo = 3) acesse o cadastro de serviço
+            if (cargo === '3') { 
+                const editServiceLink = document.createElement('a');
+                editServiceLink.href = 'cadastro_servico.html';
+                editServiceLink.textContent = 'Cadastrar novo serviço';
+                modalOptionsContainer.appendChild(editServiceLink);
+                
+                // O Cerimonialista também pode ter seus serviços listados se essa for a regra
+                const myServicesLink = document.createElement('a');
+                myServicesLink.href = 'meus_servicos.html'; 
+                myServicesLink.textContent = 'Meus Serviços';
+                modalOptionsContainer.appendChild(myServicesLink);
+            }
+            // FIM ADIÇÃO
+
         } else if (cargo === '4') { // Se for ADMIN
             const listagemLink = document.createElement('a');
             listagemLink.href = 'listagem.html'; 

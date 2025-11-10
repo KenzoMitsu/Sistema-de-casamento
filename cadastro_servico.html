@@ -82,7 +82,6 @@
             }
         });
 
-
         // Mapeamento de categorias de fornecedor para subcategorias de serviço
         const servico_categorias = {
             "Buffet": ["Café da Manhã", "Almoço", "Jantar", "Churrasco", "Infantil", "Self-service"],
@@ -93,7 +92,10 @@
             "Decoração": ["Decoração"],
             "Fotógrafo": ["Fotografia", "Cabine Fotográfica", "Fotos de Casal", "Fotos de Ensaio", "Álbum"],
             "Transporte": ["Táxi", "Carro de Luxo", "Limousine"],
-            "Espaço para eventos": ["Eventos Grandes", "Eventos Médios", "Eventos Pequenos"]
+            "Espaço para eventos": ["Eventos Grandes", "Eventos Médios", "Eventos Pequenos"],
+
+            // 👇 ADICIONE ESTA LINHA 👇
+            "Cerimonialista": ["Chá Bar", "Casamento", "Ensaio de Casamento", "Bodas"]
         };
 
         // Função para popular o select de categoria de serviço (usa jQuery)
@@ -125,13 +127,26 @@
         async function loadCurrentSupplierCategory() {
             const token = localStorage.getItem("token");
             if (!token) {
-                 Swal.fire('Erro', 'Token não encontrado. Faça login.', 'error');
-                 $('#categoria').empty().append('<option value="">Erro de autenticação</option>');
-                 return;
+                Swal.fire('Erro', 'Token não encontrado. Faça login.', 'error');
+                $('#categoria').empty().append('<option value="">Erro de autenticação</option>');
+                return;
             }
 
-            // 1. Tenta pegar a categoria principal direto do localStorage (forma mais rápida)
-            //    (Seu script de login deve salvar a 'categoria' do usuário no localStorage)
+            // INÍCIO DA MODIFICAÇÃO
+            // 1. Verifica o CARGO do usuário primeiro
+            // (Ajuste "id_cargo" se a chave no localStorage for outra)
+            const userCargo = localStorage.getItem("id_cargo");
+
+            if (userCargo === "3") {
+                // Se o cargo é 3, define a categoria manualmente e encerra
+                populateServiceCategorySelect("Cerimonialista");
+                return; // Sucesso!
+            }
+            // FIM DA MODIFICAÇÃO
+
+
+            // 2. Se não for cargo 3, continua a lógica original...
+            // Tenta pegar a categoria principal direto do localStorage
             const mainCategory = localStorage.getItem("categoria_usuario"); // Ex: "Buffet"
 
             if (mainCategory) {
@@ -139,23 +154,21 @@
                 return; // Sucesso!
             }
 
-            // 2. Se não estiver no localStorage, temos que buscar na API.
-            //    Precisamos do ID do usuário logado (também deve ser salvo no login).
-            const id_usuario_logado = localStorage.getItem("id_usuario"); 
+            // 3. Se não estiver no localStorage, temos que buscar na API.
+            const id_usuario_logado = localStorage.getItem("id_usuario");
 
             if (!id_usuario_logado) {
-                 Swal.fire('Erro', 'Sua sessão é inválida (ID não encontrado). Faça login novamente.', 'error');
-                 $('#categoria').empty().append('<option value="">Erro na sessão</option>');
-                 return;
+                Swal.fire('Erro', 'Sua sessão é inválida (ID não encontrado). Faça login novamente.', 'error');
+                $('#categoria').empty().append('<option value="">Erro na sessão</option>');
+                return;
             }
 
-            // 3. Busca as informações do usuário na API
+            // 4. Busca as informações do usuário na API
             try {
                 const myHeaders = new Headers();
                 myHeaders.append("Authorization", token);
                 const requestOptions = { method: "GET", headers: myHeaders, redirect: "follow" };
 
-                // Rota que busca dados de um usuário (assumindo que existe a rota /usuario/<id>)
                 const response = await fetch(`${ipPython}/usuario/${id_usuario_logado}`, requestOptions);
                 const data = await response.json();
 
@@ -236,7 +249,7 @@
                         showConfirmButton: false,
                         timer: 1500
                     }).then(() => {
-                        window.location.href = "home.html"; // Redireciona para a home
+                        window.location.href = "meus_servicos.html"; // Redireciona para a home
                     });
                 } else {
                     Swal.fire({

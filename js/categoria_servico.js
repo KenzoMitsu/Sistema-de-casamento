@@ -9,6 +9,8 @@ const servico_categorias = {
     "Fotógrafo": ["Fotografia", "Cabine Fotográfica", "Fotos de Casal", "Fotos de Ensaio", "Álbum"],
     "Transporte": ["Táxi", "Carro de Luxo", "Limousine"],
     "Espaço para eventos": ["Eventos Grandes", "Eventos Médios", "Eventos Pequenos"]
+
+    "Cerimonialista": ["Chá Bar", "Casamento", "Ensaio de Casamento", "Bodas"]
 };
 
 // Função para popular o select de categoria de serviço

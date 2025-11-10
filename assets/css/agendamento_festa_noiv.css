@@ -642,6 +642,11 @@ body {
     margin-bottom: 50px;
 }
 
+.link-editar {
+    text-decoration: none;
+    width: 100%;
+}
+
 /* --- RODAPÉ --- */
 .footer {
     position: relative;

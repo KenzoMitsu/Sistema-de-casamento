@@ -17,7 +17,7 @@
         href="https://fonts.googleapis.com/css2?family=Luxurious+Script&family=Old+Standard+TT:ital,wght@0,400;0,700;1,400&display=swap"
         rel="stylesheet">
 
-    <link rel="stylesheet" href="assets/css/agendamento_festa_noiv.css">
+    <link rel="stylesheet" href="assets/css/minhas_festas.css">
     <script src="/js/modal_perfil.js"></script>
 
     <!-- SweetAlert baixado -->
@@ -252,10 +252,16 @@
                             </div>
                         </div>
                         <div class="botoes-festa">
+
                             <a href="editarfesta.html?descricao=${festa.descricao}&valor=${festa.valor}&convidados=${festa.convidados}&data_festa=${festa.data_festa}&nome=${festa.nome}&id_festa=${festa.id_festa}" class="link-editar">
-                                <button type="submit" class="botao-editar">Editar Festa</button>
+                                <button type="submit" class="botao-editar">Editar Festa
+                                </button>
                             </a>
-                            <button type="submit" class="botao-gerenciar">Gerenciar Agendamentos</button>
+
+                            <a href="gerenciamento_festa.html?id_festa=${festa.id_festa}" class="link-gerenciar">
+                                <button type="submit" class="botao-gerenciar">Gerenciar Festa
+                                </button>
+                            </a>
                         </div>
                     </section>
             `;

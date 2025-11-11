@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gerenciamento de Fornecedores</title>
+  <link rel="stylesheet" href="assets/css/gerenciamento_festa.css">
+
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="/js/api.js"></script>
+
+  <style>
+    /* Estilos básicos para a Modal */
+    .modal-overlay {
+      display: none;
+      /* Oculto por padrão */
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0, 0, 0, 0.6);
+      /* Adicionado para centralizar */
+      display: none;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .modal-content {
+      background-color: #fefefe;
+      margin: auto;
+      padding: 25px;
+      border: 1px solid #888;
+      width: 80%;
+      max-width: 600px;
+      border-radius: 10px;
+      position: relative;
+    }
+
+    .close-button {
+      color: #aaa;
+      position: absolute;
+      top: 10px;
+      right: 20px;
+      font-size: 28px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .close-button:hover,
+    .close-button:focus {
+      color: black;
+    }
+
+    .services-list-container {
+      max-height: 400px;
+      overflow-y: auto;
+      margin-top: 20px;
+      border-top: 1px solid #eee;
+    }
+
+    .service-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 5px;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .service-item:last-child {
+      border-bottom: none;
+    }
+
+    .service-item span {
+      font-size: 16px;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .btn-add-service {
+      padding: 6px 12px;
+      background-color: #28a745;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .btn-add-service:hover {
+      background-color: #218838;
+    }
+
+    /* Mensagem de "Nenhum fornecedor" */
+    .mensagem-vazio {
+      text-align: center;
+      padding: 50px 20px;
+      font-size: 1.1rem;
+      color: #555;
+      width: 100%;
+      font-family: 'Poppins', sans-serif;
+      font-weight: 500;
+    }
+  </style>
+</head>
+
+<body>
+  <header class="header">
+    <div class="header-container">
+      <a href="#" class="logo">
+        <img src="assets/img/logo-branca.png" alt="Casamento Perfeito Logo" class="logo-img">
+      </a>
+  
+      <nav class="navbar">
+        <ul>
+          <li><a href="home.html">Home</a></li>
+  
+          <li><a href="sobre_nos.html">Sobre Nós</a></li>
+          <li><a href="contato.html">Contato</a></li>
+          <li><a id="profileLink" href="#"><img src="assets/img/perfil.png" alt="Ícone de Perfil"
+                class="profile-icon"></a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+  
+  <div id="logoutModal" class="modal-overlay">
+    <div class="modal-content">
+      <span class="close-button">&times;</span>
+      <h2>Opções da Conta</h2>
+      <div id="modalOptionsContainer" class="modal-options-container">
+      </div>
+    </div>
+  </div>
+
+  <section class="banner">
+    <div class="banner-img">
+      <img src="assets/img/homememulheraliança.png" alt="Banner Casamento">
+    </div>
+    <div class="texto-banner">
+      <h2>Gerenciamento <span>Fornecedores</span></h2>
+      <p>Respectivos <strong>fornecedores</strong> do seu trabalho</p>
+    </div>
+  </section>
+
+  <section class="cards" id="cards-container">
+  </section>
+
+  <div class="botao">
+    <button id="add-fornecedor-btn">+ Convidar novo fornecedor</button>
+  </div>
+
+  <div id="modal-fornecedores" class="modal-overlay">
+    <div class="modal-content">
+      <span id="close-modal-btn" class="close-button">&times;</span>
+      <h2>Adicionar Fornecedor/Cerimonialista</h2>
+      <div id="modal-services-list" class="services-list-container">
+      </div>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="footer-contact-bar">
+      <div class="footer-container">
+        <p class="contato">Entre em contato conosco</p>
+        <div class="social-icons">
+          <a href="#" aria-label="Instagram">
+            <svg viewBox="0 0 24 24">
+              <path fill="currentColor"
+                d="M7.8,2H16.2C19.4,2 22,4.6 22,7.8V16.2A5.8,5.8 0 0,1 16.2,22H7.8C4.6,22 2,19.4 2,16.2V7.8A5.8,5.8 0 0,1 7.8,2M7.6,4A3.6,3.6 0 0,0 4,7.6V16.4C4,18.39 5.61,20 7.6,20H16.4A3.6,3.6 0 0,0 20,16.4V7.6C20,5.61 18.39,4 16.4,4H7.6M17.25,5.5A1.25,1.25 0 0,1 18.5,6.75A1.25,1.25 0 0,1 17.25,8A1.25,1.25 0 0,1 16,6.75A1.25,1.25 0 0,1 17.25,5.5M12,7A5,5 0 0,1 17,12A5,5 0 0,1 12,17A5,5 0 0,1 7,12A5,5 0 0,1 12,7M12,9A3,3 0 0,0 9,12A3,3 0 0,0 12,15A3,3 0 0,0 15,12A3,3 0 0,0 12,9Z" />
+            </svg>
+          </a>
+          <a href="#" aria-label="LinkedIn">
+            <svg viewBox="0 0 24 24">
+              <path fill="currentColor"
+                d="M19,3A2,2 0 0,1 21,5V19A2,2 0 0,1 19,21H5A2,2 0 0,1 3,19V5A2,2 0 0,1 5,3H19M18.5,18.5V13.2A3.26,3.26 0 0,0 15.24,9.94C14.39,9.94 13.4,10.43 13,11.1V10.13H10.13V18.5H13V13.57C13,12.37 13.74,11.54 14.83,11.54C15.92,11.54 16.28,12.38 16.28,13.57V18.5H18.5M6.88,8.56A1.68,1.68 0 0,0 8.56,6.88C8.56,6 7.78,5.2 6.88,5.2C6,5.2 5.2,6 5.2,6.88A1.68,1.68 0 0,0 6.88,8.56M8.27,18.5V10.13H5.5V18.5H8.27Z" />
+            </svg>
+          </a>
+          <a href="#" aria-label="Twitter">
+            <svg viewBox="0 0 24 24">
+              <path fill="currentColor"
+                d="M22.46,6C21.69,6.35 20.86,6.58 20,6.69C20.88,6.16 21.56,5.32 21.88,4.31C21.05,4.81 20.13,5.16 19.16,5.36C18.37,4.5 17.26,4 16,4C13.65,4 11.73,5.92 11.73,8.29C11.73,8.63 11.77,8.96 11.84,9.27C8.28,9.09 5.11,7.38 3,4.79C2.63,5.42 2.42,6.16 2.42,6.94C2.42,8.43 3.17,9.75 4.33,10.5C3.62,10.5 2.96,10.3 2.38,10C2.38,10 2.38,10 2.38,10.03C2.38,12.11 3.86,13.85 5.82,14.24C5.46,14.34 5.08,14.39 4.69,14.39C4.42,14.39 4.15,14.36 3.89,14.31C4.43,16 6,17.26 7.89,17.29C6.43,18.45 4.58,19.13 2.56,19.13C2.22,19.13 1.88,19.11 1.54,19.07C3.44,20.29 5.7,21 8.12,21C16,21 20.33,14.46 20.33,8.79C20.33,8.6 20.33,8.42 20.32,8.23C21.16,7.63 21.88,6.87 22.46,6Z" />
+            </svg>
+          </a>
+          <a href="#" aria-label="Facebook">
+            <svg viewBox="0 0 24 24">
+              <path fill="currentColor"
+                d="M12 2.04C6.5 2.04 2 6.53 2 12.06C2 17.06 5.66 21.21 10.44 21.96V14.96H7.9V12.06H10.44V9.85C10.44 7.32 11.93 5.96 14.22 5.96C15.31 5.96 16.45 6.15 16.45 6.15V8.62H15.19C13.95 8.62 13.56 9.39 13.56 10.18V12.06H16.34L15.89 14.96H13.56V21.96A10 10 0 0 0 12 2.04Z" />
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-main">
+      <div class="footer-container">
+        <div class="footer-logo">
+          <img src="assets/img/logo-branca.png" alt="Casamento Perfeito Logo">
+        </div>
+        <div class="footer-column">
+          <h4 class="titulos-info">Termos legais</h4>
+          <ul>
+            <li><a href="#">Política de Privacidade</a></li>
+            <li><a href="#">Suas escolhas de privacidade</a></li>
+            <li><a href="#">No Brasil</a></li>
+            <li><a href="#">Segurança</a></li>
+          </ul>
+        </div>
+        <div class="footer-column">
+          <h4 class="titulos-info">App</h4>
+          <ul>
+            <li><a href="#">O que há de novo</a></li>
+            <li><a href="#">Central de ajuda</a></li>
+            <li><a href="#">Sugestões</a></li>
+          </ul>
+        </div>
+        <div class="footer-column">
+          <h4 class="titulos-info">Trabalhe conosco</h4>
+          <ul>
+            <li><a href="#">A empresa</a></li>
+            <li><a href="#">Imprensa</a></li>
+            <li><a href="#">Carreiras</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+
+      // --- 1. Obter IDs e Token ---
+      const urlParams = new URLSearchParams(window.location.search);
+      const id_festa = urlParams.get('id_festa');
+      const token = localStorage.getItem('token');
+
+      // --- Elementos do DOM ---
+      const cardsContainer = document.getElementById('cards-container');
+      const addBtn = document.getElementById('add-fornecedor-btn');
+      const modal = document.getElementById('modal-fornecedores');
+      const closeModalBtn = document.getElementById('close-modal-btn');
+      const modalServicesList = document.getElementById('modal-services-list');
+
+      // --- 2. Verificar Autenticação e ID da Festa ---
+      if (!token) {
+        Swal.fire('Não autenticado', 'Você precisa estar logado.', 'warning')
+          .then(() => window.location.href = 'login.html');
+        return;
+      }
+      if (!id_festa) {
+        Swal.fire('Erro', 'Nenhuma festa selecionada.', 'error')
+          .then(() => window.location.href = 'minhas_festas.html');
+        return;
+      }
+
+      // --- 3. Função: Carregar Serviços ASSOCIADOS à festa ---
+      async function carregarServicosAssociados() {
+
+        // ROTA ATUALIZADA (Usando a nova rota GET /relacao/<id> do app.py)
+        const url = ipPython + `/relacao/${id_festa}`;
+
+        try {
+          const response = await fetch(url, {
+            headers: { 'Authorization': `Bearer ${token}` }
+          });
+          const resultado = await response.json();
+
+          if (!response.ok) throw new Error(resultado.error || 'Erro ao buscar serviços.');
+
+          cardsContainer.innerHTML = '';
+
+          // Se não houver serviços, exibe a mensagem
+          if (!resultado.servicos || resultado.servicos.length === 0) {
+            cardsContainer.innerHTML = '<p class="mensagem-vazio">Nenhum fornecedor ou cerimonialista foi convidado ainda.</p>';
+          } else {
+            // Renderiza os cards dos serviços associados
+            resultado.servicos.forEach(servico => {
+
+              // CAMPOS ATUALIZADOS (Usando servico.nome e servico.descricao)
+              const cardHtml = `
+                  <div class="card">
+                    <!-- Imagem de placeholder, já que a API não envia 'imagem_url' -->
+                    <img src="assets/img/imagemum.png" alt="${servico.nome}">
+                    <h3>${servico.nome ? servico.nome.toUpperCase() : 'NOME SERVIÇO'}</h3>
+                    <p>${servico.descricao || 'Descrição do serviço.'}</p>
+                  </div>
+                `;
+              cardsContainer.innerHTML += cardHtml;
+            });
+          }
+        } catch (error) {
+          cardsContainer.innerHTML = `<p class="mensagem-vazio" style="color: red;">Erro ao carregar serviços: ${error.message}</p>`;
+        }
+      }
+
+      // --- 4. Função: Abrir Modal e Carregar TODOS os Serviços ---
+      async function abrirModalFornecedores() {
+        modal.style.display = 'flex';
+        modalServicesList.innerHTML = '<p>Carregando serviços...</p>';
+
+        // ROTA ATUALIZADA (Usando a sua rota GET /servico)
+        const url = ipPython + '/servico';
+
+        try {
+          const response = await fetch(url, {
+            headers: { 'Authorization': `Bearer ${token}` }
+          });
+          const resultado = await response.json();
+
+          if (!response.ok) throw new Error(resultado.error || 'Erro ao buscar serviços.');
+
+          modalServicesList.innerHTML = '';
+
+          if (!resultado.servicos || resultado.servicos.length === 0) {
+            modalServicesList.innerHTML = '<p>Nenhum serviço disponível no sistema.</p>';
+            return;
+          }
+
+          // Renderiza a lista de serviços no modal
+          resultado.servicos.forEach(servico => {
+
+            // CAMPOS ATUALIZADOS (Usando servico.nome e servico.categoria)
+            // (O nome do dono não vem nesta rota, então usamos a categoria)
+            const itemHtml = `
+                <div class="service-item">
+                  <span><strong>${servico.nome}</strong> (${servico.categoria})</span>
+                  <!-- O botão "ADD" guarda o ID do serviço -->
+                  <button class="btn-add-service" data-id-servico="${servico.id_servico}">ADD</button>
+                </div>
+              `;
+            modalServicesList.innerHTML += itemHtml;
+          });
+
+        } catch (error) {
+          modalServicesList.innerHTML = `<p style="color: red;">Erro ao carregar: ${error.message}</p>`;
+        }
+      }
+
+      // --- 5. Função: Adicionar Relação Serviço <-> Festa ---
+      async function adicionarServicoAFesta(id_servico) {
+
+        // Rota POST /relacao (Correta, como você forneceu)
+        const url = ipPython + '/relacao';
+
+        try {
+          const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify({
+              id_servico: id_servico,
+              id_festa: id_festa // O id_festa pego da URL no começo
+            })
+          });
+
+          const resultado = await response.json();
+
+          if (!response.ok) {
+            // Tenta detectar se o erro é de "chave única" (já adicionado)
+            if (resultado.error && (resultado.error.includes("UNIQUE") || resultado.error.includes("já existe"))) {
+              throw new Error("Este fornecedor já foi adicionado a esta festa.");
+            }
+            throw new Error(resultado.error || 'Erro ao adicionar.');
+          }
+
+          Swal.fire('Sucesso!', 'Fornecedor adicionado!', 'success');
+          modal.style.display = 'none'; // Fecha o modal
+          carregarServicosAssociados(); // ATUALIZA a lista de cards na página!
+
+        } catch (error) {
+          Swal.fire('Opa!', error.message, 'info');
+        }
+      }
+
+      // --- 6. Event Listeners ---
+
+      addBtn.addEventListener('click', abrirModalFornecedores);
+
+      closeModalBtn.addEventListener('click', () => {
+        modal.style.display = 'none';
+      });
+      window.addEventListener('click', (e) => {
+        if (e.target == modal) {
+          modal.style.display = 'none';
+        }
+      });
+
+      // Clique no botão "ADD" DENTRO do modal (Delegação de evento)
+      modalServicesList.addEventListener('click', function (e) {
+        if (e.target && e.target.classList.contains('btn-add-service')) {
+
+          const idServico = e.target.dataset.idServico;
+
+          e.target.disabled = true;
+          e.target.textContent = '...';
+
+          adicionarServicoAFesta(idServico)
+            .finally(() => {
+              // Reabilita o botão, mesmo se der erro
+              if (e.target) {
+                e.target.disabled = false;
+                e.target.textContent = 'ADD';
+              }
+            });
+        }
+      });
+
+      // --- 7. Carga Inicial ---
+      // Chama a função para carregar os cards assim que a página abre
+      carregarServicosAssociados();
+    });
+  </script>
+
+</body>
+
+</html>

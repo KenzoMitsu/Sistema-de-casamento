@@ -25,6 +25,11 @@
   align-items: center;
 }
 
+.titulo-haha {
+  margin-top: 10px;
+  margin-bottom: 50px;
+}
+
 .logo-img {
   height: 50px;
   width: auto;
@@ -83,8 +88,6 @@ nav a:hover {
 
 .banner {
   position: relative;
-  
-  height: 80vh;
   overflow: hidden;
 }
 
@@ -125,9 +128,9 @@ nav a:hover {
 .cards {
   display: flex;
   justify-content: center;
-  gap: 40px;
-  padding: 80px 100px;
+  gap: 35px;
   flex-wrap: wrap;
+  margin-bottom: 50px;
 }
 
 .card {
@@ -178,7 +181,7 @@ nav a:hover {
 
 .botao {
   text-align: center;
-  margin: 40px 0 80px;
+  margin: 50px;
 }
 
 .botao button {
@@ -405,3 +408,55 @@ nav a:hover {
 .footer-column ul a:hover {
     text-decoration: underline;
 }
+
+/* Responsividade */
+@media (max-width: 769px) {
+  .features-grid {
+    flex-direction: column;
+    align-items: center;
+    gap: 40px;
+  }
+}
+
+@media (max-width: 426px) {
+  header {
+    flex-direction: column;
+  }
+
+  .header-container {
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    padding-bottom: 20px;
+  }
+
+  .footer-container {
+    flex-direction: column;
+    /* Coloca os elementos um embaixo do outro */
+    justify-content: center;
+    align-items: center;
+    /* Centraliza horizontalmente */
+    text-align: center;
+    /* Centraliza o texto */
+    gap: 20px;
+    /* Espaçamento entre os itens */
+  }
+
+  .footer-main .footer-container {
+    align-items: center;
+    /* Centraliza também as colunas */
+  }
+
+  .footer-column {
+    flex: unset;
+    /* Remove o "flex: 1" para não esticar */
+    width: 100%;
+    /* Ocupa toda a largura disponível */
+    max-width: 300px;
+    /* Limita para não ficar exagerado */
+  }
+
+  .footer-logo img {
+    max-width: 140px;
+    /* Logo menor em telas pequenas */
+  }

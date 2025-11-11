@@ -181,11 +181,20 @@
             // Variáveis básicas
             const token = localStorage.getItem('token');
             const id_usuario = getUserIdFromToken();
-            const urlApi = ipPython + `/festas/usuario/${id_usuario}`; // Defina ipPython: const ipPython = "http://localhost:5000";
+            const urlApi = ipPython + `/festas/usuario/${id_usuario}`;
 
             if (!token || !id_usuario) {
-                Swal.fire('Erro', 'Usuário não autenticado. Faça login.', 'error');
-                return;
+                Swal.fire({
+                    title: 'Não autenticado!',
+                    text: 'Você precisa estar logado para acessar esta página.',
+                    icon: 'warning',
+                    confirmButtonText: 'OK'
+                }).then((result) => {
+                    // Este código dentro do .then() só roda DEPOIS que o usuário clica em 'OK'
+                    window.location.href = 'login.html';
+                });
+
+                return; // Impede que o resto do script (a busca fetch) tente rodar
             }
 
             // Container onde as festas vão aparecer

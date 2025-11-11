@@ -1,4 +1,4 @@
-.<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
@@ -6,9 +6,8 @@
   <title>Editar Festa - Casamento Perfeito</title>
   <link rel="icon" href="assets/img/iconsite.png" type="image/x-icon">
   <link rel="stylesheet" href="assets/css/editarfesta.css" />
-  <link rel="icon" href="assets/img/iconsite.png" type="image/x-icon">
   <link href="https://fonts.googleapis.com/css2?family=Ledger&display=swap" rel="stylesheet">
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"
     integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
@@ -44,70 +43,79 @@
     </div>
   </div>
 
-  <script>
+<script>
+  const params = new URLSearchParams(window.location.search);
+  const id_festa = params.get('id_festa');
+  const nome = params.get("nome");
+  const descricao = params.get("descricao");
+  const valor = params.get("valor");
+  const convidados = params.get("convidados");
+  const data_festa = params.get("data_festa");
 
-        const params = new URLSearchParams(window.location.search);
-        const id_festa = params.get('id_festa');
-        const nome = params.get("nome");
-        const descricao = params.get("descricao");
-        const valor = params.get("valor");
-        const convidados = params.get("convidados");
-        const data_festa = params.get("data_festa");
+  if (!id_festa) {
+    Swal.fire({
+      title: "Erro!",
+      text: "ID da festa não encontrado. Verifique o link da página.",
+      icon: "error"
+    });
+    throw new Error("ID da festa ausente na URL.");
+  }
 
-        let data = data_festa;
-        if (data.includes("/")) {
-          const partes = data.split("/"); // dd/mm/yyyy
-          data = `${partes[2]}-${partes[1]}-${partes[0]}`; // yyyy-mm-dd
-        }
-        document.getElementById("data_festa").value = data;
+  // Corrige data (caso venha em dd/mm/yyyy)
+  let data = data_festa;
+  if (data && data.includes("/")) {
+    const partes = data.split("/");
+    data = `${partes[2]}-${partes[1]}-${partes[0]}`;
+  }
 
+  if (data) document.getElementById("data_festa").value = data;
+  if (descricao) document.getElementById("descricao").value = descricao;
+  if (nome) document.getElementById("nome").value = nome;
+  if (valor) document.getElementById("valor").value = valor;
+  if (convidados) document.getElementById("convidados").value = convidados;
 
-        document.getElementById("descricao").value = descricao
-        document.getElementById("nome").value = nome
-        document.getElementById("valor").value = valor
-        document.getElementById("convidados").value = convidados
+  $("#formEdicaoFesta").on("submit", function (e) {
+    e.preventDefault();
 
+    // Coleta os dados do formulário manualmente
+    const dados = {
+      nome: $("#nome").val(),
+      descricao: $("#descricao").val(),
+      valor: $("#valor").val(),
+      convidados: $("#convidados").val(),
+      data_festa: $("#data_festa").val()
+    };
 
-        const botSalvar = document.getElementById("botao-salvar");
-
-        $("#formEdicaoFesta").on("submit", function (e) {
-            e.preventDefault();
-
-            const params = new URLSearchParams(window.location.search);
-            const id = params.get('id_festa');
-
-            let dados = new FormData(this); // Já tem descricao, etc.
-
-            $.ajax({
-                method: "PUT",
-                url: ipPython + "/festa/" + id,
-                data: dados,
-                processData: false, // NÃO converte em string
-                contentType: false, // NÃO define Content-Type, o browser faz isso
-                headers: {
-                    Authorization: "Bearer " + localStorage.getItem("token") // 🔹 <-- ISSO É O QUE FALTA
-                },
-                success: function (retorno) {
-                    Swal.fire({
-                        title: "Sucesso!",
-                        text: "Suas informações foram atualizadas com sucesso!",
-                        icon: "success"
-                    }).then(function () {
-                        window.location.href = "agendamento_festa_noiv.html";
-                    });
-                    console.log(retorno);
-                },
-                error: function (retorno) {
-                    Swal.fire({
-                        title: "Opa...",
-                        text: retorno.responseJSON?.error || "Erro desconhecido",
-                        icon: "error"
-                    });
-                    console.log(retorno);
-                }
-            });
+    $.ajax({
+      method: "PUT",
+      url: `${ipPython}/festa/${id_festa}`,
+      data: JSON.stringify(dados), // Envia como JSON
+      contentType: "application/json", // Tipo de conteúdo JSON
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("token") // Token JWT
+      },
+      success: function (retorno) {
+        Swal.fire({
+          title: "Sucesso!",
+          text: "Suas informações foram atualizadas com sucesso!",
+          icon: "success"
+        }).then(function () {
+          window.location.href = "agendamento_festa_noiv.html";
         });
+        console.log(retorno);
+      },
+      error: function (retorno) {
+        console.error(retorno);
+        Swal.fire({
+          title: "Opa...",
+          text: retorno.responseJSON?.mensagem || retorno.responseJSON?.error || "Erro ao atualizar a festa.",
+          icon: "error"
+        });
+      }
+    });
+  });
+</script>
 
-    </script>
 </body>
 </html>
+

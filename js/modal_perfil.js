@@ -81,6 +81,12 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             editProfileLink.textContent = 'Editar perfil';
             modalOptionsContainer.appendChild(editProfileLink);
+
+             const minhasFestasLink = document.createElement('a');
+                minhasFestasLink.href = 'minhas_festas.html';
+                minhasFestasLink.textContent = 'Minhas festas';
+                modalOptionsContainer.appendChild(minhasFestasLink);
+            
             
             // 🚨 ADIÇÃO: Permite que o Cerimonialista (cargo = 3) acesse o cadastro de serviço
             if (cargo === '3') { 

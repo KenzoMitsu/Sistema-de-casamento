@@ -86,6 +86,22 @@
       data_festa: $("#data_festa").val()
     };
 
+    // 🔒 Validação adicional para impedir letras ou valores negativos
+    const numConvidados = Number(dados.convidados);
+    const numValor = Number(dados.valor);
+
+    if (
+      isNaN(numConvidados) || numConvidados <= 0 ||
+      isNaN(numValor) || numValor < 0
+    ) {
+      Swal.fire({
+        title: "Erro!",
+        text: "Verifique os campos de convidados e valor: devem ser números positivos.",
+        icon: "error"
+      });
+      return; // Interrompe o envio
+    }
+
     $.ajax({
       method: "PUT",
       url: `${ipPython}/festa/${id_festa}`,
@@ -100,7 +116,7 @@
           text: "Suas informações foram atualizadas com sucesso!",
           icon: "success"
         }).then(function () {
-          window.location.href = "agendamento_festa_noiv.html";
+          window.location.href = "minhas_festas.html";
         });
         console.log(retorno);
       },
@@ -115,6 +131,7 @@
     });
   });
 </script>
+
 
 </body>
 </html>

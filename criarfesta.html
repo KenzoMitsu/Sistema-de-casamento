@@ -34,7 +34,6 @@
               <option value="">Categoria</option>
               <option value="casamento">Casamento</option>
               <option value="chábar">Chá Bar</option>
-              <option value="formatura">Formatura</option>
               <option value="outros">Outros</option>
             </select>
             <input type="number" placeholder="Número de convidados" required />
@@ -77,6 +76,18 @@
         return;
       }
 
+      // 🔒 Validação para impedir letras ou valores negativos
+      const numConvidados = Number(convidados);
+      const numValor = Number(valor);
+
+      if (
+        isNaN(numConvidados) || numConvidados <= 0 ||
+        isNaN(numValor) || numValor < 0
+      ) {
+        Swal.fire('Erro', 'Os campos "Número de convidados" e "Estimativa de valor" devem conter apenas números positivos.', 'error');
+        return;
+      }
+
       // Token JWT armazenado (supondo que já esteja)
       const token = localStorage.getItem('token');
       if (!token) {
@@ -107,7 +118,11 @@
 
         const data = await response.json();
         if (response.ok) {
-          Swal.fire('Sucesso', 'Festa criada com sucesso!', 'success');
+          Swal.fire('Sucesso', 'Festa criada com sucesso!', 'success').then(() => {
+            // Redireciona o usuário para a página "minhas_festas.html"
+            window.location.href = "minhas_festas.html";
+          });
+
           // Limpar campos do formulário após sucesso
           document.querySelector('form').reset();
         } else {
@@ -120,5 +135,7 @@
     });
   });
 </script>
+
+
 
 </html>

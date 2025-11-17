@@ -331,7 +331,7 @@
                     if (result.isConfirmed) {
                         // Se o usuário confirmar, faz a requisição DELETE
                         $.ajax({
-                            url: `${ipPython}/servicos/${idServico}`, // Rota para excluir o serviço
+                            url: `${ipPython}/servico/${idServico}`, // Rota para excluir o serviço
                             method: 'DELETE',
                             headers: {
                                 "Authorization": "Bearer " + token

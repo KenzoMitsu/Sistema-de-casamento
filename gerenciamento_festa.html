@@ -8,9 +8,40 @@
   <link rel="stylesheet" href="assets/css/gerenciamento_festa.css">
 
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="/js/modal_perfil.js"></script>
   <script src="/js/api.js"></script>
 
+  
   <style>
+    .modal-options-container a, .modal-options-container button {
+            display: block;
+            padding: 12px 20px;
+            margin: 10px 0;
+            border-radius: 5px;
+            text-decoration: none;
+            text-align: center;
+            width: 100%;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+            font-size: 16px;
+            cursor: pointer;
+            border: 1px solid #ddd;
+            background-color: #f9f9f9;
+            color: #333;
+            transition: background-color 0.3s;
+        }
+        .modal-options-container a:hover {
+            background-color: #eee;
+        }
+        .modal-options-container .logout-btn {
+            background-color: #f44336;
+            color: white;
+            border: none;
+        }
+        .modal-options-container .logout-btn:hover {
+            background-color: #d32f2f;
+        }
+
     /* Estilos básicos para a Modal */
     .modal-overlay {
       display: none;
@@ -35,7 +66,7 @@
       padding: 25px;
       border: 1px solid #888;
       width: 80%;
-      max-width: 600px;
+      max-width: 400px;
       border-radius: 10px;
       position: relative;
     }
@@ -112,11 +143,11 @@
       <a href="#" class="logo">
         <img src="assets/img/logo-branca.png" alt="Casamento Perfeito Logo" class="logo-img">
       </a>
-  
+
       <nav class="navbar">
         <ul>
           <li><a href="home.html">Home</a></li>
-  
+
           <li><a href="sobre_nos.html">Sobre Nós</a></li>
           <li><a href="contato.html">Contato</a></li>
           <li><a id="profileLink" href="#"><img src="assets/img/perfil.png" alt="Ícone de Perfil"
@@ -125,7 +156,7 @@
       </nav>
     </div>
   </header>
-  
+
   <div id="logoutModal" class="modal-overlay">
     <div class="modal-content">
       <span class="close-button">&times;</span>
@@ -141,7 +172,7 @@
     </div>
     <div class="texto-banner">
       <h2 class="titulo-haha">Agendamento de <span><br>
-        Fornecedores e Cerimonialistas</span></h2>
+          Fornecedores e Cerimonialistas</span></h2>
       <p>Respectivos <strong>fornecedores</strong> do seu trabalho</p>
     </div>
   </section>
@@ -258,38 +289,44 @@
 
       // --- 3. Função: Carregar Serviços ASSOCIADOS à festa ---
       async function carregarServicosAssociados() {
-
-        // ROTA ATUALIZADA (Usando a nova rota GET /relacao/<id> do app.py)
-        const url = ipPython + `/relacao/${id_festa}`;
+        // Utiliza a rota correta para serviços associados!
+        const url = ipPython + `/relacao/festa/${id_festa}`;
 
         try {
           const response = await fetch(url, {
             headers: { 'Authorization': `Bearer ${token}` }
           });
           const resultado = await response.json();
-
-          if (!response.ok) throw new Error(resultado.error || 'Erro ao buscar serviços.');
-
           cardsContainer.innerHTML = '';
 
-          // Se não houver serviços, exibe a mensagem
-          if (!resultado.servicos || resultado.servicos.length === 0) {
+          if (!Array.isArray(resultado) || resultado.length === 0) {
             cardsContainer.innerHTML = '<p class="mensagem-vazio">Nenhum fornecedor ou cerimonialista foi convidado ainda.</p>';
           } else {
-            // Renderiza os cards dos serviços associados
-            resultado.servicos.forEach(servico => {
+            resultado.forEach(relacao => {
+              const servico = relacao.servico;
+              const usuario = relacao.usuario;
 
-              // CAMPOS ATUALIZADOS (Usando servico.nome e servico.descricao)
+              // Define o título a exibir conforme categoria do usuário
+              const tituloUsuario = usuario.categoria && usuario.categoria.toLowerCase() === "cerimonialista"
+                ? "Cerimonialista"
+                : "Fornecedor";
+
               const cardHtml = `
-                  <div class="card">
-                    <!-- Imagem de placeholder, já que a API não envia 'imagem_url' -->
-                    <img src="assets/img/imagemum.png" alt="${servico.nome}">
-                    <h3>${servico.nome ? servico.nome.toUpperCase() : 'NOME SERVIÇO'}</h3>
-                    <p>${servico.descricao || 'Descrição do serviço.'}</p>
-                  </div>
-                `;
+    <div class="card">
+      <img src="${ipPython}/static/uploads/Servicos/${servico.id_servico}.jpeg" alt="${servico.nome}">
+      <h3>${servico.nome ? servico.nome.toUpperCase() : 'NOME SERVIÇO'}</h3>
+      <p>${servico.descricao || 'Descrição do serviço.'}</p>
+      <p><strong>Categoria do serviço:</strong> ${servico.categoria || '-'}</p>
+      <p><strong>${tituloUsuario}:</strong> ${usuario.nome || '-'}</p>
+      <p><strong>Categoria do usuário:</strong> ${usuario.categoria || '-'}</p>
+      <p><strong>Email:</strong> ${usuario.email || '-'}</p>
+      <button class="btn-delete-relacao" data-id-relacao="${relacao.id_relacao}">Excluir</button>
+    </div>
+  `;
+
               cardsContainer.innerHTML += cardHtml;
             });
+
           }
         } catch (error) {
           cardsContainer.innerHTML = `<p class="mensagem-vazio" style="color: red;">Erro ao carregar serviços: ${error.message}</p>`;
@@ -301,7 +338,7 @@
         modal.style.display = 'flex';
         modalServicesList.innerHTML = '<p>Carregando serviços...</p>';
 
-        // ROTA ATUALIZADA (Usando a sua rota GET /servico)
+        // ROTA GET /servico PARA PEGAR TODOS OS SERVIÇOS
         const url = ipPython + '/servico';
 
         try {
@@ -309,8 +346,6 @@
             headers: { 'Authorization': `Bearer ${token}` }
           });
           const resultado = await response.json();
-
-          if (!response.ok) throw new Error(resultado.error || 'Erro ao buscar serviços.');
 
           modalServicesList.innerHTML = '';
 
@@ -321,16 +356,13 @@
 
           // Renderiza a lista de serviços no modal
           resultado.servicos.forEach(servico => {
-
-            // CAMPOS ATUALIZADOS (Usando servico.nome e servico.categoria)
-            // (O nome do dono não vem nesta rota, então usamos a categoria)
             const itemHtml = `
-                <div class="service-item">
-                  <span><strong>${servico.nome}</strong> (${servico.categoria})</span>
-                  <!-- O botão "ADD" guarda o ID do serviço -->
-                  <button class="btn-add-service" data-id-servico="${servico.id_servico}">ADD</button>
-                </div>
-              `;
+            <div class="service-item">
+              <span><strong>${servico.nome}</strong> (${servico.categoria})</span>
+              <!-- O botão "ADD" guarda o ID do serviço -->
+              <button class="btn-add-service" data-id-servico="${servico.id_servico}">ADD</button>
+            </div>
+          `;
             modalServicesList.innerHTML += itemHtml;
           });
 
@@ -341,8 +373,7 @@
 
       // --- 5. Função: Adicionar Relação Serviço <-> Festa ---
       async function adicionarServicoAFesta(id_servico) {
-
-        // Rota POST /relacao (Correta, como você forneceu)
+        // Rota POST /relacao
         const url = ipPython + '/relacao';
 
         try {
@@ -354,14 +385,13 @@
             },
             body: JSON.stringify({
               id_servico: id_servico,
-              id_festa: id_festa // O id_festa pego da URL no começo
+              id_festa: id_festa
             })
           });
 
           const resultado = await response.json();
 
           if (!response.ok) {
-            // Tenta detectar se o erro é de "chave única" (já adicionado)
             if (resultado.error && (resultado.error.includes("UNIQUE") || resultado.error.includes("já existe"))) {
               throw new Error("Este fornecedor já foi adicionado a esta festa.");
             }
@@ -393,15 +423,12 @@
       // Clique no botão "ADD" DENTRO do modal (Delegação de evento)
       modalServicesList.addEventListener('click', function (e) {
         if (e.target && e.target.classList.contains('btn-add-service')) {
-
           const idServico = e.target.dataset.idServico;
-
           e.target.disabled = true;
           e.target.textContent = '...';
 
           adicionarServicoAFesta(idServico)
             .finally(() => {
-              // Reabilita o botão, mesmo se der erro
               if (e.target) {
                 e.target.disabled = false;
                 e.target.textContent = 'ADD';
@@ -411,9 +438,49 @@
       });
 
       // --- 7. Carga Inicial ---
-      // Chama a função para carregar os cards assim que a página abre
       carregarServicosAssociados();
+
+      // Event listener para botão excluir, dentro do DOMContentLoaded
+      cardsContainer.addEventListener('click', async (e) => {
+        if (e.target && e.target.classList.contains('btn-delete-relacao')) {
+          const idRelacao = e.target.dataset.idRelacao;
+
+          const confirma = await Swal.fire({
+            title: 'Tem certeza?',
+            text: "Deseja cancelar essa relação?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Sim, cancelar!',
+            cancelButtonText: 'Não',
+          });
+
+          if (confirma.isConfirmed) {
+            try {
+              const response = await fetch(ipPython + `/relacao/${idRelacao}`, {
+                method: 'DELETE',
+                headers: {
+                  'Authorization': `Bearer ${token}`
+                }
+              });
+
+              const result = await response.json();
+
+              if (!response.ok) {
+                throw new Error(result.error || 'Erro ao cancelar relação');
+              }
+
+              Swal.fire('Cancelada!', 'Relação cancelada com sucesso.', 'success');
+              carregarServicosAssociados(); // Atualiza lista
+            } catch (error) {
+              Swal.fire('Erro', error.message, 'error');
+            }
+          }
+        }
+      });
     });
+
   </script>
 
 </body>

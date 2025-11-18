@@ -25,6 +25,28 @@
   align-items: center;
 }
 
+.btn-delete-relacao {
+  padding: 6px 15px;
+  background-color: #dc3545; /* vermelho Bootstrap */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn-delete-relacao:hover {
+  background-color: #a71d2a; /* vermelho mais escuro */
+}
+
+.btn-delete-relacao:disabled {
+  background-color: #e99aa0;
+  cursor: not-allowed;
+}
+
+
 .titulo-haha {
   margin-top: 10px;
   margin-bottom: 50px;

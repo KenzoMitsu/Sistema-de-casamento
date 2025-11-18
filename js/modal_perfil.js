@@ -66,7 +66,7 @@ document.addEventListener('DOMContentLoaded', () => {
             modalOptionsContainer.appendChild(myServicesLink);
 
             const myPartyLink = document.createElement('a');
-            myPartyLink.href = 'agendamento_festa_noiv.html'; // Redireciona para a página solicitada
+            myPartyLink.href = 'minhas_festas.html'; // Redireciona para a página solicitada
             myPartyLink.textContent = 'Minhas Festas';
             modalOptionsContainer.appendChild(myPartyLink);
 

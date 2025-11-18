@@ -274,7 +274,7 @@
                         });
                     } else {
                         // Mensagem de "vazio" específica para o fornecedor
-                        document.getElementById("exibe_servicos").innerHTML = `<p style="text-align: center; width: 100%;">${retorno.mensagem || 'Você ainda não cadastrou nenhum serviço.'}</p>`;
+                        document.getElementById("exibe_servicos").innerHTML = `<p class="sem_servico" style="text-align: center; width: 100%; padding: 50px">${retorno.mensagem || 'Você ainda não cadastrou nenhum serviço.'}</p>`;
                     }
                 },
                 "error": function (xhr, status, error) {

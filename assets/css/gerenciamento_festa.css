@@ -5,24 +5,162 @@
   font-family: 'Poppins', sans-serif;
 }
 
+/* FONTES */
+.luxurious-script-regular {
+    font-family: "Luxurious Script", cursive;
+    font-weight: 400;
+    font-style: normal;
+}
+
+.old-standard-tt-regular {
+    font-family: "Old Standard TT", serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+.old-standard-tt-bold {
+    font-family: "Old Standard TT", serif;
+    font-weight: 700;
+    font-style: normal;
+}
+
+.old-standard-tt-regular-italic {
+    font-family: "Old Standard TT", serif;
+    font-weight: 400;
+    font-style: italic;
+}
+
+/* --- CABEÇALHO (HEADER) --- */
+.hero-section {
+    padding: 0px;
+    position: relative;
+    width: 100%;
+    /* ALTERADO: Caminho da imagem de fundo */
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    /* Para empurrar a barra de pesquisa para baixo */
+    align-items: center;
+    /* Centraliza o conteúdo (inclusive a barra de pesquisa) */
+    /* Padding para o conteúdo não ficar colado nas bordas */
+    border-bottom-left-radius: 7px;
+    border-bottom-right-radius: 7px;
+}
+
+/* Estilos do conteúdo do Hero */
+.hero-content {
+    color: white;
+    text-align: left;
+    width: 100%;
+    /* Garante que o conteúdo ocupe a largura para alinhamento */
+}
+
+.hero-subtitle {
+    font-size: 1.6rem;
+    font-weight: 500;
+    letter-spacing: 1px;
+    margin-bottom: 20px;
+    font-family: "Old Standard TT", serif;
+}
+
+.hero-title {
+    font-family: 'Great Vibes', cursive;
+    font-size: 6rem;
+    font-weight: 400;
+    line-height: 1;
+    margin-top: -10px;
+}
+
+.hero-button {
+    display: inline-block;
+    background-color: rgba(255, 183, 201, 0.75);
+    /* Cor rosa com opacidade */
+    color: white;
+    padding: 12px 30px;
+    margin-top: 20px;
+    margin-bottom: 65px;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 1.3rem;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+    font-family: "Old Standard TT", serif;
+}
+
+.hero-button:hover {
+    background-color: #fca9be;
+}
+
 /* --- CABEÇALHO (HEADER) --- */
 .header {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  background-color: rgba(255, 183, 201, 0.75);
-  /* Cor rosa com opacidade */
-  z-index: 1000;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: rgba(255, 183, 201, 0.75);
+    /* Cor rosa com opacidade */
+    z-index: 1000;
 }
 
 .header-container {
-  max-width: 1500px;
-  margin: 0 auto;
-  padding: 10px 30px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+    max-width: 1500px;
+    margin: 0 auto;
+    padding: 10px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo-img {
+    height: 50px;
+    width: auto;
+}
+
+.logo-2 {
+    height: 520px;
+    width: auto;
+    margin-top: -200px;
+}
+
+.profile-icon {
+    width: auto;
+    height: 50px;
+}
+
+.navbar ul {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 35px;
+}
+
+.navbar a {
+    text-decoration: none;
+    color: #fff;
+    font-size: 1rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    transition: color 0.3s ease;
+}
+
+.navbar a:not(.btn-login):hover {
+    color: #fce4ec;
+}
+
+.btn-login {
+    background-color: #FF87A5;
+    color: #ffffff;
+    font-weight: 700;
+    padding: 10px 25px;
+    border-radius: 25px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.btn-login:hover {
+    background-color: #ed6688;
+    color: #fff;
 }
 
 .btn-delete-relacao {
@@ -52,61 +190,7 @@
   margin-bottom: 50px;
 }
 
-.logo-img {
-  height: 50px;
-  width: auto;
-}
 
-.profile-icon {
-  width: auto;
-  height: 50px;
-}
-
-.navbar ul {
-  list-style: none;
-  display: flex;
-  align-items: center;
-  gap: 35px;
-}
-
-.navbar a {
-  text-decoration: none;
-  color: #fff;
-  font-size: 1rem;
-  font-weight: 500;
-  text-transform: uppercase;
-  transition: color 0.3s ease;
-}
-
-.navbar a:not(.btn-login):hover {
-  color: #fce4ec;
-}
-
-.btn-login {
-  background-color: #FF87A5;
-  color: #ffffff;
-  font-weight: 700;
-  padding: 10px 25px;
-  border-radius: 25px;
-  transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-.btn-login:hover {
-  background-color: #ed6688;
-  color: #fff;
-}
-
-nav a {
-  margin: 0 20px;
-  text-decoration: none;
-  color: #666;
-  font-weight: 500;
-  transition: 0.3s;
-}
-
-nav a:hover {
-  color: #ff9fb7;
-}
 
 .banner {
   position: relative;
@@ -438,19 +522,86 @@ nav a:hover {
     align-items: center;
     gap: 40px;
   }
+  .titulo-haha {
+    margin-top: 90px;
+    font-size: 15px;
+  }
+  .texto-banner p {
+    margin-top: -55px;
+    background: rgba(255, 255, 255, 0.8);
+    color: #444;
+    display: inline-block;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 1rem;
+  }
+  .hero-section {
+    padding: 0px;
+  }
+  
 }
 
 @media (max-width: 426px) {
-  header {
-    flex-direction: column;
+    .banner img {
+      width: 250%;
+      height: 100%;
+      object-fit: cover;
+      filter: brightness(70%);
+      margin: -40px;
   }
+  .texto-banner h2 {
+    font-size: 25px;
+    font-weight: 700;
+  }
+   .header {
+        flex-direction: column;
+    }
 
-  .header-container {
-    flex-direction: column;
-    align-items: center;
-    gap: 15px;
-    padding-bottom: 20px;
-  }
+    .header-container {
+        flex-direction: column;
+        align-items: center;
+        gap: 15px;
+        padding-bottom: 20px;
+    }
+     .navbar a {
+        text-decoration: none;
+        color: #fff;
+        font-size: 12px;
+        font-weight: 500;
+        text-transform: uppercase;
+        transition: color 0.3s ease;
+    }
+
+ 
+    .hero-title {
+        font-family: 'Great Vibes', cursive;
+        font-size: 4rem;
+        font-weight: 400;
+        line-height: 1;
+        margin-top: -10px;
+    }
+
+    .hero-subtitle {
+        font-size: 1rem;
+    }
+
+    .hero-button {
+        display: inline-block;
+        background-color: rgba(255, 183, 201, 0.75);
+        color: white;
+        padding: 12px 30px;
+        margin-top: 20px;
+        margin-bottom: 65px;
+        text-decoration: none;
+        font-weight: 500;
+        font-size: 1rem;
+        border-radius: 4px;
+        transition: background-color 0.3s ease;
+        font-family: "Old Standard TT", serif;
+    }
+    .navbar ul {
+        gap: 21px;
+    }
 
   .footer-container {
     flex-direction: column;
@@ -482,3 +633,54 @@ nav a:hover {
     max-width: 140px;
     /* Logo menor em telas pequenas */
   }
+  .banner-img {
+    padding-top: 40px;
+    width: auto;
+  }
+}
+
+@media (max-width: 376px) {
+  .texto-banner h2 {
+    text-align: center;
+    margin-left: 0px;
+  }
+  .texto-banner p {
+        margin-top: -55px;
+        background: rgba(255, 255, 255, 0.8);
+        color: #444;
+        display: inline-block;
+        padding: 10px 10px;
+        border-radius: 8px;
+        font-size: 1rem;
+    }
+}
+
+
+@media (max-width: 321px) {
+  .texto-banner h2 {
+    text-align: center;
+    margin-left: 0px;
+    margin-top: 130px;
+  }
+  .texto-banner p {
+      margin-top: -55px;
+      background: rgba(255, 255, 255, 0.8);
+      color: #444;
+      display: inline-block;
+      margin-right: 20px;
+      padding: 10px 5px;
+      border-radius: 8px;
+      font-size: 1rem;
+    }
+    .navbar a {
+        text-decoration: none;
+        color: #fff;
+        font-size: 10px;
+        font-weight: 500;
+        text-transform: uppercase;
+        transition: color 0.3s ease;
+    }
+    .navbar ul {
+        gap: 21px;
+    }
+}

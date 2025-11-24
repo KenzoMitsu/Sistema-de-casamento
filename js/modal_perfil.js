@@ -51,7 +51,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (cargo === '2') { // Se for FORNECEDOR
             const editProfileLink = document.createElement('a');
-            editProfileLink.href = 'editar_fornecedor.html';
+            editProfileLink.href = 'editar_perfil.html';
             editProfileLink.textContent = 'Editar perfil';
             modalOptionsContainer.appendChild(editProfileLink);
 
@@ -75,14 +75,14 @@ document.addEventListener('DOMContentLoaded', () => {
             // Link de edição de perfil
             const editProfileLink = document.createElement('a');
             if (cargo === '1') { // Noivo
-                editProfileLink.href = 'editar_usuarios.html';
+                editProfileLink.href = 'editar_perfil.html';
             } else { // Cerimonialista
                 editProfileLink.href = 'editar_cerimonialista.html';
             }
             editProfileLink.textContent = 'Editar perfil';
             modalOptionsContainer.appendChild(editProfileLink);
 
-             const minhasFestasLink = document.createElement('a');
+            const minhasFestasLink = document.createElement('a');
                 minhasFestasLink.href = 'minhas_festas.html';
                 minhasFestasLink.textContent = 'Minhas festas';
                 modalOptionsContainer.appendChild(minhasFestasLink);

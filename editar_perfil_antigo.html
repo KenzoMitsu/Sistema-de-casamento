@@ -64,7 +64,7 @@
                             <img src="assets/img/pasta.png" alt="Pré-visualização" id="image-preview" >
 
                             <span id="upload-span">Adicionar uma foto</span>
-                            
+
                             <input type="file" id="imagem" name="imagem" accept="image/*">
                         </label>
                     </div>
@@ -116,7 +116,7 @@
                 // EXIBIR OS DADOS DO FORNECEDOR
                 // fornecedores retorna uma lista, então precisamos encontrar o usuário correto
                 $.ajax({
-                    url: ipPython + '/fornecedores',
+                    url: ipPython + '/editar_perfil.html',
                     method: 'GET',
                     dataType: 'json',
                     success: function (data) {
@@ -132,7 +132,6 @@
                                 $('#nome_marca').val(fornecedor.nome_marca);
                                 $('#categoria').val(fornecedor.categoria);
                                 $('#cep').val(fornecedor.cep);
-                                
 
                                 // Carrega a imagem de perfil existente
                                 const imgUrl = `${ipPython}/static/uploads/Usuarios/${fornecedor.id_usuario}.jpeg`;

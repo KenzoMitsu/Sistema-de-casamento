@@ -353,12 +353,12 @@
                             },
                             error: function (xhr, status, error) {
                                 console.error("Erro ao excluir serviço:", error);
-                                let mensagemErro = "Não foi possível excluir o serviço.";
+                                let mensagemErro = "Seu serviço está incluído em uma festa";
                                 if (xhr.responseJSON && xhr.responseJSON.mensagem) {
                                     mensagemErro = xhr.responseJSON.mensagem;
                                 }
                                 Swal.fire(
-                                    'Erro!',
+                                    'Exclusão não permitida!',
                                     mensagemErro,
                                     'error'
                                 );

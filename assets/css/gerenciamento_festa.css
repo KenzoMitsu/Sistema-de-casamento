@@ -538,7 +538,12 @@
   .hero-section {
     padding: 0px;
   }
-  
+  .banner img {
+    width: 120%;
+    height: 100%;
+    object-fit: cover;
+    filter: brightness(70%);
+  }
 }
 
 @media (max-width: 426px) {
@@ -552,7 +557,20 @@
   .texto-banner h2 {
     font-size: 25px;
     font-weight: 700;
+    text-align: center;
+    margin-right: 40px;
+    margin-top: 150px;
   }
+  .texto-banner p {
+        margin-top: -55px;
+        background: rgba(255, 255, 255, 0.8);
+        color: #444;
+        display: inline-block;
+        padding: 10px 10px;
+        border-radius: 8px;
+        font-size: 1rem;
+        margin-right: 40px;
+    }
    .header {
         flex-direction: column;
     }
@@ -643,6 +661,7 @@
   .texto-banner h2 {
     text-align: center;
     margin-left: 0px;
+    margin-top: 150px;
   }
   .texto-banner p {
         margin-top: -55px;
@@ -652,6 +671,7 @@
         padding: 10px 10px;
         border-radius: 8px;
         font-size: 1rem;
+        margin-right: 40px;
     }
 }
 
@@ -660,7 +680,7 @@
   .texto-banner h2 {
     text-align: center;
     margin-left: 0px;
-    margin-top: 130px;
+    margin-top: 150px;
   }
   .texto-banner p {
       margin-top: -55px;

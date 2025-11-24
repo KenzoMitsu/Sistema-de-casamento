@@ -435,8 +435,7 @@ button.tipo:active {
     }
 
     .close-btn {
-        margin-left: 145px;
-        margin-top: -110px;
+        margin-left: 10px;
     }
 }
 
@@ -450,8 +449,7 @@ button.tipo:active {
     }
 
     .close-btn {
-        margin-left: 120px;
-        margin-top: -110px;
+        margin-left: 10px;
     }
 
     .filtros {

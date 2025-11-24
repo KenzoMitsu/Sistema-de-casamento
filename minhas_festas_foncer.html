@@ -24,8 +24,9 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="/js/api.js"></script>
 
-        <style>
-        .modal-options-container a, .modal-options-container button {
+    <style>
+        .modal-options-container a,
+        .modal-options-container button {
             display: block;
             padding: 12px 20px;
             margin: 10px 0;
@@ -42,14 +43,17 @@
             color: #333;
             transition: background-color 0.3s;
         }
+
         .modal-options-container a:hover {
             background-color: #eee;
         }
+
         .modal-options-container .logout-btn {
             background-color: #f44336;
             color: white;
             border: none;
         }
+
         .modal-options-container .logout-btn:hover {
             background-color: #d32f2f;
         }
@@ -71,7 +75,8 @@
 
                         <li><a href="sobre_nos.html">Sobre Nós</a></li>
                         <li><a href="contato.html">Contato</a></li>
-                        <li><a id="profileLink" href="home.html"><img src="assets/img/perfil.png" alt="Ícone de Perfil" class="profile-icon"></a></li>
+                        <li><a id="profileLink" href="home.html"><img src="assets/img/perfil.png" alt="Ícone de Perfil"
+                                    class="profile-icon"></a></li>
                     </ul>
                 </nav>
             </div>
@@ -91,7 +96,7 @@
 
         <h1 class="titulo">Minhas Festas</h1>
 
-        
+
         </div>
     </section>
 
@@ -165,115 +170,127 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', async function () {
-            // Função para obter ID do usuário do token JWT
-            function getUserIdFromToken() {
+            // Função para pegar dados do usuário logado
+            function getUserPayloadFromToken() {
                 const token = localStorage.getItem('token');
                 if (!token) return null;
-                // Decodifica só o payload do token (jwt simples: header.payload.signature)
                 try {
-                    const payload = JSON.parse(atob(token.split('.')[1]));
-                    return payload.id_usuario;
+                    return JSON.parse(atob(token.split('.')[1]));
                 } catch (e) {
                     return null;
                 }
             }
-            
-            // Variáveis básicas
-            const token = localStorage.getItem('token');
-            const id_usuario = getUserIdFromToken();
-            const urlApi = ipPython + `/festas/usuario/${id_usuario}`;
 
-            if (!token || !id_usuario) {
+            const token = localStorage.getItem('token');
+            const payload = getUserPayloadFromToken();
+
+            if (!token || !payload || !payload.id_usuario) {
                 Swal.fire({
                     title: 'Não autenticado!',
                     text: 'Você precisa estar logado para acessar esta página.',
                     icon: 'warning',
                     confirmButtonText: 'OK'
-                }).then((result) => {
-                    // Este código dentro do .then() só roda DEPOIS que o usuário clica em 'OK'
+                }).then(() => {
                     window.location.href = 'login.html';
                 });
-
-                return; // Impede que o resto do script (a busca fetch) tente rodar
+                return;
             }
 
-            // Container onde as festas vão aparecer
+            const id_usuario = payload.id_usuario;
+            const urlApi = ipPython + `/fornecedor/${id_usuario}/festas`;
+
+            // Container de visualização das festas
             const festasContainer = document.createElement('div');
             festasContainer.className = "festas-lista";
             document.body.insertBefore(festasContainer, document.querySelector('.footer'));
 
-            // Busca e renderiza festas
             try {
                 const response = await fetch(urlApi, {
                     headers: { 'Authorization': `Bearer ${token}` }
                 });
                 const resultado = await response.json();
-                if (!response.ok) throw new Error(resultado.error || resultado.mensagem);
+                if (!response.ok) {
+                    throw new Error(resultado.error || resultado.mensagem || "Erro ao buscar festas");
+                }
 
-                if (!resultado.festas || resultado.festas.length === 0) {
+                const festas = Array.isArray(resultado) ? resultado : resultado.festas;
+                if (!festas || festas.length === 0) {
                     festasContainer.innerHTML = "<div style='padding:2rem;text-align:center;color:#444'>Nenhuma festa encontrada.</div>";
                     return;
                 }
 
-                // Renderizar cada festa
-                resultado.festas.forEach(festa => {
+                festas.forEach(festa => {
                     const bloco = document.createElement('div');
                     bloco.className = 'card-festa';
 
+                    // Lista os serviços contratados
+                    let servicosHtml = '';
+                    if (Array.isArray(festa.servicos_contratados) && festa.servicos_contratados.length > 0) {
+                        servicosHtml = `
+                    <div class="servicos-contratados">
+                        <h4>Serviços contratados por você:</h4>
+                        <ul style="padding-left:1rem;">
+                            ${festa.servicos_contratados.map(servico => `
+                                <li>
+                                    <strong>${servico.nome}</strong>
+                                    <span style="font-size:0.92em;color:#666;"> (${servico.categoria})</span>
+                                    - R$ ${servico.valor}
+                                </li>
+                            `).join('')}
+                        </ul>
+                    </div>
+                `;
+                    } else {
+                        servicosHtml = `
+                    <div class="servicos-contratados">
+                        <p style="color:#666;">Você não possui nenhum serviço contratado nesta festa.</p>
+                    </div>
+                `;
+                    }
+
+                    // Renderiza apenas informações, sem botões de ação
                     bloco.innerHTML = `
-                    <section class="section-geral-festa">
-                        <div class="festa-section">
-                            <img src="assets/img/icone-bolo.png" alt="Imagem da Festa" class="festa-imagem">
-                            <h3 class="titulo-festa">${festa.nome}</h3>
-                            <p class="categoria-text"> ${festa.categoria}</p>
-                            <div class="col-festa1">
-                                <div class="descricao-festa">
-                                    <img src="assets/img/descricao-icon.png" alt="Ícone de Data de Festa" class="icone-descricao">
-                                    <h4>DESCRIÇÃO:</h4>
-                                    <p class="info-festa"> ${festa.descricao}</p>
-                                </div>
-                                <div class="valor-festa">
-                                    <img src="assets/img/pagamento.png" alt="Ícone de Valor" class="icone-valor">
-                                    <h4>VALOR:</h4>
-                                    <p class="info-festa"> R$ ${festa.valor}</p>
-                                </div>
+                <section class="section-geral-festa">
+                    <div class="festa-section">
+                        <img src="assets/img/icone-bolo.png" alt="Imagem da Festa" class="festa-imagem">
+                        <h3 class="titulo-festa">${festa.nome}</h3>
+                        <p class="categoria-text">${festa.categoria}</p>
+                        <div class="col-festa1">
+                            <div class="descricao-festa">
+                                <img src="assets/img/descricao-icon.png" alt="Descrição" class="icone-descricao">
+                                <h4>DESCRIÇÃO:</h4>
+                                <p class="info-festa">${festa.descricao}</p>
                             </div>
-                            <div class="col-festa2">
-                                <div class="convidados-festa">
-                                    <img src="assets/img/cliente.png" alt="Ícone de Convidados" class="icone-convidado">
-                                    <h4>CONVIDADOS:</h4>
-                                    <p class="info-festa"> ${festa.convidados}</p>
-                                </div>
-                                <div class="data-festa">
-                                    <img src="assets/img/horarioss.png" alt="Ícone de Data de Festa" class="icone-data">
-                                    <h4>DATA DA FESTA:</h4>
-                                    <p class="info-festa"> ${festa.data_festa}</p>
-                                </div>
+                            <div class="valor-festa">
+                                <img src="assets/img/pagamento.png" alt="Valor" class="icone-valor">
+                                <h4>VALOR:</h4>
+                                <p class="info-festa">R$ ${festa.valor}</p>
                             </div>
                         </div>
-                        <div class="botoes-festa">
-
-                            <a href="editarfesta.html?descricao=${festa.descricao}&valor=${festa.valor}&convidados=${festa.convidados}&data_festa=${festa.data_festa}&nome=${festa.nome}&id_festa=${festa.id_festa}" class="link-editar">
-                                <button type="submit" class="botao-editar">Editar Festa
-                                </button>
-                            </a>
-
-                            <a href="gerenciamento_festa.html?id_festa=${festa.id_festa}" class="link-gerenciar">
-                                <button type="submit" class="botao-gerenciar">Gerenciar Festa
-                                </button>
-                            </a>
+                        <div class="col-festa2">
+                            <div class="convidados-festa">
+                                <img src="assets/img/cliente.png" alt="Convidados" class="icone-convidado">
+                                <h4>CONVIDADOS:</h4>
+                                <p class="info-festa">${festa.convidados}</p>
+                            </div>
+                            <div class="data-festa">
+                                <img src="assets/img/horarioss.png" alt="Data" class="icone-data">
+                                <h4>DATA DA FESTA:</h4>
+                                <p class="info-festa">${festa.data_festa}</p>
+                            </div>
                         </div>
-                    </section>
+                    </div>
+                </section>
             `;
                     festasContainer.appendChild(bloco);
                 });
-
             } catch (error) {
                 festasContainer.innerHTML = `<div style='padding:2rem;text-align:center;color:#c00'>Erro ao carregar festas: ${error.message}</div>`;
             }
         });
-
     </script>
+
+
 
 </body>
 

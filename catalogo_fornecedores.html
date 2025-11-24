@@ -15,7 +15,6 @@
 
     <link rel="stylesheet" href="assets/css/catalogo_fornecedores.css">
 
-    <!-- SweetAlert baixado -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="/js/api.js"></script>
 </head>
@@ -40,7 +39,6 @@
             </div>
         </header>
 
-        <!-- Modal de Logout -->
         <div id="logoutModal" class="modal-overlay">
             <div class="modal-content">
                 <span class="close-button">&times;</span>
@@ -49,11 +47,7 @@
                 <button id="logoutButton" class="logout-btn">Sair</button>
             </div>
         </div>
-
-    <!--  -->
-
       
-        
         <div class="search-bar-container">
             <div class="search-bar">
                 <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
@@ -130,7 +124,8 @@
             const botaoHeroi = document.querySelector('.hero-button');
 
             if (!botaoHeroi) {
-                console.error("Botão principal (.hero-button) não encontrado.");
+                // Comentado para não poluir o console caso o botão não exista nesta página específica
+                // console.error("Botão principal (.hero-button) não encontrado.");
                 return;
             }
 
@@ -184,8 +179,6 @@
         // Chama a função de verificação assim que a página carrega
         checkAuthentication();
 
-        // --- O resto do seu código para o modal de logout continua igual ---
-
         const profileLink = document.getElementById('profileLink');
         const logoutModal = document.getElementById('logoutModal');
         const closeModalButton = document.querySelector('.close-button');
@@ -231,6 +224,7 @@
             });
         }
     });
+
     $(document).ready(function(){
 
             var settings = {
@@ -243,12 +237,18 @@
                 "success": function(retorno) {
                     var fornecedores = retorno.usuarios;
                     fornecedores.forEach((item) => {
+                    
                     document.getElementById("exibe_fornecedores").innerHTML += `
                     <section class="secao-fornecedores prod">
                         <div class="container-fornecedor">
-                            <div onclick="window.open('perfil_fornecedor.html?id_usuario=${item.id_usuario}&nome=${item.nome}&email=${item.email}&data_nascimento=${item.data_nascimento}&telefone=${item.telefone}&categoria=${item.categoria}&cargo=${item.cargo}&nome_marca=${item.nome_marca}&status=${item.status}')"><div class="img-wrapper">
-                                <img src="${ipPython}/static/uploads/Usuarios/${item.id_usuario}.jpeg" class="img-logo" alt="Foto do fornecedor">
-                            </div></div>
+                            <div>
+                                <div class="img-wrapper">
+                                    <img src="${ipPython}/static/uploads/Usuarios/${item.id_usuario}.jpeg" 
+                                         onerror="this.onerror=null; this.src='assets/img/perfil.png';" 
+                                         class="img-logo" 
+                                         alt="Foto do fornecedor">
+                                </div>
+                            </div>
                             <h3 class="titulo-ong descricao">${item.nome_marca}</h3>
                             <p class="texto-ong categoria">${item.categoria}</p>
                         </div>
@@ -265,5 +265,4 @@
 </script>
 
 </body>
-
 </html>

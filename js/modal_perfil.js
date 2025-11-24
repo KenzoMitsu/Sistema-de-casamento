@@ -3,16 +3,16 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- Seletores e Elementos da DOM para Modal de Perfil ---
     const profileLink = document.getElementById('profileLink');
     const logoutModal = document.getElementById('logoutModal');
-    
+
     // Seleciona o botão de fechar específico dentro da 'logoutModal'
     const closeModalButton = logoutModal ? logoutModal.querySelector('.close-button') : null;
-    
+
     const modalOptionsContainer = document.getElementById('modalOptionsContainer');
 
     // Se os elementos essenciais não existirem, não continua
     if (!profileLink || !logoutModal || !closeModalButton || !modalOptionsContainer) {
         console.warn("Elementos da modal de perfil não encontrados. A funcionalidade pode estar inativa.");
-        return; 
+        return;
     }
 
     // --- Funções da Modal de Perfil ---
@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
             text: 'Sua sessão foi encerrada.',
             icon: 'info'
         }).then(() => {
-            window.location.href = 'login.html'; 
+            window.location.href = 'login.html';
         });
         closeModal();
     };
@@ -66,12 +66,12 @@ document.addEventListener('DOMContentLoaded', () => {
             modalOptionsContainer.appendChild(myServicesLink);
 
             const myPartyLink = document.createElement('a');
-            myPartyLink.href = 'minhas_festas.html'; // Redireciona para a página solicitada
+            myPartyLink.href = 'minhas_festas_foncer.html'; // Redireciona para a página solicitada
             myPartyLink.textContent = 'Minhas Festas';
             modalOptionsContainer.appendChild(myPartyLink);
 
         } else if (cargo === '1' || cargo === '3') { // Se for NOIVO ou CERIMONIALISTA
-            
+
             // Link de edição de perfil
             const editProfileLink = document.createElement('a');
             if (cargo === '1') { // Noivo
@@ -82,35 +82,41 @@ document.addEventListener('DOMContentLoaded', () => {
             editProfileLink.textContent = 'Editar perfil';
             modalOptionsContainer.appendChild(editProfileLink);
 
-             const minhasFestasLink = document.createElement('a');
+            if (cargo === '1') { // Se for NOIVO
+                const minhasFestasLink = document.createElement('a');
                 minhasFestasLink.href = 'minhas_festas.html';
                 minhasFestasLink.textContent = 'Minhas festas';
                 modalOptionsContainer.appendChild(minhasFestasLink);
-            
-            
+            }
+
             // 🚨 ADIÇÃO: Permite que o Cerimonialista (cargo = 3) acesse o cadastro de serviço
-            if (cargo === '3') { 
+            if (cargo === '3') {
                 const editServiceLink = document.createElement('a');
                 editServiceLink.href = 'cadastro_servico.html';
                 editServiceLink.textContent = 'Cadastrar novo serviço';
                 modalOptionsContainer.appendChild(editServiceLink);
-                
+
                 // O Cerimonialista também pode ter seus serviços listados se essa for a regra
                 const myServicesLink = document.createElement('a');
-                myServicesLink.href = 'meus_servicos.html'; 
+                myServicesLink.href = 'meus_servicos.html';
                 myServicesLink.textContent = 'Meus Serviços';
                 modalOptionsContainer.appendChild(myServicesLink);
+
+                const myPartyLink = document.createElement('a');
+                myPartyLink.href = 'minhas_festas_foncer.html'; // Redireciona para a página solicitada
+                myPartyLink.textContent = 'Minhas Festas';
+                modalOptionsContainer.appendChild(myPartyLink);
             }
             // FIM ADIÇÃO
 
         } else if (cargo === '4') { // Se for ADMIN
             const listagemLink = document.createElement('a');
-            listagemLink.href = 'listagem.html'; 
+            listagemLink.href = 'listagem.html';
             listagemLink.textContent = 'Gerenciar Usuários';
             modalOptionsContainer.appendChild(listagemLink);
 
             const servicosLink = document.createElement('a');
-            servicosLink.href = 'catalogo_servicos.html'; 
+            servicosLink.href = 'catalogo_servicos.html';
             servicosLink.textContent = 'Gerenciar Serviços';
             modalOptionsContainer.appendChild(servicosLink);
 

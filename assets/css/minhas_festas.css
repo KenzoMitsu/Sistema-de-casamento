@@ -526,25 +526,38 @@ body {
     justify-content: space-between;
     background-color: #DA8599;
     border-radius: 20px;
-    padding: 20px;
-    width: 400px;
+    padding: 10px;
+    width: 450px;
     color: white;
     text-align: center;
 }
 
-.botao-editar, .botao-gerenciar {
+.botao-editar {
     width: 60%;
-    height: 50px;
+    height: 45px;
     border: 1px solid #793C3C;
     border-radius: 10px;
     background-color: #793C3C;
     color: var(--branco);
-    font-size: 16px;
     cursor: pointer;
     font-family: "Ledger", serif;
     font-weight: 400;
     font-size: 20px;
-    margin-top: 10px;
+    margin-top: 5px;
+}
+
+.botao-gerenciar {
+    width: 60%;
+    height: 45px;
+    border: 1px solid #793C3C;
+    border-radius: 10px;
+    background-color: #793C3C;
+    color: var(--branco);
+    cursor: pointer;
+    font-family: "Ledger", serif;
+    font-weight: 400;
+    font-size: 20px;
+    margin-top: 5px;
 }
 
 .botoes-festa {
@@ -643,6 +656,11 @@ body {
 }
 
 .link-editar {
+    text-decoration: none;
+    width: 100%;
+}
+
+.link-gerenciar {
     text-decoration: none;
     width: 100%;
 }
@@ -996,7 +1014,7 @@ body {
         gap: 50px;
         justify-content: center;
         text-align: center;
-        margin-bottom: 50px;
+        margin-bottom: 30px;
     }
 
     .col-festa2, .col-festa3 {

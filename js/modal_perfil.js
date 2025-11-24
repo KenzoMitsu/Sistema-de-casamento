@@ -49,11 +49,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const cargo = localStorage.getItem('cargo');
 
+        // --- 🟢 ALTERAÇÃO: Link de "Editar Perfil" Universal ---
+        // Adicionado aqui para aparecer para TODOS os cargos (1, 2, 3 e 4)
+        const editProfileLink = document.createElement('a');
+        editProfileLink.href = 'editar_perfil.html';
+        editProfileLink.textContent = 'Editar perfil';
+        modalOptionsContainer.appendChild(editProfileLink);
+        // -------------------------------------------------------
+
         if (cargo === '2') { // Se for FORNECEDOR
-            const editProfileLink = document.createElement('a');
-            editProfileLink.href = 'editar_perfil.html';
-            editProfileLink.textContent = 'Editar perfil';
-            modalOptionsContainer.appendChild(editProfileLink);
+            
+            // Nota: O link de perfil foi removido daqui pois já foi adicionado acima
 
             const editServiceLink = document.createElement('a');
             editServiceLink.href = 'cadastro_servico.html';
@@ -61,26 +67,19 @@ document.addEventListener('DOMContentLoaded', () => {
             modalOptionsContainer.appendChild(editServiceLink);
 
             const myServicesLink = document.createElement('a');
-            myServicesLink.href = 'meus_servicos.html'; // Redireciona para a página solicitada
+            myServicesLink.href = 'meus_servicos.html'; 
             myServicesLink.textContent = 'Meus Serviços';
             modalOptionsContainer.appendChild(myServicesLink);
 
             const myPartyLink = document.createElement('a');
-            myPartyLink.href = 'minhas_festas_foncer.html'; // Redireciona para a página solicitada
+            myPartyLink.href = 'minhas_festas_foncer.html'; 
             myPartyLink.textContent = 'Minhas Festas';
             modalOptionsContainer.appendChild(myPartyLink);
 
         } else if (cargo === '1' || cargo === '3') { // Se for NOIVO ou CERIMONIALISTA
 
-            // Link de edição de perfil
-            const editProfileLink = document.createElement('a');
-            if (cargo === '1') { // Noivo
-                editProfileLink.href = 'editar_perfil.html';
-            } else { // Cerimonialista
-                editProfileLink.href = 'editar_cerimonialista.html';
-            }
-            editProfileLink.textContent = 'Editar perfil';
-            modalOptionsContainer.appendChild(editProfileLink);
+            // Nota: O antigo bloco que diferenciava editar_perfil vs editar_cerimonialista foi removido
+            // pois agora todos usam o link universal acima.
 
             if (cargo === '1') { // Se for NOIVO
                 const minhasFestasLink = document.createElement('a');
@@ -89,25 +88,23 @@ document.addEventListener('DOMContentLoaded', () => {
                 modalOptionsContainer.appendChild(minhasFestasLink);
             }
 
-            // 🚨 ADIÇÃO: Permite que o Cerimonialista (cargo = 3) acesse o cadastro de serviço
+            // Se for CERIMONIALISTA
             if (cargo === '3') {
                 const editServiceLink = document.createElement('a');
                 editServiceLink.href = 'cadastro_servico.html';
                 editServiceLink.textContent = 'Cadastrar novo serviço';
                 modalOptionsContainer.appendChild(editServiceLink);
 
-                // O Cerimonialista também pode ter seus serviços listados se essa for a regra
                 const myServicesLink = document.createElement('a');
                 myServicesLink.href = 'meus_servicos.html';
                 myServicesLink.textContent = 'Meus Serviços';
                 modalOptionsContainer.appendChild(myServicesLink);
 
                 const myPartyLink = document.createElement('a');
-                myPartyLink.href = 'minhas_festas_foncer.html'; // Redireciona para a página solicitada
+                myPartyLink.href = 'minhas_festas_foncer.html';
                 myPartyLink.textContent = 'Minhas Festas';
                 modalOptionsContainer.appendChild(myPartyLink);
             }
-            // FIM ADIÇÃO
 
         } else if (cargo === '4') { // Se for ADMIN
             const listagemLink = document.createElement('a');
@@ -121,7 +118,7 @@ document.addEventListener('DOMContentLoaded', () => {
             modalOptionsContainer.appendChild(servicosLink);
 
             const myPartyLink = document.createElement('a');
-            myPartyLink.href = 'minhas_festas.html'; // Redireciona para a página solicitada
+            myPartyLink.href = 'minhas_festas.html';
             myPartyLink.textContent = 'Minhas Festas';
             modalOptionsContainer.appendChild(myPartyLink);
         }
@@ -157,4 +154,3 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
 });
-

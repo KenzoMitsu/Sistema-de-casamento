@@ -620,6 +620,15 @@ body {
     }
 }
 
+.card-row {
+    display: flex;
+    gap: 10px;
+    overflow-x: auto; /* Permite rolagem horizontal se os cartões não couberem */
+    -webkit-overflow-scrolling: touch; /* Suaviza a rolagem em dispositivos iOS */
+    scroll-snap-type: x mandatory;
+    margin-bottom: 20px;
+}
+
 .journey-section {
     background-color: #f7e1e6;
     padding: 60px 8%;

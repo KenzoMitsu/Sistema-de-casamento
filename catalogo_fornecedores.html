@@ -12,25 +12,42 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Luxurious+Script&family=Old+Standard+TT:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
-
     <link rel="stylesheet" href="assets/css/catalogo_fornecedores.css">
-
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="/js/api.js"></script>
+    <style>
+        #modalOptionsContainer {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 20px;
+            width: 100%;
+        }
+        #modalOptionsContainer a {
+            text-decoration: none;
+            color: #333;
+            font-size: 16px;
+            text-align: center;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+        #modalOptionsContainer a:hover {
+            background-color: #f9f9f9;
+        }
+    </style>
 </head>
 <body>
-
     <section class="hero-section">
         <header class="header">
             <div class="header-container">
                 <a href="#" class="logo">
                     <img src="assets/img/logo-branca.png" alt="Casamento Perfeito Logo" class="logo-img">
                 </a>
-    
                 <nav class="navbar">
                     <ul>
-                        <li><a href="home.html">Home</a></li> 
-        
+                        <li><a href="home.html">Home</a></li>
                         <li><a href="#">Sobre Nós</a></li>
                         <li><a href="#">Contato</a></li>
                         <li><a id="profileLink" href="#"><img src="assets/img/perfil.png" alt="Ícone de Perfil" class="profile-icon"></a></li>
@@ -38,24 +55,38 @@
                 </nav>
             </div>
         </header>
-
         <div id="logoutModal" class="modal-overlay">
             <div class="modal-content">
                 <span class="close-button">&times;</span>
                 <h2>Opções da Conta</h2>
-                <p>Deseja sair da sua conta?</p>
-                <button id="logoutButton" class="logout-btn">Sair</button>
+                <div id="modalOptionsContainer"></div>
             </div>
         </div>
-      
-        <div class="search-bar-container">
-            <div class="search-bar">
-                <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-                <input type="text" class="search-input" placeholder="Pesquisar um serviço">
-                <svg class="filter-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="21" x2="4" y2="14"></line><line x1="4" y1="10" x2="4" y2="3"></line><line x1="12" y1="21" x2="12" y2="12"></line><line x1="12" y1="8" x2="12" y2="3"></line><line x1="20" y1="21" x2="20" y2="16"></line><line x1="20" y1="12" x2="20" y2="3"></line><line x1="1" y1="14" x2="7" y2="14"></line><line x1="9" y1="8" x2="15" y2="8"></line><line x1="17" y1="16" x2="23" y2="16"></line></svg>
-            </div>
-        </div>
+        <!-- Removido a barra de pesquisa da hero-section para posicioná-la como em meus_servicos.html -->
     </section>
+
+    <!-- Adicionada a barra de pesquisa fora da hero-section, como em meus_servicos.html -->
+    <div class="search-bar-container" style="max-width: 600px; margin: 20px auto;">
+        <div class="search-bar">
+            <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+            <input type="text" class="search-input" id="searchInput" placeholder="Pesquisar fornecedores...">
+            <!-- Mantido o ícone de filtro, mas sem funcionalidade adicional por enquanto -->
+            <svg class="filter-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="4" y1="21" x2="4" y2="14"></line>
+                <line x1="4" y1="10" x2="4" y2="3"></line>
+                <line x1="12" y1="21" x2="12" y2="12"></line>
+                <line x1="12" y1="8" x2="12" y2="3"></line>
+                <line x1="20" y1="21" x2="20" y2="16"></line>
+                <line x1="20" y1="12" x2="20" y2="3"></line>
+                <line x1="1" y1="14" x2="7" y2="14"></line>
+                <line x1="9" y1="8" x2="15" y2="8"></line>
+                <line x1="17" y1="16" x2="23" y2="16"></line>
+            </svg>
+        </div>
+    </div>
 
     <div class="exibe_fornecedores" id="exibe_fornecedores"></div>
 
@@ -74,7 +105,7 @@
                         <svg viewBox="0 0 24 24"><path fill="currentColor" d="M22.46,6C21.69,6.35 20.86,6.58 20,6.69C20.88,6.16 21.56,5.32 21.88,4.31C21.05,4.81 20.13,5.16 19.16,5.36C18.37,4.5 17.26,4 16,4C13.65,4 11.73,5.92 11.73,8.29C11.73,8.63 11.77,8.96 11.84,9.27C8.28,9.09 5.11,7.38 3,4.79C2.63,5.42 2.42,6.16 2.42,6.94C2.42,8.43 3.17,9.75 4.33,10.5C3.62,10.5 2.96,10.3 2.38,10C2.38,10 2.38,10 2.38,10.03C2.38,12.11 3.86,13.85 5.82,14.24C5.46,14.34 5.08,14.39 4.69,14.39C4.42,14.39 4.15,14.36 3.89,14.31C4.43,16 6,17.26 7.89,17.29C6.43,18.45 4.58,19.13 2.56,19.13C2.22,19.13 1.88,19.11 1.54,19.07C3.44,20.29 5.7,21 8.12,21C16,21 20.33,14.46 20.33,8.79C20.33,8.6 20.33,8.42 20.32,8.23C21.16,7.63 21.88,6.87 22.46,6Z" /></svg>
                     </a>
                     <a href="#" aria-label="Facebook">
-                        <svg viewBox="0 0 24 24"><path fill="currentColor" d="M12 2.04C6.5 2.04 2 6.53 2 12.06C2 17.06 5.66 21.21 10.44 21.96V14.96H7.9V12.06H10.44V9.85C10.44 7.32 11.93 5.96 14.22 5.96C15.31 5.96 16.45 6.15 16.45 6.15V8.62H15.19C13.95 8.62 13.56 9.39 13.56 10.18V12.06H16.34L15.89 14.96H13.56V21.96A10 10 0 0 0 12 2.04Z" /></svg>
+                        <svg viewBox="0 0 24 24"><path fill="currentColor" d="M12 2.04C6.5 2.04 2 6.53 2 12.06C2 17.06 5.66 21.21 10.44 21.96V14.96H7.9V12.06H10.44V9.85C10.44 7.32 11.93 5.96 14.22 5.96C15.31,5.96 16.45 6.15 16.45 6.15V8.62H15.19C13.95 8.62 13.56 9.39 13.56 10.18V12.06H16.34L15.89 14.96H13.56V21.96A10 10 0 0 0 12 2.04Z" /></svg>
                     </a>
                 </div>
             </div>
@@ -116,48 +147,44 @@
 <script>
     document.addEventListener('DOMContentLoaded', () => {
 
+        // --- Seletores e Elementos da DOM para Modal de Perfil ---
+        const profileLink = document.getElementById('profileLink');
+        const logoutModal = document.getElementById('logoutModal');
+
+        // Seleciona o botão de fechar específico dentro da 'logoutModal'
+        const closeModalButton = logoutModal ? logoutModal.querySelector('.close-button') : null;
+
+        const modalOptionsContainer = document.getElementById('modalOptionsContainer');
+
         // Função para ATUALIZAR O BOTÃO PRINCIPAL com base no cargo
         const atualizarBotaoPrincipal = () => {
             const cargo = localStorage.getItem('cargo');
-            
-            // Seleciona o botão principal pela sua classe
             const botaoHeroi = document.querySelector('.hero-button');
 
-            if (!botaoHeroi) {
-                // Comentado para não poluir o console caso o botão não exista nesta página específica
-                // console.error("Botão principal (.hero-button) não encontrado.");
-                return;
-            }
+            if (!botaoHeroi) return;
 
-            // Regras de exibição baseadas no cargo
-            // Assumindo: 1 = noivo, 2 = cerimonialista, 3 = fornecedor
             if (cargo === '1') { // Se for NOIVO
                 botaoHeroi.textContent = 'Cerimonialistas e Fornecedores';
-                botaoHeroi.href = 'pagina-de-busca.html'; // Defina o link correto
-                botaoHeroi.style.display = 'inline-block'; // Garante que o botão seja visível
+                botaoHeroi.href = 'pagina-de-busca.html'; 
+                botaoHeroi.style.display = 'inline-block';
             } 
             else if (cargo === '3') { // Se for CERIMONIALISTA
                 botaoHeroi.textContent = 'Fornecedores';
-                botaoHeroi.href = 'pagina-de-fornecedores.html'; // Defina o link correto
-                botaoHeroi.style.display = 'inline-block'; // Garante que o botão seja visível
+                botaoHeroi.href = 'pagina-de-fornecedores.html'; 
+                botaoHeroi.style.display = 'inline-block';
             }
             else { 
-                // Para outros cargos (como fornecedor), esconde o botão
                 botaoHeroi.style.display = 'none';
             }
         };
 
         // Verificar a autenticação do usuário
-        
         const checkAuthentication = () => {
             const token = localStorage.getItem('token'); 
 
             if (!token) {
-                // Se não estiver logado, esconde o botão principal
                 const botaoHeroi = document.querySelector('.hero-button');
-                if(botaoHeroi) {
-                    botaoHeroi.style.display = 'none';
-                }
+                if(botaoHeroi) botaoHeroi.style.display = 'none';
 
                 Swal.fire({
                     icon: 'warning',
@@ -171,7 +198,6 @@
                     }
                 });
             } else {
-                // Se o usuário está autenticado, atualizamos o botão
                 atualizarBotaoPrincipal();
             }
         };
@@ -179,65 +205,153 @@
         // Chama a função de verificação assim que a página carrega
         checkAuthentication();
 
-        const profileLink = document.getElementById('profileLink');
-        const logoutModal = document.getElementById('logoutModal');
-        const closeModalButton = document.querySelector('.close-button');
-        const logoutButton = document.getElementById('logoutButton');
+        // Se os elementos essenciais da modal não existirem, não continua a lógica da modal
+        if (!profileLink || !logoutModal || !closeModalButton || !modalOptionsContainer) {
+            console.warn("Elementos da modal de perfil não encontrados. A funcionalidade pode estar inativa.");
+            return;
+        }
 
-        const openModal = () => {
-            logoutModal.style.display = 'flex';
-        };
+        // --- Funções da Modal de Perfil ---
 
-        const closeModal = () => {
-            logoutModal.style.display = 'none';
-        };
-
+        /**
+         * Lida com o processo de logout do usuário.
+         */
         const handleLogout = () => {
             localStorage.clear();
-            
             Swal.fire({
                 title: 'Você saiu!',
-                text: 'Sua sessão foi encerrada.',
+                text: 'Sua sessão foi encerrada.', 
                 icon: 'info'
             }).then(() => {
-                window.location.href = 'login.html'; 
+                window.location.href = 'login.html';
             });
-
             closeModal();
         };
 
-        if(profileLink) {
-            profileLink.addEventListener('click', (event) => {
-                event.preventDefault();
-                openModal();
-            });
-        }
+        /**
+         * Fecha a modal de opções da conta.
+         */
+        const closeModal = () => {
+            if (logoutModal) {
+                logoutModal.style.display = 'none';
+            }
+        };
 
-        if(logoutButton) logoutButton.addEventListener('click', handleLogout);
-        if(closeModalButton) closeModalButton.addEventListener('click', closeModal);
+        /**
+         * Abre e popula a modal de opções com base no cargo do usuário.
+         */
+        const openModal = () => {
+            modalOptionsContainer.innerHTML = ''; // Limpa opções anteriores
 
-        if(logoutModal) {
-            logoutModal.addEventListener('click', (event) => {
-                if (event.target === logoutModal) {
-                    closeModal();
+            const cargo = localStorage.getItem('cargo');
+
+            // --- 🟢 ALTERAÇÃO: Link de "Editar Perfil" Universal ---
+            const editProfileLink = document.createElement('a');
+            editProfileLink.href = 'editar_perfil.html';
+            editProfileLink.textContent = 'Editar perfil';
+            modalOptionsContainer.appendChild(editProfileLink);
+
+            if (cargo === '2') { // Se for FORNECEDOR
+                const editServiceLink = document.createElement('a');
+                editServiceLink.href = 'cadastro_servico.html';
+                editServiceLink.textContent = 'Cadastrar novo serviço';
+                modalOptionsContainer.appendChild(editServiceLink);
+
+                const myServicesLink = document.createElement('a');
+                myServicesLink.href = 'meus_servicos.html'; 
+                myServicesLink.textContent = 'Meus Serviços';
+                modalOptionsContainer.appendChild(myServicesLink);
+
+                const myPartyLink = document.createElement('a');
+                myPartyLink.href = 'minhas_festas_foncer.html'; 
+                myPartyLink.textContent = 'Minhas Festas';
+                modalOptionsContainer.appendChild(myPartyLink);
+
+            } else if (cargo === '1' || cargo === '3') { // Se for NOIVO ou CERIMONIALISTA
+
+                if (cargo === '1') { // Se for NOIVO
+                    const minhasFestasLink = document.createElement('a');
+                    minhasFestasLink.href = 'minhas_festas.html';
+                    minhasFestasLink.textContent = 'Minhas festas';
+                    modalOptionsContainer.appendChild(minhasFestasLink);
                 }
-            });
-        }
+
+                if (cargo === '3') { // Se for CERIMONIALISTA
+                    const editServiceLink = document.createElement('a');
+                    editServiceLink.href = 'cadastro_servico.html';
+                    editServiceLink.textContent = 'Cadastrar novo serviço';
+                    modalOptionsContainer.appendChild(editServiceLink);
+
+                    const myServicesLink = document.createElement('a');
+                    myServicesLink.href = 'meus_servicos.html';
+                    myServicesLink.textContent = 'Meus Serviços';
+                    modalOptionsContainer.appendChild(myServicesLink);
+
+                    const myPartyLink = document.createElement('a');
+                    myPartyLink.href = 'minhas_festas_foncer.html';
+                    myPartyLink.textContent = 'Minhas Festas';
+                    modalOptionsContainer.appendChild(myPartyLink);
+                }
+
+            } else if (cargo === '4') { // Se for ADMIN
+                const listagemLink = document.createElement('a');
+                listagemLink.href = 'listagem.html';
+                listagemLink.textContent = 'Gerenciar Usuários';
+                modalOptionsContainer.appendChild(listagemLink);
+
+                const servicosLink = document.createElement('a');
+                servicosLink.href = 'catalogo_servicos.html';
+                servicosLink.textContent = 'Gerenciar Serviços';
+                modalOptionsContainer.appendChild(servicosLink);
+
+                const myPartyLink = document.createElement('a');
+                myPartyLink.href = 'minhas_festas.html';
+                myPartyLink.textContent = 'Minhas Festas';
+                modalOptionsContainer.appendChild(myPartyLink);
+            }
+
+            // Botão de Logout (comum a todos os cargos logados)
+            const logoutButton = document.createElement('button');
+            logoutButton.textContent = 'Sair da conta';
+            logoutButton.className = 'logout-btn';
+            logoutButton.addEventListener('click', handleLogout);
+            modalOptionsContainer.appendChild(logoutButton);
+
+            // Exibe o modal
+            logoutModal.style.display = 'flex';
+        };
+
+        // --- Adicionar Event Listeners ---
+
+        // Abrir modal ao clicar no link de perfil
+        profileLink.addEventListener('click', (event) => {
+            event.preventDefault();
+            openModal();
+        });
+
+        // Fechar modal ao clicar no 'X'
+        closeModalButton.addEventListener('click', closeModal);
+
+        // Fechar modal ao clicar fora (no overlay)
+        logoutModal.addEventListener('click', (event) => {
+            if (event.target === logoutModal) {
+                closeModal();
+            }
+        });
+
     });
 
     $(document).ready(function(){
-
-            var settings = {
-                "url": ipPython + "/fornecedores",
-                "method": "GET",
-                "timeout": 0,
-                "headers": {
-                    "Content-Type": "application/json"
-                },
-                "success": function(retorno) {
-                    var fornecedores = retorno.usuarios;
-                    fornecedores.forEach((item) => {
-                    
+        var settings = {
+            "url": ipPython + "/fornecedores",
+            "method": "GET",
+            "timeout": 0,
+            "headers": {
+                "Content-Type": "application/json"
+            },
+            "success": function(retorno) {
+                var fornecedores = retorno.usuarios;
+                fornecedores.forEach((item) => {
                     document.getElementById("exibe_fornecedores").innerHTML += `
                     <section class="secao-fornecedores prod">
                         <div class="container-fornecedor">
@@ -254,15 +368,53 @@
                         </div>
                     </section>`;
                 });
-                }
-            };
-                    
-                
-            $.ajax(settings).done(function (response) {
-                console.log(response);
-            });
-        })
-</script>
+            }
+        };
+        $.ajax(settings).done(function (response) {
+            console.log(response);
+        });
 
+        // Adicionada funcionalidade de busca, adaptada de meus_servicos.html
+        $('#searchInput').on('keyup', function () {
+            var searchText = $(this).val().toLowerCase();
+            var $cards = $('#exibe_fornecedores .secao-fornecedores');
+            var $nenhumResultado = $('#nenhumResultado'); // Busca por uma msg de erro
+
+            if ($nenhumResultado.length === 0) {
+                // Cria a msg de erro se não existir
+                $nenhumResultado = $('<p id="nenhumResultado" style="text-align: center; width: 100%; display: none;">Nenhum fornecedor encontrado com esse nome ou categoria.</p>');
+                $('#exibe_fornecedores').append($nenhumResultado);
+            }
+
+            var found = false;
+            $cards.each(function () {
+                var card = $(this);
+                // Busca pelo nome da marca e categoria
+                var cardText = (card.find('.titulo-ong.descricao').text() +
+                    card.find('.texto-ong.categoria').text()).toLowerCase();
+
+                if (cardText.includes(searchText)) {
+                    card.show();
+                    found = true;
+                } else {
+                    card.hide();
+                }
+            });
+
+            // Mostra ou esconde a mensagem "Nenhum resultado"
+            if (!found && $cards.length > 0) { // Só mostra se houver cards para filtrar
+                $nenhumResultado.show();
+            } else {
+                $nenhumResultado.hide();
+            }
+
+            // Se o campo de busca estiver vazio, mostra todos e esconde a msg
+            if (searchText === "") {
+                $cards.show();
+                $nenhumResultado.hide();
+            }
+        });
+    });
+</script>
 </body>
 </html>

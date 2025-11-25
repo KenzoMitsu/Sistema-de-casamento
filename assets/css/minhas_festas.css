@@ -574,7 +574,9 @@ body {
     flex-wrap: wrap; 
     justify-content: center;
     gap: 80px; 
-    margin: 50px auto;
+    margin-bottom: 50px;
+    margin-left: auto;
+    margin-right: auto;
     max-width: 1200px;
 }
 

@@ -17,241 +17,243 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
     <script src="/js/api.js"></script>
-    </head>
+</head>
 
-    <body>
-        <main>
-            <div class="principal">
-                <form id="editForm" class="formulario">
-                    <h1 class="titulo">Edição de Perfil</h1>
-                    <img src="assets/img/logo-preta.png" alt="Logo Casamento Perfeito" class="logo-canto">
-                    <a href="home.html">
-                        <p class="bot-fechar">X</p>
-                    </a>
+<body>
+    <main>
+        <div class="principal">
+            <form id="editForm" class="formulario">
+                <h1 class="titulo">Edição de Perfil</h1>
+                <img src="assets/img/logo-preta.png" alt="Logo Casamento Perfeito" class="logo-canto">
+                <a href="home.html">
+                    <p class="bot-fechar">X</p>
+                </a>
 
 
-                    <input type="hidden" id="tipo" name="tipo" value="1">
-                    <div class="cadastro-sec">
-                        <div id="cadastro1" class="cadastro1">
-                            <input class="nome" type="text" placeholder="Seu nome" id="nome" name="nome">
-                            <input class="email" type="email" placeholder="E-mail" id="email" name="email">
-                            <div class="senha-container">
-                                </div>
-                            <input class="nome-marca" type="text" placeholder="Nome da marca" id="nome_marca" name="nome_marca">
+                <input type="hidden" id="tipo" name="tipo" value="1">
+                <div class="cadastro-sec">
+                    <div id="cadastro1" class="cadastro1">
+                        <input class="nome" type="text" placeholder="Seu nome" id="nome" name="nome">
+                        <input class="email" type="email" placeholder="E-mail" id="email" name="email">
+                        <div class="senha-container">
                         </div>
-                        <div id="cadastro2" class="cadastro2">
-                            <input class="telefone" type="tel" placeholder="Telefone" id="telefone" name="telefone">
-                            <input class="data-nascimento" type="date" placeholder="Data de nascimento" id="data_nascimento" name="data_nascimento">
-                            <input class="cep" type="text" placeholder="CEP" id="cep" name="cep">
-                            <select name="categoria" id="categoria" class="categoria">
-                                <option selected disabled>Categoria</option>
-                                <option>Buffet</option>
-                                <option>Confeiteiro</option>
-                                <option>Alfaiataria</option>
-                                <option>Maquiador/Cabeleireiro/Salão de Beleza</option>
-                                <option>DJ/Cantor</option>
-                                <option>Decoração</option>
-                                <option>Fotógrafo</option>
-                                <option>Transporte</option>
-                                <option>Espaço para eventos</option>
-                            </select>
-                        </div>
+                        <input class="nome-marca" type="text" placeholder="Nome da marca" id="nome_marca"
+                            name="nome_marca">
                     </div>
-
-                    <div class="sec-upload-box">
-                        <label class="upload-box">
-                            
-                            <img src="assets/img/pasta.png" alt="Pré-visualização" id="image-preview" >
-
-                            <span id="upload-span">Adicionar uma foto</span>
-
-                            <input type="file" id="imagem" name="imagem" accept="image/*">
-                        </label>
+                    <div id="cadastro2" class="cadastro2">
+                        <input class="telefone" type="tel" placeholder="Telefone" id="telefone" name="telefone">
+                        <input class="data-nascimento" type="date" placeholder="Data de nascimento" id="data_nascimento"
+                            name="data_nascimento">
+                        <input class="cep" type="text" placeholder="CEP" id="cep" name="cep">
+                        <select name="categoria" id="categoria" class="categoria">
+                            <option selected disabled>Categoria</option>
+                            <option>Buffet</option>
+                            <option>Confeiteiro</option>
+                            <option>Alfaiataria</option>
+                            <option>Maquiador/Cabeleireiro/Salão de Beleza</option>
+                            <option>DJ/Cantor</option>
+                            <option>Decoração</option>
+                            <option>Fotógrafo</option>
+                            <option>Transporte</option>
+                            <option>Espaço para eventos</option>
+                        </select>
                     </div>
-                    <button type="submit" class="botao-editar">Editar</button>
-                </form>
-            </div>
-        </main>
+                </div>
 
-        <script>
-            $(document).ready(function () {
-                // --- 1. CONFIGURAÇÕES INICIAIS E MÁSCARAS ---
-                $('#telefone').mask('(00) 00000-0000');
-                $('#cep').mask('00000-000');
+                <div class="sec-upload-box">
+                    <label class="upload-box">
 
-                // Preview de Imagem
-                $('#imagem').on('change', function(e) {
-                    const file = e.target.files[0];
-                    if (file) {
-                        const reader = new FileReader();
-                        reader.onload = function(event) {
-                            $('#image-preview').attr('src', event.target.result);
-                            $('#upload-span').text(file.name);
-                        }
-                        reader.readAsDataURL(file);
+                        <img src="assets/img/pasta.png" alt="Pré-visualização" id="image-preview">
+
+                        <span id="upload-span">Adicionar uma foto</span>
+
+                        <input type="file" id="imagem" name="imagem" accept="image/*">
+                    </label>
+                </div>
+                <button type="submit" class="botao-editar">Editar</button>
+            </form>
+        </div>
+    </main>
+
+    <script>
+        $(document).ready(function () {
+            // --- 1. CONFIGURAÇÕES INICIAIS E MÁSCARAS ---
+            $('#telefone').mask('(00) 00000-0000');
+            $('#cep').mask('00000-000');
+
+            // Preview de Imagem
+            $('#imagem').on('change', function (e) {
+                const file = e.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function (event) {
+                        $('#image-preview').attr('src', event.target.result);
+                        $('#upload-span').text(file.name);
                     }
+                    reader.readAsDataURL(file);
+                }
+            });
+
+            // --- 2. VERIFICAÇÃO DE LOGIN ---
+            const idUsuario = localStorage.getItem('id_usuario');
+            const token = localStorage.getItem('token');
+            const cargoUsuario = parseInt(localStorage.getItem('cargo'));
+
+            if (!idUsuario || !token) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Acesso Negado',
+                    text: 'Você precisa estar logado para editar o perfil.',
+                    confirmButtonText: 'Ir para Login'
+                }).then(() => {
+                    window.location.href = 'login.html';
                 });
+                return;
+            }
 
-                // --- 2. VERIFICAÇÃO DE LOGIN ---
-                const idUsuario = localStorage.getItem('id_usuario');
-                const token = localStorage.getItem('token');
-                // ATENÇÃO: Precisamos pegar o cargo para decidir qual rota chamar
-                const cargoUsuario = parseInt(localStorage.getItem('cargo')); 
+            // --- 3. LÓGICA PARA DEFINIR A ROTA E OS CAMPOS VISÍVEIS ---
 
-                if (!idUsuario || !token) {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Acesso Negado',
-                        text: 'Você precisa estar logado para editar o perfil.',
-                        confirmButtonText: 'Ir para Login'
-                    }).then(() => {
-                        window.location.href = 'login.html';
-                    });
-                    return;
-                }
+            // Define qual rota usar baseada no cargo
+            let urlGetUsuario = '';
 
-                // --- 3. LÓGICA PARA DEFINIR A ROTA E OS CAMPOS VISÍVEIS ---
-                
-                // Define qual rota usar baseada no cargo
-                let urlGetUsuario = '';
-                
-                switch(cargoUsuario) {
-                    case 1:
-                        urlGetUsuario = '/noivos';
-                        break;
-                    case 2:
-                        urlGetUsuario = '/fornecedores';
-                        break;
-                    case 3:
-                        urlGetUsuario = '/cerimonialistas';
-                        break;
-                    case 4:
-                        urlGetUsuario = '/administradores';
-                        break;
-                    default:
-                        // Se não tiver cargo definido, tenta fornecedores como fallback ou exibe erro
-                        urlGetUsuario = '/fornecedores'; 
-                }
+            switch (cargoUsuario) {
+                case 1:
+                    urlGetUsuario = '/noivos';
+                    break;
+                case 2:
+                    urlGetUsuario = '/fornecedores';
+                    break;
+                case 3:
+                    urlGetUsuario = '/cerimonialistas';
+                    break;
+                case 4:
+                    urlGetUsuario = '/administradores';
+                    break;
+                default:
+                    urlGetUsuario = '/fornecedores';
+            }
 
-                // Define a visibilidade dos campos específicos (Fornecedor=2, Cerimonialista=3)
-                if (cargoUsuario === 2 || cargoUsuario === 3) {
-                    $('#nome_marca').show(); // Exibe
-                    $('#categoria').show();  // Exibe
-                } else {
-                    $('#nome_marca').hide(); // Oculta para Noivos e Admins
-                    $('#categoria').hide();  // Oculta para Noivos e Admins
-                    // Opcional: Remover o valor para não enviar lixo no formulário
-                    $('#nome_marca').val(''); 
-                    $('#categoria').val('');
-                }
+            // Define a visibilidade dos campos
+            // ALTERADO: Apenas cargo 2 (Fornecedor) vê marca e categoria.
+            // Cargo 3 (Cerimonialista) agora cai no 'else' junto com os outros.
+            if (cargoUsuario === 2) {
+                $('#nome_marca').show();
+                $('#categoria').show();
+            } else {
+                $('#nome_marca').hide();
+                $('#categoria').hide();
+                // Limpa valores para garantir
+                $('#nome_marca').val('');
+                $('#categoria').val('');
+            }
 
-                // --- 4. BUSCAR DADOS DO USUÁRIO NA API ---
-                $.ajax({
-                    url: ipPython + urlGetUsuario, // Usa a URL dinâmica definida acima
-                    method: 'GET',
-                    dataType: 'json',
-                    success: function (data) {
-                        if (data.usuarios && data.usuarios.length > 0) {
-                            const idUsuarioNumerico = parseInt(idUsuario, 10);
-                            // Busca o usuário específico na lista retornada
-                            const usuarioEncontrado = data.usuarios.find(u => u.id_usuario === idUsuarioNumerico);
+            // --- 4. BUSCAR DADOS DO USUÁRIO NA API ---
+            $.ajax({
+                url: ipPython + urlGetUsuario,
+                method: 'GET',
+                dataType: 'json',
+                success: function (data) {
+                    if (data.usuarios && data.usuarios.length > 0) {
+                        const idUsuarioNumerico = parseInt(idUsuario, 10);
+                        const usuarioEncontrado = data.usuarios.find(u => u.id_usuario === idUsuarioNumerico);
 
-                            if (usuarioEncontrado) {
-                                // Preenche os campos comuns
-                                $('#nome').val(usuarioEncontrado.nome);
-                                $('#email').val(usuarioEncontrado.email);
-                                $('#telefone').val(usuarioEncontrado.telefone);
-                                $('#cep').val(usuarioEncontrado.cep);
+                        if (usuarioEncontrado) {
+                            // Preenche os campos comuns
+                            $('#nome').val(usuarioEncontrado.nome);
+                            $('#email').val(usuarioEncontrado.email);
+                            $('#telefone').val(usuarioEncontrado.telefone);
+                            $('#cep').val(usuarioEncontrado.cep);
 
-                                // Preenche campos específicos APENAS se o cargo permitir (visual)
-                                if (cargoUsuario === 2 || cargoUsuario === 3) {
-                                    $('#nome_marca').val(usuarioEncontrado.nome_marca);
-                                    $('#categoria').val(usuarioEncontrado.categoria);
-                                }
+                            // Preenche campos específicos APENAS se for Fornecedor (2)
+                            if (cargoUsuario === 2) {
+                                $('#nome_marca').val(usuarioEncontrado.nome_marca);
+                                $('#categoria').val(usuarioEncontrado.categoria);
+                            }
 
-                                // Carrega imagem
-                                const imgUrl = `${ipPython}/static/uploads/Usuarios/${usuarioEncontrado.id_usuario}.jpeg`;
-                                const $preview = $('#image-preview');
-                                const $span = $('#upload-span');
+                            // Carrega imagem
+                            const imgUrl = `${ipPython}/static/uploads/Usuarios/${usuarioEncontrado.id_usuario}.jpeg`;
+                            const $preview = $('#image-preview');
+                            const $span = $('#upload-span');
 
-                                $preview.attr('src', imgUrl);
-                                $span.text('Alterar foto de perfil');
+                            $preview.attr('src', imgUrl);
+                            $span.text('Alterar foto de perfil');
 
-                                $preview.on('error', function() {
-                                    $(this).attr('src', 'assets/img/pasta.png');
-                                    $span.text('Adicionar uma foto');
-                                });
+                            $preview.on('error', function () {
+                                $(this).attr('src', 'assets/img/pasta.png');
+                                $span.text('Adicionar uma foto');
+                            });
 
-                                // Formata Data
-                                if (usuarioEncontrado.data_nascimento) {
-                                    const dataObj = new Date(usuarioEncontrado.data_nascimento);
-                                    const dia = ('0' + dataObj.getDate()).slice(-2);
-                                    const mes = ('0' + (dataObj.getMonth() + 1)).slice(-2);
-                                    const ano = dataObj.getFullYear();
-                                    $('#data_nascimento').val(`${ano}-${mes}-${dia}`);
-                                }
-                            } else {
-                                Swal.fire('Erro', 'Usuário não encontrado na lista.', 'error');
+                            // Formata Data
+                            if (usuarioEncontrado.data_nascimento) {
+                                const dataObj = new Date(usuarioEncontrado.data_nascimento);
+                                const dia = ('0' + dataObj.getDate()).slice(-2);
+                                const mes = ('0' + (dataObj.getMonth() + 1)).slice(-2);
+                                const ano = dataObj.getFullYear();
+                                $('#data_nascimento').val(`${ano}-${mes}-${dia}`);
                             }
                         } else {
-                            Swal.fire('Aviso', 'Nenhum dado encontrado.', 'warning');
+                            Swal.fire('Erro', 'Usuário não encontrado na lista.', 'error');
                         }
+                    } else {
+                        Swal.fire('Aviso', 'Nenhum dado encontrado.', 'warning');
+                    }
+                },
+                error: function () {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Não foi possível carregar suas informações.'
+                    });
+                }
+            });
+
+            // --- 5. ENVIAR EDIÇÃO (PUT) ---
+            $('#editForm').on('submit', function (e) {
+                e.preventDefault();
+
+                var formData = new FormData(this);
+
+                // Tratamento da data
+                const dataInput = $('#data_nascimento').val();
+                if (dataInput) {
+                    const [ano, mes, dia] = dataInput.split('-');
+                    formData.set('data_nascimento', `${dia}-${mes}-${ano}`);
+                }
+
+                // ALTERADO: Se NÃO for Fornecedor (2), removemos campos de marca/categoria do envio
+                // Isso inclui Cerimonialistas (3), Noivos (1) e Admins (4)
+                if (cargoUsuario !== 2) {
+                    formData.delete('nome_marca');
+                    formData.delete('categoria');
+                }
+
+                $.ajax({
+                    url: ipPython + `/usuarios/${idUsuario}`,
+                    method: 'PUT',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function (response) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Sucesso!',
+                            text: response.message || 'Perfil atualizado com sucesso!'
+                        }).then(() => {
+                            window.location.reload();
+                        });
                     },
-                    error: function () {
+                    error: function (xhr) {
+                        const errorMsg = xhr.responseJSON ? xhr.responseJSON.error : 'Erro ao editar perfil.';
                         Swal.fire({
                             icon: 'error',
-                            title: 'Oops...',
-                            text: 'Não foi possível carregar suas informações.'
+                            title: 'Erro na Edição',
+                            text: errorMsg
                         });
                     }
                 });
-
-                // --- 5. ENVIAR EDIÇÃO (PUT) ---
-                $('#editForm').on('submit', function (e) {
-                    e.preventDefault();
-
-                    var formData = new FormData(this);
-                    
-                    // Tratamento da data
-                    const dataInput = $('#data_nascimento').val();
-                    if (dataInput) {
-                        const [ano, mes, dia] = dataInput.split('-');
-                        formData.set('data_nascimento', `${dia}-${mes}-${ano}`);
-                    }
-
-                    // Se for Noivo ou Admin, removemos campos de marca/categoria do envio para evitar erros ou sujeira
-                    if (cargoUsuario !== 2 && cargoUsuario !== 3) {
-                        formData.delete('nome_marca');
-                        formData.delete('categoria');
-                    }
-
-                    $.ajax({
-                        url: ipPython + `/usuarios/${idUsuario}`, // Rota PUT genérica
-                        method: 'PUT',
-                        data: formData,
-                        processData: false,
-                        contentType: false,
-                        success: function (response) {
-                            Swal.fire({
-                                icon: 'success',
-                                title: 'Sucesso!',
-                                text: response.message || 'Perfil atualizado com sucesso!'
-                            }).then(() => {
-                                window.location.reload();
-                            });
-                        },
-                        error: function (xhr) {
-                            const errorMsg = xhr.responseJSON ? xhr.responseJSON.error : 'Erro ao editar perfil.';
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Erro na Edição',
-                                text: errorMsg
-                            });
-                        }
-                    });
-                });
             });
-        </script>
-    </body>
+        });
+    </script>
+</body>
 
 </html>

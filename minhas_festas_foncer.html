@@ -20,7 +20,6 @@
     <link rel="stylesheet" href="assets/css/minhas_festas.css">
     <script src="/js/modal_perfil.js"></script>
 
-    <!-- SweetAlert baixado -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="/js/api.js"></script>
 
@@ -75,14 +74,13 @@
 
                         <li><a href="sobre_nos.html">Sobre Nós</a></li>
                         <li><a href="contato.html">Contato</a></li>
-                        <li><a id="profileLink" href="home.html"><img src="assets/img/perfil.png" alt="Ícone de Perfil"
+                        <li><a id="profileLink" href="#"><img src="assets/img/perfil.png" alt="Ícone de Perfil"
                                     class="profile-icon"></a></li>
                     </ul>
                 </nav>
             </div>
         </header>
 
-        <!-- Modal de Logout -->
         <div id="logoutModal" class="modal-overlay">
             <div class="modal-content">
                 <span class="close-button">&times;</span>
@@ -91,8 +89,6 @@
                 </div>
             </div>
         </div>
-
-        <!--  -->
 
         <h1 class="titulo">Minhas Festas</h1>
 
@@ -170,7 +166,27 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', async function () {
-            // Função para pegar dados do usuário logado
+
+            // --- NOVA FUNÇÃO: Carregar Imagem de Perfil ---
+            const carregarImagemPerfil = () => {
+                const imgElement = document.querySelector('.profile-icon');
+                const defaultImage = 'assets/img/perfil.png';
+                // Tenta pegar do localStorage (para manter consistência com as outras páginas)
+                const idUsuario = localStorage.getItem('id_usuario'); 
+
+                if (idUsuario) {
+                    const caminhoImagem = `${ipPython}/static/uploads/Usuarios/${idUsuario}.jpeg`;
+                    imgElement.src = caminhoImagem;
+
+                    imgElement.onerror = () => {
+                        imgElement.src = defaultImage;
+                    };
+                } else {
+                    imgElement.src = defaultImage;
+                }
+            };
+
+            // Função para pegar dados do usuário logado via Token
             function getUserPayloadFromToken() {
                 const token = localStorage.getItem('token');
                 if (!token) return null;
@@ -195,6 +211,9 @@
                 });
                 return;
             }
+
+            // Se passou na verificação de login, carrega a imagem do perfil
+            carregarImagemPerfil();
 
             const id_usuario = payload.id_usuario;
             const urlApi = ipPython + `/fornecedor/${id_usuario}/festas`;
@@ -290,8 +309,5 @@
         });
     </script>
 
-
-
 </body>
-
 </html>

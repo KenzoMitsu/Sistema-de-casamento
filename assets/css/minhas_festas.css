@@ -43,6 +43,10 @@
 }
 /* FIM DAS FONTES */
 
+.profile-icon {
+    border-radius: 100%;
+}
+
 body {
     font-family: 'Poppins', sans-serif;
     background-color: #F3F2EE;

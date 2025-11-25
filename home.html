@@ -19,43 +19,13 @@
     <script src="/js/api.js"></script>
     <script src="/js/modal_perfil.js"></script>
 
-    <style>
-        .modal-options-container a, .modal-options-container button {
-            display: block;
-            padding: 12px 20px;
-            margin: 10px 0;
-            border-radius: 5px;
-            text-decoration: none;
-            text-align: center;
-            width: 100%;
-            box-sizing: border-box;
-            font-family: 'Poppins', sans-serif;
-            font-size: 16px;
-            cursor: pointer;
-            border: 1px solid #ddd;
-            background-color: #f9f9f9;
-            color: #333;
-            transition: background-color 0.3s;
-        }
-        .modal-options-container a:hover {
-            background-color: #eee;
-        }
-        .modal-options-container .logout-btn {
-            background-color: #f44336;
-            color: white;
-            border: none;
-        }
-        .modal-options-container .logout-btn:hover {
-            background-color: #d32f2f;
-        }
-    </style>
 </head>
 <body>
 
     <section class="hero-section">
         <header class="header">
             <div class="header-container">
-                <a href="#" class="logo">
+                <a href="home.html" class="logo">
                     <img src="assets/img/logo-branca.png" alt="Casamento Perfeito Logo" class="logo-img">
                 </a>
     
@@ -283,6 +253,29 @@
 <script>
     document.addEventListener('DOMContentLoaded', () => {
 
+        // --- Carregar Imagem de Perfil pelo ID ---
+        const carregarImagemPerfil = () => {
+            const imgElement = document.querySelector('.profile-icon');
+            const defaultImage = 'assets/img/perfil.png';
+            const idUsuario = localStorage.getItem('id_usuario'); // Pega o ID salvo no login
+
+            if (idUsuario) {
+                // Monta o caminho baseado na lógica do editar_perfil.html:
+                // URL da API + pasta estática + ID do usuário + .jpeg
+                // Nota: Usamos ipPython pois ele é definido no seu api.js importado no head
+                const caminhoImagem = `${ipPython}/static/uploads/Usuarios/${idUsuario}.jpeg`;
+                
+                imgElement.src = caminhoImagem;
+
+                // Fallback: Se a imagem não existir (404), mantém o padrão
+                imgElement.onerror = () => {
+                    imgElement.src = defaultImage;
+                };
+            } else {
+                imgElement.src = defaultImage;
+            }
+        };
+
         const atualizarBotaoPrincipal = () => {
             const cargo = localStorage.getItem('cargo');
             
@@ -334,14 +327,13 @@
                 });
             } else {
                 atualizarBotaoPrincipal();
+                carregarImagemPerfil(); // <--- Chama a função para trocar a foto
             }
         };
 
         checkAuthentication();
 
-        // O CÓDIGO DA MODAL DE OPÇÕES DE CONTA (logoutModal) FOI MOVIDO PARA 'modal_perfil.js'
-
-        // Lógica da Modal "Fornecedores" (permanece aqui)
+        // Lógica da Modal "Fornecedores"
         const botaoHeroi = document.querySelector('.hero-button');
         const fornecedoresModal = document.getElementById('fornecedoresModal');
         const closeFornecedoresButton = document.querySelector('.close-fornecedores');
@@ -355,13 +347,13 @@
         };
 
         if (botaoHeroi) {
-        botaoHeroi.addEventListener('click', (event) => {
-            const cargo = localStorage.getItem('cargo');
-            if (cargo === '3') { // Cerimonialista
-                event.preventDefault();
-                openFornecedoresModal();
-            }
-        });
+            botaoHeroi.addEventListener('click', (event) => {
+                const cargo = localStorage.getItem('cargo');
+                if (cargo === '3') { // Cerimonialista
+                    event.preventDefault();
+                    openFornecedoresModal();
+                }
+            });
         } 
 
         if (closeFornecedoresButton) {

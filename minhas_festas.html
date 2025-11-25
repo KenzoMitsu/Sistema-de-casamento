@@ -104,7 +104,7 @@
                         <li><a href="home.html">Home</a></li>
                         <li><a href="sobre_nos.html">Sobre Nós</a></li>
                         <li><a href="contato.html">Contato</a></li>
-                        <li><a id="profileLink" href="home.html"><img src="assets/img/perfil.png" alt="Ícone de Perfil" class="profile-icon"></a></li>
+                        <li><a id="profileLink" href="#"><img src="assets/img/perfil.png" alt="Ícone de Perfil" class="profile-icon"></a></li>
                     </ul>
                 </nav>
             </div>
@@ -181,8 +181,31 @@
     <script>
         document.addEventListener('DOMContentLoaded', async function () {
             
+            // --- NOVA FUNÇÃO: Carregar Imagem de Perfil ---
+            const carregarImagemPerfil = () => {
+                const imgElement = document.querySelector('.profile-icon');
+                const defaultImage = 'assets/img/perfil.png';
+                
+                // Tenta pegar o ID do localStorage
+                let idUsuario = localStorage.getItem('id_usuario');
+
+                if (idUsuario) {
+                    const caminhoImagem = `${ipPython}/static/uploads/Usuarios/${idUsuario}.jpeg`;
+                    imgElement.src = caminhoImagem;
+
+                    imgElement.onerror = () => {
+                        imgElement.src = defaultImage;
+                    };
+                } else {
+                    imgElement.src = defaultImage;
+                }
+            };
+
+            // Chama a função de carregar imagem
+            carregarImagemPerfil();
+
             // ==========================================
-            // 1. FUNÇÃO PARA DELETAR FESTA (Nova)
+            // 1. FUNÇÃO PARA DELETAR FESTA
             // ==========================================
             window.deletarFesta = async function(idFesta) {
                 const token = localStorage.getItem('token');

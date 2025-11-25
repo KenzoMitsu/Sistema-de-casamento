@@ -185,8 +185,29 @@
     </footer>
 
     <script>
-        // Bloco 1: Lógica de autenticação (Permanece o mesmo)
+        // Bloco 1: Lógica de autenticação e Carregamento de Imagem
         document.addEventListener('DOMContentLoaded', () => {
+
+            // --- FUNÇÃO PARA CARREGAR A IMAGEM DE PERFIL ---
+            const carregarImagemPerfil = () => {
+                const imgElement = document.querySelector('.profile-icon');
+                const defaultImage = 'assets/img/perfil.png';
+                const idUsuario = localStorage.getItem('id_usuario'); // Pega o ID salvo no login
+
+                if (idUsuario) {
+                    // Monta o caminho: URL da API + pasta estática + ID do usuário + .jpeg
+                    const caminhoImagem = `${ipPython}/static/uploads/Usuarios/${idUsuario}.jpeg`;
+                    
+                    imgElement.src = caminhoImagem;
+
+                    // Fallback: Se a imagem não existir (404), mantém o padrão
+                    imgElement.onerror = () => {
+                        imgElement.src = defaultImage;
+                    };
+                } else {
+                    imgElement.src = defaultImage;
+                }
+            };
 
             // Verificar a autenticação do usuário
             const checkAuthentication = () => {
@@ -204,6 +225,9 @@
                             window.location.href = 'login.html';
                         }
                     });
+                } else {
+                    // Se tiver token, carrega a imagem do perfil
+                    carregarImagemPerfil();
                 }
             };
 
@@ -211,25 +235,23 @@
             checkAuthentication();
         });
 
-        // Bloco 2: Lógica de carregamento e exclusão (jQuery)
+        // Bloco 2: Lógica de carregamento e exclusão (jQuery) - MANTIDO IGUAL
         $(document).ready(function () {
 
             // Pega o token do localStorage para enviar na requisição
             const token = localStorage.getItem('token');
 
             if (!token) {
-                // Se não houver token, o checkAuthentication acima já deve ter tratado,
-                // mas paramos a execução aqui para evitar erros de API.
+                // Se não houver token, o checkAuthentication acima já deve ter tratado
                 return;
             }
 
             var settings = {
-                "url": ipPython + "/meus-servicos", // <-- ROTA ATUALIZADA
+                "url": ipPython + "/meus-servicos", 
                 "method": "GET",
                 "timeout": 0,
                 "headers": {
-                    // "Content-Type": "application/json", // Não é necessário para GET
-                    "Authorization": "Bearer " + token // <-- HEADER DE AUTENTICAÇÃO ADICIONADO
+                    "Authorization": "Bearer " + token 
                 },
                 "success": function (retorno) {
                     console.log("Resposta da API /meus-servicos:", retorno); 
@@ -247,10 +269,8 @@
                                 });
                             }
                             
-                            // Define a categoria (com um fallback caso seja nula)
                             let categoriaTexto = item.categoria || 'Não definida';
 
-                            // Cria o HTML para cada *serviço*
                             document.getElementById("exibe_servicos").innerHTML += `
                                 <section class="secao-fornecedores prod" data-id-servico="${item.id_servico}" data-id-usuario="${item.id_usuario}">
                                     <div class="container-fornecedor">
@@ -273,7 +293,6 @@
                                 </section>`;
                         });
                     } else {
-                        // Mensagem de "vazio" específica para o fornecedor
                         document.getElementById("exibe_servicos").innerHTML = `<p class="sem_servico" style="text-align: center; width: 100%; padding: 50px">${retorno.mensagem || 'Você ainda não cadastrou nenhum serviço.'}</p>`;
                     }
                 },
@@ -285,7 +304,6 @@
                     let mensagemErro = "Ocorreu um erro ao carregar seus serviços. Tente novamente mais tarde.";
                     if (xhr.status === 401) {
                         mensagemErro = "Sua sessão expirou. Por favor, faça login novamente.";
-                        // Redirecionar para o login após o SweetAlert
                         Swal.fire({
                             icon: 'error',
                             title: 'Sessão Expirada',
@@ -295,7 +313,7 @@
                             localStorage.clear();
                             window.location.href = 'login.html';
                         });
-                        return; // Impede que o outro SweetAlert seja exibido
+                        return; 
                     } else if (xhr.responseJSON && xhr.responseJSON.mensagem) {
                         mensagemErro = xhr.responseJSON.mensagem;
                     }
@@ -329,9 +347,8 @@
                     cancelButtonText: 'Cancelar'
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        // Se o usuário confirmar, faz a requisição DELETE
                         $.ajax({
-                            url: `${ipPython}/servico/${idServico}`, // Rota para excluir o serviço
+                            url: `${ipPython}/servico/${idServico}`, 
                             method: 'DELETE',
                             headers: {
                                 "Authorization": "Bearer " + token
@@ -342,10 +359,8 @@
                                     response.mensagem || 'Seu serviço foi excluído.',
                                     'success'
                                 );
-                                // Remove o card da tela
                                 $section.fadeOut(500, function () {
                                     $(this).remove();
-                                    // Verifica se ainda existem cards
                                     if ($('#exibe_servicos .secao-fornecedores').length === 0) {
                                         $('#exibe_servicos').html('<p style="text-align: center; width: 100%;">Você ainda não cadastrou nenhum serviço.</p>');
                                     }
@@ -371,10 +386,9 @@
             $('#searchInput').on('keyup', function () {
                 var searchText = $(this).val().toLowerCase();
                 var $cards = $('#exibe_servicos .secao-fornecedores');
-                var $nenhumResultado = $('#nenhumResultado'); // Busca por uma msg de erro
+                var $nenhumResultado = $('#nenhumResultado'); 
 
                 if ($nenhumResultado.length === 0) {
-                    // Cria a msg de erro se não existir
                     $nenhumResultado = $('<p id="nenhumResultado" style="text-align: center; width: 100%; display: none;">Nenhum serviço encontrado com esse nome.</p>');
                     $('#exibe_servicos').append($nenhumResultado);
                 }
@@ -382,10 +396,9 @@
                 var found = false;
                 $cards.each(function () {
                     var card = $(this);
-                    // Busca pelo nome, descrição e categoria
                     var cardText = (card.find('.nome-servico').text() +
-                        card.find('.texto-ong').text() + // Descrição
-                        card.find('.categoria-servico').text()).toLowerCase(); // Categoria
+                        card.find('.texto-ong').text() + 
+                        card.find('.categoria-servico').text()).toLowerCase(); 
 
                     if (cardText.includes(searchText)) {
                         card.show();
@@ -395,14 +408,12 @@
                     }
                 });
 
-                // Mostra ou esconde a mensagem "Nenhum resultado"
-                if (!found && $cards.length > 0) { // Só mostra se houver cards para filtrar
+                if (!found && $cards.length > 0) { 
                     $nenhumResultado.show();
                 } else {
                     $nenhumResultado.hide();
                 }
 
-                // Se o campo de busca estiver vazio, mostra todos e esconde a msg
                 if (searchText === "") {
                     $cards.show();
                     $nenhumResultado.hide();

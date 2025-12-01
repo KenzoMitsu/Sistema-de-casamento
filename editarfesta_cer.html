@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Editar Festa - Casamento Perfeito</title>
+  <link rel="icon" href="assets/img/iconsite.png" type="image/x-icon">
+  <link rel="stylesheet" href="assets/css/editarfesta.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Ledger&display=swap" rel="stylesheet">
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+    integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
+  <script src="/js/api.js"></script>
+</head>
+<body>
+  <div class="container">
+    <div class="modal">
+      <header>
+        <img src="assets/img/logo-preta.png" alt="Casamento Perfeito" class="logo" />
+        <h2 class="titulo">Editar Festa</h2>
+        <a href="minhas_festas_foncer.html">
+          <p class="bot-fechar">X</p>
+        </a>
+      </header>
+
+      <div class="conteudo">
+        <form id="formEdicaoFesta">
+          <input id="nome" name="nome" type="text" placeholder="Nome da festa" required />
+          <input id="data_festa" name="data_festa" type="date" placeholder="Adiar data da festa" required />
+          <input id="convidados" name="convidados" type="number" placeholder="Número de convidados" required />
+          <input id="valor" name="valor" type="number" step="0.01" placeholder="Orçamento da festa" required />
+          <textarea id="descricao" name="descricao" class="text-descricao" placeholder="Descrição" rows="3"></textarea>
+          <div class="sec-bot-salvar">
+            <button id="botao-salvar" class="botao-salvar" type="submit">Salvar</button>
+          </div>
+        </form>
+
+        <div class="imagem">
+          <img src="assets/img/bolo.png" alt="Bolo de Casamento" />
+        </div>
+      </div>
+    </div>
+  </div>
+
+<script>
+  const params = new URLSearchParams(window.location.search);
+  const id_festa = params.get('id_festa');
+  const nome = params.get("nome");
+  const descricao = params.get("descricao");
+  const valor = params.get("valor");
+  const convidados = params.get("convidados");
+  const data_festa = params.get("data_festa");
+
+  if (!id_festa) {
+    Swal.fire({
+      title: "Erro!",
+      text: "ID da festa não encontrado. Verifique o link da página.",
+      icon: "error"
+    });
+    throw new Error("ID da festa ausente na URL.");
+  }
+
+  // Corrige data (caso venha em dd/mm/yyyy)
+  let data = data_festa;
+  if (data && data.includes("/")) {
+    const partes = data.split("/");
+    data = `${partes[2]}-${partes[1]}-${partes[0]}`;
+  }
+
+  if (data) document.getElementById("data_festa").value = data;
+  if (descricao) document.getElementById("descricao").value = descricao;
+  if (nome) document.getElementById("nome").value = nome;
+  if (valor) document.getElementById("valor").value = valor;
+  if (convidados) document.getElementById("convidados").value = convidados;
+
+  $("#formEdicaoFesta").on("submit", function (e) {
+    e.preventDefault();
+
+    // Coleta os dados do formulário manualmente
+    const dados = {
+      nome: $("#nome").val(),
+      descricao: $("#descricao").val(),
+      valor: $("#valor").val(),
+      convidados: $("#convidados").val(),
+      data_festa: $("#data_festa").val()
+    };
+
+    // 🔒 Validação adicional para impedir letras ou valores negativos
+    const numConvidados = Number(dados.convidados);
+    const numValor = Number(dados.valor);
+
+    if (
+      isNaN(numConvidados) || numConvidados <= 0 ||
+      isNaN(numValor) || numValor < 0
+    ) {
+      Swal.fire({
+        title: "Erro!",
+        text: "Verifique os campos de convidados e valor: devem ser números positivos.",
+        icon: "error"
+      });
+      return; // Interrompe o envio
+    }
+
+    $.ajax({
+      method: "PUT",
+      url: `${ipPython}/festa/${id_festa}`,
+      data: JSON.stringify(dados), // Envia como JSON
+      contentType: "application/json", // Tipo de conteúdo JSON
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("token") // Token JWT
+      },
+      success: function (retorno) {
+        Swal.fire({
+          title: "Sucesso!",
+          text: "Suas informações foram atualizadas com sucesso!",
+          icon: "success"
+        }).then(function () {
+          window.location.href = "minhas_festas_foncer.html";
+        });
+        console.log(retorno);
+      },
+      error: function (retorno) {
+        console.error(retorno);
+        Swal.fire({
+          title: "Opa...",
+          text: retorno.responseJSON?.mensagem || retorno.responseJSON?.error || "Erro ao atualizar a festa.",
+          icon: "error"
+        });
+      }
+    });
+  });
+</script>
+
+
+</body>
+</html>

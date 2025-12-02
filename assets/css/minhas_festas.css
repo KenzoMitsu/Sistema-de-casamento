@@ -541,7 +541,7 @@ body {
     width: 60%;
     height: 45px;
     border: 1px solid #793C3C;
-    border-radius: 10px;
+    border-radius: 5px;
     background-color: #793C3C;
     color: var(--branco);
     cursor: pointer;
@@ -555,7 +555,7 @@ body {
     width: 60%;
     height: 45px;
     border: 1px solid #793C3C;
-    border-radius: 10px;
+    border-radius: 5px;
     background-color: #793C3C;
     color: var(--branco);
     cursor: pointer;

@@ -190,7 +190,6 @@
       const closeModalBtn = document.getElementById('close-modal-btn');
       const modalServicesList = document.getElementById('modal-services-list');
 
-
       // --- 3. Função: Carregar Serviços ---
       async function carregarServicosAssociados() {
         const url = ipPython + `/relacao/festa/${id_festa}`;
@@ -213,23 +212,26 @@
                 ? "Cerimonialista"
                 : "Fornecedor";
 
-              // 3.1. Tratamento da Situação
+              // 3.1. Tratamento da Situação e Formatação de Moeda
               const isCompleto = relacao.situacao === 'C';
               
-              // Define o selo (Checkmark) se estiver completo
+              // --- NOVO: Formatar Valor para R$ ---
+              let valorFormatado = "Sob consulta";
+              if (servico.valor !== null && servico.valor !== undefined) {
+                  valorFormatado = parseFloat(servico.valor).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+              }
+              // ------------------------------------
+
               const badgeHtml = isCompleto 
                 ? `<div class="status-badge" title="Tarefa Concluída">✔</div>` 
                 : '';
 
-              // Define classes e textos baseados na situação
               const cardClass = isCompleto ? 'card completed' : 'card';
               const btnTexto = isCompleto ? 'Reabrir Tarefa' : 'Concluir Tarefa';
               const btnClassExtra = isCompleto ? 'reabrir' : '';
 
-              // --- LÓGICA DE EXIBIÇÃO DO BOTÃO EXCLUIR ---
               let htmlBotaoExcluir = '';
               if (!isCerimonialista) {
-                  // Se NÃO for cerimonialista, exibe o botão
                   htmlBotaoExcluir = `
                     <button class="btn-delete-relacao" 
                         data-id-relacao="${relacao.id_relacao}"
@@ -244,6 +246,9 @@
                   ${badgeHtml} <img src="${ipPython}/static/uploads/Servicos/${servico.id_servico}.jpeg" alt="${servico.nome}" onerror="this.src='assets/img/default-service.png'">
                   <h3>${servico.nome ? servico.nome.toUpperCase() : 'NOME SERVIÇO'}</h3>
                   <p><strong>Tarefa vinculada:</strong> ${relacao.nome || 'Sem nome'}</p>
+                  
+                  <p style="color: #28a745; font-size: 1.1em;"><strong>Valor:</strong> ${valorFormatado}</p>
+                  
                   <p>${servico.descricao || 'Descrição do serviço.'}</p>
                   <p><strong>Categoria:</strong> ${servico.categoria || '-'}</p>
                   <p><strong>${tituloUsuario}:</strong> ${usuario.nome || '-'}</p>

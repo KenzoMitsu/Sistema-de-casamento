@@ -5,6 +5,16 @@
   font-family: 'Poppins', sans-serif;
 }
 
+/* Ajuste para alinhar os botões */
+    .actions-container {
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+        margin-top: 15px;
+        padding-top: 10px;
+        border-top: 1px solid #eee;
+    }
+
 /* FIXO */
 .modal-options-container a, .modal-options-container button {
             display: block;
@@ -128,6 +138,30 @@
       font-weight: 500;
     }
 /* FIM DO FIXO */
+
+    /* Botão de Concluir/Reabrir */
+    .btn-toggle-status {
+      margin-top: 10px;
+      background-color: #4CAF50; /* Verde padrão */
+      color: white;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 0.9em;
+      transition: background 0.3s;
+    }
+    .btn-toggle-status:hover {
+      background-color: #45a049;
+    }
+
+    /* Estilo do botão quando a tarefa já está completa (Botão Amarelo/Laranja para reabrir) */
+    .btn-toggle-status.reabrir {
+      background-color: #f39c12;
+    }
+    .btn-toggle-status.reabrir:hover {
+      background-color: #e67e22;
+    }
 
 /* FONTES */
 .luxurious-script-regular {

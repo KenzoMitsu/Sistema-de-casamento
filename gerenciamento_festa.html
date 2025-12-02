@@ -131,6 +131,21 @@
   <script>
     document.addEventListener('DOMContentLoaded', function () {
 
+      const carregarImagemPerfil = () => {
+          const imgElement = document.querySelector('.profile-icon');
+          const defaultImage = 'assets/img/perfil.png';
+          const idUsuario = localStorage.getItem('id_usuario'); 
+
+          if (idUsuario) {
+              const caminhoImagem = `${ipPython}/static/uploads/Usuarios/${idUsuario}.jpeg`;
+              imgElement.src = caminhoImagem;
+              imgElement.onerror = () => { imgElement.src = defaultImage; };
+          } else {
+              imgElement.src = defaultImage;
+          }
+      };
+      carregarImagemPerfil();
+
       // --- 1. Obter IDs e Token ---
       const urlParams = new URLSearchParams(window.location.search);
       const id_festa = urlParams.get('id_festa');

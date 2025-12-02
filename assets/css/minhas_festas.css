@@ -45,7 +45,10 @@
 
 .profile-icon {
     border-radius: 100%;
+    width: auto;
+    height: 50px;
 }
+
 
 body {
     font-family: 'Poppins', sans-serif;
@@ -127,10 +130,6 @@ body {
     width: auto;
 }
 
-.profile-icon {
-    width: auto;
-    height: 50px;
-}
 
 .navbar ul {
     list-style: none;
@@ -571,7 +570,7 @@ body {
     border-color: #5a2e2e;
     color: var(--branco);
 }
-    
+
 
 .botoes-festa {
     display: flex;

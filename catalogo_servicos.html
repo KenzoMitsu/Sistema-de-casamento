@@ -199,6 +199,28 @@
     <script>
         document.addEventListener('DOMContentLoaded', () => {
 
+            const carregarImagemPerfil = () => {
+                const imgElement = document.querySelector('.profile-icon');
+                const defaultImage = 'assets/img/perfil.png';
+
+                // Tenta pegar o ID do localStorage
+                let idUsuario = localStorage.getItem('id_usuario');
+
+                if (idUsuario) {
+                    const caminhoImagem = `${ipPython}/static/uploads/Usuarios/${idUsuario}.jpeg`;
+                    imgElement.src = caminhoImagem;
+
+                    imgElement.onerror = () => {
+                        imgElement.src = defaultImage;
+                    };
+                } else {
+                    imgElement.src = defaultImage;
+                }
+            };
+
+            // Chama a função de carregar imagem
+            carregarImagemPerfil();
+
             // Verificar a autenticação do usuário
             const checkAuthentication = () => {
                 const token = localStorage.getItem('token');

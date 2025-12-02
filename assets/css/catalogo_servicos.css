@@ -5,6 +5,12 @@
     box-sizing: border-box;
 }
 
+.profile-icon {
+    border-radius: 100%;
+    width: auto;
+    height: 50px;
+}
+
 :root {
     --rosa-claro: #FFEDF1;
     --rosa-médio: #FFDBE4;

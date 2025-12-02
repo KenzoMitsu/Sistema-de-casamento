@@ -285,6 +285,7 @@
 .profile-icon {
     width: auto;
     height: 50px;
+    border-radius: 100%;
 }
 
 .navbar ul {

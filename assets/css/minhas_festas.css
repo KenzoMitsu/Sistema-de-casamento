@@ -43,6 +43,131 @@
 }
 /* FIM DAS FONTES */
 
+/* Container para botões lado a lado */
+.botoes-superiores {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin: 20px 0 40px 0;
+    flex-wrap: wrap;
+}
+
+@media (max-width: 600px) {
+    .botoes-superiores {
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+    }
+}
+
+
+/* Botão Gerar Relatório PDF */
+.botao-relatorio-container {
+    margin: 20px 0 40px 0;
+    text-align: center;
+}
+
+/* Botão Gerar Relatório PDF - SEM BORDA */
+.botao-relatorio {
+    display: inline-block;
+    width: 250px;
+    height: 50px;
+    border: none;
+    border-radius: 10px;
+    background-color: #DA8599; /* Rosa principal dos cards */
+    color: var(--branco);
+    cursor: pointer;
+    font-family: "Ledger", serif;
+    font-weight: 400;
+    font-size: 22px;
+    text-decoration: none;
+    text-align: center;
+    line-height: 48px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 8px rgba(121, 60, 60, 0.3);
+}
+
+.botao-relatorio:hover {
+    background-color: #C77085;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(121, 60, 60, 0.4);
+}
+
+/* Responsivo */
+@media (max-width: 426px) {
+    .botao-relatorio { width: 220px; height: 45px; font-size: 20px; line-height: 43px; }
+}
+@media (max-width: 376px) {
+    .botao-relatorio { width: 200px; height: 42px; font-size: 18px; line-height: 40px; }
+}
+@media (max-width: 321px) {
+    .botao-relatorio { width: 180px; height: 40px; font-size: 17px; line-height: 38px; }
+}
+/* Botão Criar Festa */
+
+.botao-criar-festa-container {
+    margin: 20px 0 40px 0;
+    text-align: center;
+}
+
+.botao-criar-festa {
+    display: inline-block;
+    width: 250px; /* Largura fixa para ficar harmonioso */
+    height: 50px;
+    border-radius: 10px;
+    background-color: #DA8599; /* Rosa principal dos cards */
+    color: var(--branco);
+    cursor: pointer;
+    font-family: "Ledger", serif;
+    font-weight: 400;
+    font-size: 22px; /* Tamanho maior para destaque */
+    text-decoration: none;
+    text-align: center;
+    line-height: 48px; /* Centraliza verticalmente */
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 8px rgba(121, 60, 60, 0.3);
+}
+
+.botao-criar-festa:hover {
+    background-color: #C77085; /* Rosa um pouco mais escuro */
+    border-color: #6A3434;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(121, 60, 60, 0.4);
+}
+
+.botao-criar-festa:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(121, 60, 60, 0.3);
+}
+
+/* Responsivo - ajusta para mobile */
+@media (max-width: 426px) {
+    .botao-criar-festa {
+        width: 220px;
+        height: 45px;
+        font-size: 20px;
+        line-height: 43px;
+    }
+}
+
+@media (max-width: 376px) {
+    .botao-criar-festa {
+        width: 200px;
+        height: 42px;
+        font-size: 18px;
+        line-height: 40px;
+    }
+}
+
+@media (max-width: 321px) {
+    .botao-criar-festa {
+        width: 180px;
+        height: 40px;
+        font-size: 17px;
+        line-height: 38px;
+    }
+}
+
 .profile-icon {
     border-radius: 100%;
     width: auto;
@@ -876,69 +1001,6 @@ body {
     background-color: var(--rosa-médio);
     border-color: var(--rosa-médio);
     color: var(--branco);
-}
-
-.botao-criar-festa-container {
-    margin: 20px 0 40px 0;
-    text-align: center;
-}
-
-.botao-criar-festa {
-    display: inline-block;
-    width: 250px; /* Largura fixa para ficar harmonioso */
-    height: 50px;
-    border-radius: 10px;
-    background-color: #DA8599; /* Rosa principal dos cards */
-    color: var(--branco);
-    cursor: pointer;
-    font-family: "Ledger", serif;
-    font-weight: 400;
-    font-size: 22px; /* Tamanho maior para destaque */
-    text-decoration: none;
-    text-align: center;
-    line-height: 48px; /* Centraliza verticalmente */
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 8px rgba(121, 60, 60, 0.3);
-}
-
-.botao-criar-festa:hover {
-    background-color: #C77085; /* Rosa um pouco mais escuro */
-    border-color: #6A3434;
-    transform: translateY(-2px);
-    box-shadow: 0 6px 12px rgba(121, 60, 60, 0.4);
-}
-
-.botao-criar-festa:active {
-    transform: translateY(0);
-    box-shadow: 0 2px 4px rgba(121, 60, 60, 0.3);
-}
-
-/* Responsivo - ajusta para mobile */
-@media (max-width: 426px) {
-    .botao-criar-festa {
-        width: 220px;
-        height: 45px;
-        font-size: 20px;
-        line-height: 43px;
-    }
-}
-
-@media (max-width: 376px) {
-    .botao-criar-festa {
-        width: 200px;
-        height: 42px;
-        font-size: 18px;
-        line-height: 40px;
-    }
-}
-
-@media (max-width: 321px) {
-    .botao-criar-festa {
-        width: 180px;
-        height: 40px;
-        font-size: 17px;
-        line-height: 38px;
-    }
 }
 
 

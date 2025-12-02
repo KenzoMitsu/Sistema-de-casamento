@@ -565,6 +565,14 @@ body {
     margin-top: 5px;
 }
 
+.botao-editar:hover,
+.botao-gerenciar:hover {
+    background-color: #5a2e2e; /* nova cor para o hover */
+    border-color: #5a2e2e;
+    color: var(--branco);
+}
+    
+
 .botoes-festa {
     display: flex;
     flex-direction: column;

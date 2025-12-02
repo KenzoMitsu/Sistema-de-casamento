@@ -5,6 +5,12 @@
     box-sizing: border-box;
 }
 
+.profile-icon {
+    border-radius: 100%;
+    width: auto;
+    height: 50px;
+}
+
 /* FONTES */
 .luxurious-script-regular {
   font-family: "Luxurious Script", cursive;
